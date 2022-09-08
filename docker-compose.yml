@@ -1,8 +1,8 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    shoppingred-app:
-        container_name: shoppingred2.0
+    gestiondb-app:
+        container_name: gestiondb
         build:
             context: ./docker/8.1
             dockerfile: Dockerfile
