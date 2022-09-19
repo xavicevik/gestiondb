@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boleta;
+use App\Models\Corporacion;
 use App\Models\Empresa;
+use App\Models\Genero;
+use App\Models\Grupoetnico;
 use App\Models\Loteria;
+use App\Models\Niveleducativo;
 use App\Models\Pais;
 use App\Models\Rol;
 use App\Models\Serie;
 use App\Models\Terminosycondiciones;
+use App\Models\Tipoinscripcion;
+use App\Models\Tiposarchivo;
 use App\Models\TiposDocumento;
 use App\Models\User;
 use App\Models\Vendedor;
@@ -399,18 +405,46 @@ class MasterController extends Controller
         return ['data' => $empresas];
     }
 
-    public function loterias(Request $request)
+    public function inscripciones(Request $request)
     {
-        $loterias =  Loteria::all();
+        $inscripciones =  Tipoinscripcion::all();
 
-        return ['loterias' => $loterias];
+        return ['inscripciones' => $inscripciones];
     }
 
-    public function terminos(Request $request)
+    public function generos(Request $request)
     {
-        $terminos =  Terminosycondiciones::all();
+        $generos =  Genero::all();
 
-        return ['terminos' => $terminos];
+        return ['generos' => $generos];
+    }
+
+    public function niveleducativo(Request $request)
+    {
+        $niveleducativo =  Niveleducativo::all();
+
+        return ['niveleducativo' => $niveleducativo];
+    }
+
+    public function gruposetnicos(Request $request)
+    {
+        $gruposetnicos =  Grupoetnico::all();
+
+        return ['gruposetnicos' => $gruposetnicos];
+    }
+
+    public function tiposarchivos(Request $request)
+    {
+        $tiposarchivos =  Tiposarchivo::all();
+
+        return ['tiposarchivos' => $tiposarchivos];
+    }
+
+    public function corporaciones(Request $request)
+    {
+        $corporacion =  Corporacion::all();
+
+        return ['corporacion' => $corporacion];
     }
 
     public function getDashboard(Request $request)

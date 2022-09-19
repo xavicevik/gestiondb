@@ -27,30 +27,26 @@ export default {
             arrayCiudades: [],
             arrayRoles: [],
             arrayTiposdocumento: [],
-            arrayEmpresas: [],
+            arrayInscripciones: [],
+            arrayGeneros: [],
+            arrayNiveleducativo: [],
+            arrayGruposetnicos: [],
+            arrayCorporaciones: [],
+            arrayTiposarchivos: [],
+            arrayArchivos: [],
             editMode: false,
             verMode: false,
             newMode: false,
             isOpen: false,
+            isOpenAval: false,
             isOpencambiopass: false,
+            isOpenRemplazo: false,
             buscar: '',
             arrayData: {
                 data: [],
                 links: []
             },
             arrayDetalles: {
-                data: [],
-                links: []
-            },
-            arrayRifas: {
-                data: [],
-                links: []
-            },
-            arrayVendedores: {
-                data: [],
-                links: []
-            },
-            arrayClientes: {
                 data: [],
                 links: []
             },
@@ -69,8 +65,8 @@ export default {
                 }
             }).then((res) => {
                 var respuesta = res.data;
-                if (entidad == 'cliente') {
-                    this.arrayData = respuesta.clientes;
+                if (entidad == 'militantes') {
+                    this.arrayData = respuesta.militantes;
                 } else if (entidad == 'clientes') {
                     this.arrayClientes = respuesta.clientes;
                 } else if (entidad == 'rifas') {
@@ -113,14 +109,34 @@ export default {
         dateTimeFull(value) {
             return moment(value).format('YYYY-MM-DD HH:MM:SS');
         },
-        getLoterias: function () {
-            axios.get('/loterias',).then((res) => {
-                this.arrayLoterias = res.data.loterias;
+        getInscripciones: function () {
+            axios.get('/inscripciones',).then((res) => {
+                this.arrayInscripciones = res.data.inscripciones;
             })
         },
-        getTerminos: function () {
-            axios.get('/terminos',).then((res) => {
-                this.arrayTerminos = res.data.terminos;
+        getGeneros: function () {
+            axios.get('/generos',).then((res) => {
+                this.arrayGeneros = res.data.generos;
+            })
+        },
+        getNiveleducativo: function () {
+            axios.get('/niveleducativo',).then((res) => {
+                this.arrayNiveleducativo = res.data.niveleducativo;
+            })
+        },
+        getGruposetnicos: function () {
+            axios.get('/gruposetnicos',).then((res) => {
+                this.arrayGruposetnicos = res.data.gruposetnicos;
+            })
+        },
+        getTiposarchivos: function () {
+            axios.get('/tiposarchivos',).then((res) => {
+                this.arrayTiposarchivos = res.data.tiposarchivos;
+            })
+        },
+        getCorporaciones: function () {
+            axios.get('/corporaciones',).then((res) => {
+                this.arrayCorporaciones = res.data.corporacion;
             })
         },
         getPaises: function () {
@@ -135,15 +151,6 @@ export default {
                 }
             }).then((res) => {
                 this.arrayDepartamentos = res.data.departamentos;
-            })
-        },
-        getEmpresas: function () {
-            axios.get('/master/getEmpresas', {
-                params: {
-                    idrol: this.form.idrol
-                }
-            }).then((res) => {
-                this.arrayEmpresas = res.data.data;
             })
         },
         getCiudades: function () {
@@ -181,97 +188,6 @@ export default {
                 this.arrayClientes = respuesta.clientes;
             })
         },
-        getBoletasreservas: function (filtros = [], sortBy = 'boletas.id') {
-            if (sortBy == this.sortBy){
-                this.sortOrder = !this.sortOrder;
-            }
-            let sortOrderdesc;
-            if (this.sortOrder){
-                sortOrderdesc = 'asc';
-            } else {
-                sortOrderdesc = 'desc';
-            }
-            this.sortBy = sortBy;
-            this.ispage = true;
-
-            var url= '/numerosreservados';
-            axios.get(url, {
-                params: {
-                    filtros: filtros,
-                    sortBy: this.sortBy,
-                    sortOrder: sortOrderdesc,
-                    ispage: this.ispage
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayData = respuesta.datos;
-            })
-        },
-        getBoletas: function (filtros = [], sortBy = 'boletas.id') {
-            if (sortBy == this.sortBy){
-                this.sortOrder = !this.sortOrder;
-            }
-            let sortOrderdesc;
-            if (this.sortOrder){
-                sortOrderdesc = 'asc';
-            } else {
-                sortOrderdesc = 'desc';
-            }
-            this.sortBy = sortBy;
-            this.ispage = true;
-
-            var url= '/rifas/indexboletas';
-            axios.get(url, {
-                params: {
-                    filtros: filtros,
-                    sortBy: this.sortBy,
-                    sortOrder: sortOrderdesc,
-                    ispage: this.ispage
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayData = respuesta.datos;
-            })
-        },
-        getRifas: async function (buscar = '', filtro = 'titulo', paginate = false) {
-            var url= '/rifas/getRifasActivas';
-            axios.get(url, {
-                params: {
-                    buscar: buscar,
-                    filtro: filtro,
-                    paginate: paginate
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayRifas = respuesta.rifas;
-            })
-        },
-        getVendedoresSelect: async function (buscar = '', filtro = 'nombre', paginate = false) {
-            var url= '/users/getVendedoresActivos';
-            axios.get(url, {
-                params: {
-                    buscar: buscar,
-                    filtro: filtro,
-                    paginate: paginate
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayVendedoresMenu = respuesta.vendedores;
-            })
-        },
-        getVendedores: async function (buscar = '', filtro = 'nombre', paginate = false) {
-            var url= '/users/getVendedoresActivos';
-            axios.get(url, {
-                params: {
-                    buscar: buscar,
-                    filtro: filtro,
-                    paginate: paginate
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayVendedores = respuesta.vendedores;
-            })
-        },
         getDetallesVentas: function (id) {
             var url= '/ventas/getDetallesHistorial';
             axios.get(url, {
@@ -288,18 +204,6 @@ export default {
         },
         getDetalles: function (id) {
             var url= '/ventas/getDetalles';
-            axios.get(url, {
-                params: {
-                    id: id,
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayDetalles = respuesta.data;
-                this.idVenta = id;
-            })
-        },
-        getHistorialBoleta: function (id) {
-            var url= '/rifas/getHistorialBoleta';
             axios.get(url, {
                 params: {
                     id: id,

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\BoletasExport;
-use App\Exports\VentasExport;
+use App\Exports\MilitantesExport;
 use App\Imports\NumeroreservadoImport;
 use \Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
@@ -82,6 +82,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
             return Excel::download(new BoletasExport($request), 'boletas.xlsx');
         })->name('boletas.export');
 
+        Route::get('/militantes/export', function (Request $request) {
+            return Excel::download(new MilitantesExport($request), 'militantes.xlsx');
+        })->name('militantes.export');
+
         Route::get('/reservas/export', function (Request $request) {
             return Excel::download(new VentasExport($request), 'reservas.xlsx');
         })->name('reservas.export');
@@ -93,11 +97,20 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         })->name('numerosreservados.import');
 
 
-        Route::get('/loterias', [MasterController::class, 'loterias'])->name('loterias');
-        Route::get('/terminos', [MasterController::class, 'terminos'])->name('terminos');
+        Route::get('/inscripciones', [MasterController::class, 'inscripciones'])->name('inscripciones');
+        Route::get('/generos', [MasterController::class, 'generos'])->name('generos');
+        Route::get('/niveleducativo', [MasterController::class, 'niveleducativo'])->name('niveleducativo');
+        Route::get('/gruposetnicos', [MasterController::class, 'gruposetnicos'])->name('gruposetnicos');
+        Route::get('/corporaciones', [MasterController::class, 'corporaciones'])->name('corporaciones');
+        Route::get('/tiposarchivos', [MasterController::class, 'tiposarchivos'])->name('tiposarchivos');
+        Route::get('/getArchivos', [MilitanteController::class, 'getArchivos'])->name('getArchivos');
+        Route::post('/archivo/upload', [MilitanteController::class, 'archivoupload'])->name('fileUpload');
+
+
+
+
         Route::get('/users/getClientes', [UserController::class, 'getClientes'])->name('users.clientes');
         Route::get('/ventas/sumary', [VentaController::class, 'sumary'])->name('sumary');
-        Route::resource('series', SerieController::class);
 
         Route::get('/users/getVendedoresActivos', [UserController::class, 'getVendedoresActivos'])->name('users.getVendedoresActivos');
         Route::get('/users/getClientesActivos', [UserController::class, 'getClientesActivos'])->name('users.getClientesActivos');
@@ -108,6 +121,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::put('/users/cliente/{cliente}', [UserController::class, 'updateCliente'])->name('users.updateCliente');
 
         Route::resource('users', UserController::class);
+
+        Route::resource('militantes', MilitanteController::class);
 
        // Route::resource('/puntoventas', PuntoventaController::class);
 
