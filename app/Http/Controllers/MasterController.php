@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Boleta;
 use App\Models\Corporacion;
 use App\Models\Empresa;
+use App\Models\Estado;
 use App\Models\Genero;
 use App\Models\Grupoetnico;
 use App\Models\Loteria;
@@ -13,6 +14,7 @@ use App\Models\Pais;
 use App\Models\Rol;
 use App\Models\Serie;
 use App\Models\Terminosycondiciones;
+use App\Models\Tipohistorial;
 use App\Models\Tipoinscripcion;
 use App\Models\Tiposarchivo;
 use App\Models\TiposDocumento;
@@ -70,7 +72,7 @@ class MasterController extends Controller
     {
         $role = Role::find($request->id);
         $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
-            ->where("role_has_permissions.role_id", $request->id)->paginate(3);
+            ->where("role_has_permissions.role_id", $request->id)->paginate(10);
 
         return ['role' => $role, 'rolePermissions' => $rolePermissions];
     }
@@ -79,21 +81,33 @@ class MasterController extends Controller
     {
         $role = Role::find($request->id);
         $permission = Permission::paginate(100);
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $request->id)
-            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
-            ->all();
-
+        $rolePermissions = DB::table("role_has_permissions")
+                                ->where("role_has_permissions.role_id", $request->id)
+                                ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
+                                ->all();
         $rolepermtemp = [];
+        $rolepermtemp2[] = [];
         if ($rolePermissions) {
             foreach ($rolePermissions as $p) {
                 $rolepermtemp[] = $p;
             }
         }
 
+        /*
+        foreach ($permission as $p => $val) {
+            if (isset($rolePermissions[$p])) {
+                $rolepermtemp2[$p] = $rolePermissions[$p]?$rolePermissions[$p]:0;
+            } else {
+                $rolepermtemp2[$p] = 0;
+            }
+        }
+        */
+
         return ['role' => $role,
                 'permission' => $permission,
                 'rolePermissions' => $rolePermissions,
-                'rolePermissionsjson'=> $rolepermtemp
+                'rolePermissionsjson'=> $rolepermtemp,
+                '_token' => csrf_token()
                 ];
     }
 
@@ -106,17 +120,17 @@ class MasterController extends Controller
      */
     public function rolesupdate(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
+        $role = Role::where('id', $request->idrol)->first();
+        $role->revokePermissionTo(Permission::all());
 
-        $role = Role::find($request->id);
-        $role->name = $request->name;
-        $role->save();
-        $role->syncPermissions($request->permission);
+        foreach ($request->all() as $key => $value) {
+            if ($key != 'idrol') {
+                $permiso[] = Permission::where("id", $key)->get();
+            }
+        }
+        $role->syncPermissions($permiso);
 
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully');
+        return redirect()->back()->with('message', 'Permisos actualizados correctamente');
     }
 
     public function paisesIndex(Request $request)
@@ -431,6 +445,20 @@ class MasterController extends Controller
         $gruposetnicos =  Grupoetnico::all();
 
         return ['gruposetnicos' => $gruposetnicos];
+    }
+
+    public function getTipohistorial(Request $request)
+    {
+        $tipo =  Tipohistorial::all();
+
+        return ['tipo' => $tipo];
+    }
+
+    public function estados(Request $request)
+    {
+        $estados =  Estado::all();
+
+        return ['estados' => $estados];
     }
 
     public function tiposarchivos(Request $request)

@@ -14,10 +14,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Auditable as AuditableTrait;
 
 
-class Militante extends Authenticatable
+class Militante extends Authenticatable implements Auditable
 {
+    use AuditableTrait;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -40,6 +43,8 @@ class Militante extends Authenticatable
         'fechanacimiento', 'idgenero', 'idniveleducativo', 'discapacitado', 'victimaconflicto',
         'idgrupoetnico', 'lider', 'avalado', 'idcorporacion', 'periodo', 'electo', 'votos',
         'coalicion', 'nombrecoalicion','renuncio', 'fecharenuncia', 'aval', 'idremplazo',
+        'facebook', 'instagram', 'twitter', 'ccestado','ccreposicion', 'ccobservaciones',
+        'cccreated_at', 'ccupdated_at'
     ];
 
     /**
@@ -72,6 +77,10 @@ class Militante extends Authenticatable
         'profile_photo_url', 'full_name'
     ];
 
+    public function historial() {
+        return $this->hasMany(Historial::class, 'idmilitante');
+    }
+
     public function genero(){
         return $this->belongsTo(Genero::class, 'idgenero');
     }
@@ -82,6 +91,10 @@ class Militante extends Authenticatable
 
     public function grupoEtnico(){
         return $this->belongsTo(Grupoetnico::class, 'idgrupoetnico');
+    }
+
+    public function estados(){
+        return $this->belongsTo(Estado::class, 'estado');
     }
 
     public function tipoinscripcion(){

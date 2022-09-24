@@ -142,11 +142,20 @@
                                     </div>
                                 </div>
                                 <div class="grid xl:grid-cols-3 xl:gap-6">
-                                    <div class="relative z-0 w-full mb-4 group">
-                                        <Datepicker v-model="formbusqueda.fechainicio" autoApply placeholder="Fecha inicio" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                    <div class="relative z-0 w-full mb-6 group">
+                                        <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.estado">
+                                            <option value="-" >Seleccione</option>
+                                            <option v-for="dato in arrayEstados" :key="dato.id" :value="dato.id" v-text="dato.nombre"></option>
+                                        </select>
+                                        <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            Estado
+                                        </label>
                                     </div>
                                     <div class="relative z-0 w-full mb-4 group">
-                                        <Datepicker v-model="formbusqueda.fechafin" autoApply placeholder="Fecha fin" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                        <Datepicker v-model="formbusqueda.fechainicio" :enableTimePicker="false" autoApply placeholder="Fecha inicio" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                    </div>
+                                    <div class="relative z-0 w-full mb-4 group">
+                                        <Datepicker v-model="formbusqueda.fechafin" :enableTimePicker="false" autoApply placeholder="Fecha fin" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
                                     </div>
                                 </div>
                                 <div class="flex mx-auto">
@@ -285,7 +294,7 @@
                                     </th>
                                     <th class="px-4 py-2 w-1/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                         <button @click="getmilitantes(buscar, 'documento')" class="font-bold">
-                                            Lider
+                                            Estado
                                             <div v-show="sortBy == 'nombre'">
                                                 <span v-show="!sortOrder">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -329,16 +338,7 @@
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.ciudad.nombre"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.movil"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.correo"></td>
-                                    <td class="border px-2 py-2 text-sm truncate" v-if="user.lider">
-                                        <span class="inline-flex px-2 text-sm font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                                            Si
-                                        </span>
-                                    </td>
-                                    <td class="border px-2 py-2 text-sm" v-else>
-                                        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
-                                            No
-                                        </span>
-                                    </td>
+                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.estados.nombre"></td>
                                     <td class="border px-2 py-2 text-sm truncate" v-if="user.avalado">
                                         <span class="inline-flex px-2 text-sm font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                                             Si
@@ -438,7 +438,6 @@
                                                     </a>
                                                 </li>
                                                 <li class="mr-2" v-if="verMode||editMode">
-
                                                     <a href="#" v-on:click="activetab='4'; tituloModalDetalle = 'Documentos'" v-bind:class="[ activetab === '4' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '4' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
@@ -446,10 +445,17 @@
                                                     </a>
                                                 </li>
                                                 <li class="mr-2">
-                                                    <a href="#" v-on:click="activetab='5'; tituloModalDetalle = 'Configuración'" v-bind:class="[ activetab === '5' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                    <a href="#" v-on:click="activetab='5'; getHistorial(form.id); tituloModalDetalle = 'Historial'" v-bind:class="[ activetab === '5' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '5' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                                                        </svg>Configuración
+                                                        </svg>Historial
+                                                    </a>
+                                                </li>
+                                                <li class="mr-2">
+                                                    <a href="#" v-on:click="activetab='6'; getHistorial(form.id); tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                        <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                                        </svg>Cuentas claras
                                                     </a>
                                                 </li>
                                             </ul>
@@ -459,7 +465,6 @@
 
                                     <!-- Seccion menu 1 -->
                                     <section v-if="activetab ==='1'" >
-
 
                                         <button type="button" @click="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -476,7 +481,7 @@
                                                             <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Fecha de Ingreso</label>
                                                                 <div class="mt-1">
-                                                                    <Datepicker v-model="form.fechaingreso" :disabled="verMode" required  autoApply placeholder="Fecha ingreso" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                    <Datepicker v-model="form.fechaingreso" :disabled="verMode" required textInput :enableTimePicker="false" autoApply placeholder="Fecha ingreso" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                                                                     <div v-if="$page.props.errors.fechaingreso" class="text-red-500">{{ $page.props.errors.fechaingreso }}</div>
                                                                 </div>
                                                             </div>
@@ -488,6 +493,13 @@
                                                                         <option v-for="tipomil in arrayInscripciones" :key="tipomil.id" :value="tipomil.id" v-text="tipomil.nombre"></option>
                                                                     </select>
                                                                     <div v-if="$page.props.errors.idinscripcion" class="text-red-500">{{ $page.props.errors.idinscripcion }}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Fecha de nacimiento</label>
+                                                                <div class="mt-1">
+                                                                    <Datepicker v-model="form.fechanacimiento" textInput :enableTimePicker="false" :disabled="verMode" autoApply placeholder="Fecha nacimiento" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                    <div v-if="$page.props.errors.fechanacimiento" class="text-red-500">{{ $page.props.errors.fechanacimiento }}</div>
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -562,19 +574,11 @@
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+                                                                <label class="block text-sm font-medium text-gray-700">Gruop Étnico</label>
                                                                 <div class="mt-1">
-                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.telefono" autocomplete="postal-code" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                    <div v-if="$page.props.errors.telefono" class="text-red-500">{{ $page.props.errors.telefono }}</div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label class="block text-sm font-medium text-gray-700">País</label>
-                                                                <div class="mt-1">
-                                                                    <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idpais" @change="getDepartamentos()">
-                                                                        <option value="-" >Seleccione País</option>
-                                                                        <option v-for="pais in arrayPaises" :key="pais.id" :value="pais.id" v-text="pais.nombre"></option>
+                                                                    <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idgrupoetnico">
+                                                                        <option value="-" >Seleccione</option>
+                                                                        <option v-for="departamento in arrayGruposetnicos" :key="departamento.id" :value="departamento.id" v-text="departamento.nombre"></option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -606,6 +610,39 @@
                                                                 </div>
                                                             </div>
 
+
+                                                        </div>
+                                                        <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-4 sm:gap-x-4">
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+                                                                <div class="mt-1">
+                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.telefono" autocomplete="postal-code" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <div v-if="$page.props.errors.telefono" class="text-red-500">{{ $page.props.errors.telefono }}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Facebook</label>
+                                                                <div class="mt-1">
+                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.facebook" autocomplete="postal-code" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <div v-if="$page.props.errors.facebook" class="text-red-500">{{ $page.props.errors.facebook }}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Instagram</label>
+                                                                <div class="mt-1">
+                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.instagram" autocomplete="postal-code" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <div v-if="$page.props.errors.instagram" class="text-red-500">{{ $page.props.errors.instagram }}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Twitter</label>
+                                                                <div class="mt-1">
+                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.twitter" autocomplete="postal-code" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <div v-if="$page.props.errors.twitter" class="text-red-500">{{ $page.props.errors.twitter }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-5 sm:gap-x-4">
                                                             <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Discapacitado?</label>
                                                                 <div class="mt-1">
@@ -620,15 +657,6 @@
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Gruop Étnico</label>
-                                                                <div class="mt-1">
-                                                                    <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idgrupoetnico">
-                                                                        <option value="-" >Seleccione</option>
-                                                                        <option v-for="departamento in arrayGruposetnicos" :key="departamento.id" :value="departamento.id" v-text="departamento.nombre"></option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Lider?</label>
                                                                 <div class="mt-1">
                                                                     <Toggle v-model="form.lider" :disabled="verMode"/>
@@ -640,11 +668,34 @@
                                                                     <Toggle v-model="form.avalado" :disabled="verMode" @change="openAvalado()"/>
                                                                 </div>
                                                             </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Estado</label>
+                                                                <div class="mt-1">
+                                                                    <span class="inline-flex px-2 text-sm font-semibold leading-5 text-grey-800 bg-green-100 rounded-full">
+                                                                        {{ form.estados.nombre }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </section>
                                                 </div>
                                             </div>
                                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                  <button v-show="editMode" @click="cambiarEstado(form.id, 'eliminar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Eliminar
+                                                  </button>
+                                                </span>
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                  <button v-show="editMode" @click="cambiarEstado(form.id, 'sancionar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Sancionar
+                                                  </button>
+                                                </span>
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                  <button v-show="editMode" @click="cambiarEstado(form.id, 'aprobar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Aprobar
+                                                  </button>
+                                                </span>
                                                 <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="newMode" @click="save(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Guardar
@@ -685,7 +736,7 @@
                                                             <label class="block text-sm font-medium text-gray-700">Corporación</label>
                                                             <div class="mt-1">
                                                                 <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idcorporacion">
-                                                                    <option value="0" >Seleccione corporación</option>
+                                                                    <option value="-" >Seleccione corporación</option>
                                                                     <option v-for="dato in arrayCorporaciones" :key="dato.id" :value="dato.id" v-text="dato.nombre"></option>
                                                                 </select>
                                                                 <div v-if="$page.props.errors.idcorporacion" class="text-red-500">{{ $page.props.errors.idcorporacion }}</div>
@@ -697,10 +748,10 @@
                                                             <div class="mt-1">
                                                                 <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.periodo">
                                                                     <option value="0" >Seleccione periodo</option>
-                                                                    <option value="2022" >2022</option>
-                                                                    <option value="2021" >2021</option>
-                                                                    <option value="2020" >2020</option>
-                                                                    <option value="2019" >2019</option>
+                                                                    <option value="2022" >2022 - 2024</option>
+                                                                    <option value="2021" >2021 - 2023</option>
+                                                                    <option value="2020" >2020 - 2022</option>
+                                                                    <option value="2019" >2019 - 2021</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -769,35 +820,35 @@
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Coalición?</label>
+                                                                <label class="block mt-2 text-sm font-medium text-gray-700">Coalición?</label>
                                                                 <div class="mt-1">
                                                                     <Toggle v-model="form.coalicion" :disabled="verMode"/>
                                                                 </div>
                                                             </div>
 
                                                             <div v-if="form.coalicion">
-                                                                <label class="block text-sm font-medium text-gray-700">Nombre coalición</label>
+                                                                <label class="block text-sm mt-2 font-medium text-gray-700">Nombre coalición</label>
                                                                 <div class="mt-1">
                                                                     <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.nombrecoalicion" autocomplete="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                                 </div>
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Renunció?</label>
+                                                                <label class="block text-sm mt-2 font-medium text-gray-700">Renunció?</label>
                                                                 <div class="mt-1">
                                                                     <Toggle v-model="form.renuncio" :disabled="verMode"/>
                                                                 </div>
                                                             </div>
 
                                                             <div v-if="form.renuncio">
-                                                                <label class="block text-sm font-medium text-gray-700">Fecha de renuncia</label>
+                                                                <label class="block text-sm mt-2 font-medium text-gray-700">Fecha de renuncia</label>
                                                                 <div class="mt-1">
-                                                                    <Datepicker v-model="form.fecharenuncia" :disabled="verMode" required  autoApply placeholder="Fecha renuncia" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                    <Datepicker v-model="form.fecharenuncia" :enableTimePicker="false" :disabled="verMode" required  autoApply placeholder="Fecha renuncia" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                                                                 </div>
                                                             </div>
 
                                                             <div v-if="form.renuncio">
-                                                                <label class="block text-sm font-medium text-gray-700">Remplazo</label>
+                                                                <label class="block text-sm mt-2 font-medium text-gray-700">Remplazo</label>
                                                                 <div class="mt-1">
                                                                     <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.idremplazonombre" @keyup.enter="selectRemplazo(form.idremplazonombre)" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                                 </div>
@@ -982,6 +1033,186 @@
                                     </section>
                                     <!-- fin menu 4 -->
 
+                                    <!-- Seccion menu 5 -->
+                                    <section v-if="activetab ==='5'" >
+                                        <!-- Ventana modal Historial -->
+                                        <!-- Main modal -->
+
+                                        <button type="button" @click="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </button>
+                                        <div class="flex">
+                                            <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
+                                            <a href="#" @click="isOpenregHistorial = !isOpenregHistorial">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                                </svg>
+                                            </a>
+                                        </div>
+
+                                        <div class="bg-white px-4 pt-2 pb-4 ">
+
+                                            <section>
+                                                <div class="lg:px-4 md:px-2 sm:px-0 py-2 pb-6">
+                                                    <table class="table-fixed w-full">
+                                                        <thead>
+                                                        <tr class="bg-gray-100 hover:bg-blue-500 hover:text-gray-50">
+                                                            <th class="px-4 py-2 w-1/12 text-sm font-bold rounded-b">
+                                                                <button @click="getRifas(buscar, 'loteria.nombre')" class="font-bold">
+                                                                    Fecha
+                                                                    <div v-show="sortBy == 'loteria.nombre'">
+                                                                    <span v-show="!sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                        <span v-show="sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                          <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    </div>
+                                                                </button>
+                                                            </th>
+                                                            <th class="px-4 py-2 w-1/12 text-sm font-bold rounded-b">
+                                                                <button @click="getRifas(buscar, 'serie')" class="font-bold">
+                                                                    Tipo Historial
+                                                                    <div v-show="sortBy == 'serie'">
+                                                                    <span v-show="!sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                        <span v-show="sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                          <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    </div>
+                                                                </button>
+                                                            </th>
+                                                            <th class="px-4 py-2 w-1/12 text-sm font-bold rounded-b">
+                                                                <button @click="getRifas(buscar, 'serie')" class="font-bold">
+                                                                    Id Usuario
+                                                                    <div v-show="sortBy == 'serie'">
+                                                                    <span v-show="!sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                        <span v-show="sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                          <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    </div>
+                                                                </button>
+                                                            </th>
+                                                            <th class="px-4 py-2 w-1/12 text-sm font-bold rounded-b">
+                                                                <button @click="getRifas(buscar, 'serie')" class="font-bold">
+                                                                    Observaciones
+                                                                    <div v-show="sortBy == 'serie'">
+                                                                    <span v-show="!sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                        <span v-show="sortOrder">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                          <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    </div>
+                                                                </button>
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr @click="verHistorial(dato.observaciones)" class="hover:bg-blue-100 text-center" text-sm v-if="arrayHistorial" v-for="(dato, id) in arrayHistorial.data" :key="id">
+                                                            <td class="border px-1 py-2 text-sm truncate" v-text="dateTimeFull(dato.updated_at)"></td>
+                                                            <td class="border px-1 py-2 text-sm truncate" v-text="dato.tipo.nombre"></td>
+                                                            <td class="border px-1 py-2 text-sm truncate" v-text="dato.usuario.full_name"></td>
+                                                            <td class="border px-1 py-2 text-sm truncate" v-text="dato.observaciones"></td>
+                                                        </tr>
+                                                        <tr v-else>
+                                                            <td class="border px-4 py-2 text-xs text-center" colspan="4"> La consulta no obtuvo datos</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </section>
+
+                                        </div>
+
+                                        <!-- Fin Ventana modal Documentos -->
+                                    </section>
+                                    <!-- fin menu 5 -->
+
+                                    <!-- Seccion menu 6 -->
+                                    <section v-if="activetab ==='6'" >
+                                        <!-- Ventana modal Aval -->
+                                        <!-- Main modal -->
+
+                                        <button type="button" @click="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </button>
+                                        <div class="">
+                                            <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
+                                        </div>
+                                        <div class="bg-white px-4 pt-2 pb-4 ">
+                                            <div class="">
+                                                <section>
+                                                    <div class="mt-2 grid gap-y-6 ">
+                                                        <div class="relative z-0 w-full mb-4 group">
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha solicitud</label>
+                                                            <Datepicker v-model="form.cccreated_at" :disabled="form.ccestado != 4" :enableTimePicker="false" autoApply placeholder="Fecha solicitud" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                                        </div>
+                                                        <div v-if="form.ccestado != 4">
+                                                            <div class="relative z-0 w-full mb-4 group">
+                                                                <label class="block text-sm font-medium text-gray-700">Fecha reposición de votos</label>
+                                                                <Datepicker v-model="form.ccupdated_at" :disabled="form.ccestado == 1" :enableTimePicker="false" autoApply placeholder="Fecha repposición" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                                            </div>
+
+                                                            <label class="block text-sm mt-2 font-medium text-gray-700">Reposición de votos</label>
+                                                            <div class="mt-1">
+                                                                <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.ccreposicion" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                            </div>
+                                                        </div>
+
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Observaciones</label>
+                                                            <div class="mt-1">
+                                                                <textarea v-model="form.ccobservaciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Observaciones"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                              <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                Solicitar
+                                              </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                  <button v-show="form.ccestado == 3" @click="ccreposicion(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Reposición
+                                                  </button>
+                                                </span>
+                                            <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+
+                                              <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                                Cancelar
+                                              </button>
+                                            </span>
+                                        </div>
+                                        <!-- Fin Ventana modal Aval -->
+                                    </section>
+                                    <!-- fin menu 6 -->
+
                                 </div>
                             </div>
                         </div>
@@ -1132,6 +1363,166 @@
                     </section>
                     <!-- Fin Ventana modal buscar remplazo -->
 
+                    <!-- Ventana modal cambiar estado -->
+                    <!-- Main modal -->
+                    <section> <!-- Ventana modal -->
+                        <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenCambioestado">
+                            <div class="items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                                <div class="fixed inset-0 transition-opacity">
+                                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                </div>
+
+                                <!-- This element is to trick the browser into centering the modal contents. -->
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+                                <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                    <button type="button" @click="isOpenCambioestado = !isOpenCambioestado" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div class="">
+                                        <h2 class="text-xl font-bold text-gray-900 px-4 py-4">Cambiar estado {{ formestado.tipo }}</h2>
+                                    </div>
+                                    <form @submit.prevent="submit">
+                                        <div class="bg-white px-4 pt-2 pb-4 ">
+                                            <div class="">
+                                                <section>
+                                                    <div class="mt-2 grid gap-y-6 ">
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Observacion</label>
+                                                            <div class="mt-1">
+                                                                <textarea rows="4" v-model="formestado.observaciones" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                              <button wire:click.prevent="updateEstado()" @click="updateEstado(formestado)" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                Aceptar
+                                              </button>
+                                            </span>
+                                            <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+
+                                          <button @click="closeModalPass()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                            Cancelar
+                                          </button>
+                                        </span>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Fin Ventana modal cambiar estado -->
+
+                    <!-- Ventana modal ver historial -->
+                    <!-- Main modal -->
+                    <section> <!-- Ventana modal -->
+                        <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenverHistorial">
+                            <div class="items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                                <div class="fixed inset-0 transition-opacity">
+                                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                </div>
+
+                                <!-- This element is to trick the browser into centering the modal contents. -->
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+                                <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                    <button type="button" @click="isOpenverHistorial = !isOpenverHistorial" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div class="">
+                                        <h2 class="text-xl font-bold text-gray-900 px-4 py-4">Observaciones</h2>
+                                    </div>
+                                        <div class="bg-white px-4 pt-2 pb-4 ">
+                                            <div class="">
+                                                <section>
+                                                    <div class="mt-2 grid gap-y-6 ">
+                                                        <div>
+                                                            <div class="mt-1">
+                                                                <div class="mt-1">
+                                                                    <textarea rows="4" v-text="verHistorialobs" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Fin Ventana modal ver historial -->
+
+                    <!-- Ventana modal ver historial -->
+                    <!-- Main modal -->
+                    <section> <!-- Ventana modal -->
+                        <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpenregHistorial">
+                            <div class="items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                                <div class="fixed inset-0 transition-opacity">
+                                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                </div>
+
+                                <!-- This element is to trick the browser into centering the modal contents. -->
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+                                <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                    <button type="button" @click="isOpenregHistorial = !isOpenregHistorial" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div class="">
+                                        <h2 class="text-xl font-bold text-gray-900 px-4 py-4">Registrar actividad</h2>
+                                    </div>
+                                    <form @submit.prevent="submit">
+                                        <div class="bg-white px-4 pt-2 pb-4 ">
+                                            <div class="">
+                                                <section>
+                                                    <div class="mt-2 grid gap-y-6 ">
+                                                        <label class="block text-sm font-medium text-gray-700">Tipo de actividad</label>
+
+                                                        <div class="relative z-0 w-full mb-6 group">
+                                                            <select class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="formestado.tipo">
+                                                                <option value="-" >Seleccione</option>
+                                                                <option v-for="tipomil in arrayTipohistorial" :key="tipomil.id" :value="tipomil.id" v-text="tipomil.nombre"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Observacion</label>
+                                                            <div class="mt-1">
+                                                                <textarea rows="4" v-model="formestado.observaciones" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                              <button wire:click.prevent="registroHistorial()" @click="registroHistorial(form.id, formestado.tipo, formestado.observaciones)" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                Aceptar
+                                              </button>
+                                            </span>
+                                            <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+
+                                          <button @click="closeModalPass()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                            Cancelar
+                                          </button>
+                                        </span>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Fin Ventana modal ver hitorial -->
+
                 </div>
             </div>
         </div>
@@ -1168,7 +1559,6 @@ export default {
         JetNavLink,
         Link,
         money3: Money3Component,
-
     },
     props:{
         militantes : [],
@@ -1179,6 +1569,7 @@ export default {
     },
     data() {
         return {
+            verHistorialobs: null,
             activetab: '1',
             tituloModal: '',
             tituloModalDetalle: '',
@@ -1194,13 +1585,13 @@ export default {
                 correo: null,
                 username: null,
                 apellido: null,
-                estado: 0,
+                estado: 3,
                 idtipos_documento: '-',
                 documento: null,
                 direccion: null,
                 iddepartamento: '-',
                 idciudad: '-',
-                idpais: '-',
+                idpais: 1,
                 observaciones: null,
                 movil: null,
                 url: false,
@@ -1213,15 +1604,25 @@ export default {
                 idinscripcion: '-',
                 lider: 0,
                 avalado: 0,
-                idcorporacion: null,
+                idcorporacion: '-',
                 periodo: 0,
                 electo: 0,
                 votos: 0,
                 coalicion: 0,
+                facebook: null,
+                twitter: null,
+                instagram: null,
                 nombrecoalicion: null,
                 renuncio: 0,
                 fecharenuncia: null,
+                fechanacimiento: null,
                 idremplazo: null,
+                estados: [],
+                ccestado: null,
+                ccreposicion: null,
+                ccobservaciones: null,
+                cccreated_at: null,
+                ccupdated_at: null,
             },
             formbusqueda: {
                 id: null,
@@ -1230,13 +1631,12 @@ export default {
                 username: null,
                 apellido: null,
                 idrol: 0,
-                estado: 0,
                 idtipos_documento: 0,
                 documento: null,
                 direccion: null,
                 iddepartamento: 0,
                 idciudad: null,
-                idpais: 0,
+                idpais: 1,
                 observaciones: null,
                 movil: null,
                 url: false,
@@ -1252,6 +1652,7 @@ export default {
                 idcorporacion: '-',
                 periodo: '-',
                 electo: '-',
+                estado: '-',
                 votos: 0,
                 coalicion: '-',
                 nombrecoalicion: null,
@@ -1260,6 +1661,12 @@ export default {
                 idremplazo: null,
                 fechainicio: null,
                 fechafin: null
+            },
+            formestado: {
+                idmilitante: null,
+                estado: null,
+                tipo: null,
+                observaciones: null
             },
             archivoform: {
                 idmilitante: 0,
@@ -1298,36 +1705,37 @@ export default {
         },
         openModal: function (accion, data = []) {
             this.isOpen = true;
+            this.reset();
+            this.getDepartamentos();
+            this.getTiposdocumento();
             switch (accion) {
-                case 'registrar':
-                {
-                    this.reset();
+                case 'registrar': {
                     this.form.fechaingreso = Date.now();
                     this.tituloModal = 'Crear nuevo Militante';
-                    this.form.idpais = '-';
+                    this.form.idpais = 1;
                     this.form.iddepartamento = '-';
                     this.form.idciudad = '-';
                     this.form.idtipos_documento = '-';
                     this.form.idgenero = '-';
                     this.form.idniveleducativo = '-';
                     this.form.idgrupoetnico = '-';
-                    this.getPaises();
-                    this.getCiudades();
-                    this.getDepartamentos();
-                    this.getTiposdocumento();
-
+                    this.form.idcorporacion = '-';
+                    this.form.idremplazo = null;
+                    this.form.idremplazonombre = null;
+                    this.form.estado = 3;
+                    this.ccestado = 4;
                     this.newMode = true;
                     this.verMode = false;
                     this.editMode = false;
                     break;
                 }
                 case 'ver': {
-                    this.reset();
                     this.tituloModal = 'Ver Usuario ' + data['nombre'] + ' ' + data['apellido'];
                     this.form.id = data['id'];
                     this.form.fechaingreso = data['fechaingreso'];
                     this.form.idpais = data['idpais'];
                     this.form.iddepartamento = data['iddepartamento'];
+                    this.getCiudades();
                     this.form.idciudad = data['idciudad'];
                     this.form.idtipos_documento = data['idtipos_documento'];
                     this.form.nombre = data['nombre'];
@@ -1349,31 +1757,38 @@ export default {
                     this.form.idcorporacion = data['idcorporacion'];
                     this.form.periodo = data['periodo'];
                     this.form.electo = data['electo'];
+                    this.form.estado = data['estado'];
                     this.form.votos = data['votos'];
                     this.form.coalicion = data['coalicion'];
                     this.form.nombrecoalicion = data['nombrecoalicion'];
                     this.form.renuncio = data['renuncio'];
+                    this.form.twitter = data['twitter'];
+                    this.form.facebook = data['facebook'];
+                    this.form.instagram = data['instagram'];
                     this.form.fecharenuncia = data['fecharenuncia'];
                     this.form.idremplazo = data['idremplazo'];
-                    this.form.idremplazonombre = data['remplazo']['documento'] + ' - ' + data['remplazo']['full_name'];
+                    this.form.idremplazonombre = data['remplazo']?(data['remplazo']['documento'] + ' - ' + data['remplazo']['full_name']):'';
                     this.form.fechainicio = data['fechainicio'];
                     this.form.fechafin = data['fechafin'];
-                    this.getTiposdocumento();
-                    this.getPaises();
-                    this.getDepartamentos();
-                    this.getCiudades();
+                    this.form.fechanacimiento = data['fechanacimiento'];
+                    this.form.estados = data['estados'];
+                    this.form.ccestado = data['ccestado'];
+                    this.form.ccreposicion = data['ccreposicion'];
+                    this.form.ccobservaciones = data['ccobservaciones'];
+                    this.form.cccreated_at = data['cccreated_at'];
+                    this.form.ccupdated_at = data['ccupdated_at'];
                     this.newMode = false;
                     this.verMode = true;
                     this.editMode = false;
                     break;
                 }
                 case 'actualizar': {
-                    this.reset();
                     this.tituloModal = 'Editar Usuario ' + data['nombre'] + ' ' + data['apellido'];
                     this.form.id = data['id'];
                     this.form.fechaingreso = data['fechaingreso'];
                     this.form.idpais = data['idpais'];
                     this.form.iddepartamento = data['iddepartamento'];
+                    this.getCiudades();
                     this.form.idciudad = data['idciudad'];
                     this.form.idtipos_documento = data['idtipos_documento'];
                     this.form.nombre = data['nombre'];
@@ -1391,23 +1806,30 @@ export default {
                     this.form.discapacitado = data['discapacitado'];
                     this.form.victimaconflicto = data['victimaconflicto'];
                     this.form.lider = data['lider'];
+                    this.form.estado = data['estado'];
                     this.form.avalado = data['avalado'];
                     this.form.idcorporacion = data['idcorporacion'];
+                    this.form.twitter = data['twitter'];
+                    this.form.facebook = data['facebook'];
+                    this.form.instagram = data['instagram'];
                     this.form.periodo = data['periodo'];
                     this.form.electo = data['electo'];
                     this.form.votos = data['votos'];
+                    this.form.estados = data['estados'];
                     this.form.coalicion = data['coalicion'];
                     this.form.nombrecoalicion = data['nombrecoalicion'];
                     this.form.renuncio = data['renuncio'];
                     this.form.fecharenuncia = data['fecharenuncia'];
                     this.form.idremplazo = data['idremplazo'];
-                    this.form.idremplazonombre = data['remplazo']['documento'] + ' - ' + data['remplazo']['full_name'];
+                    this.form.idremplazonombre = data['remplazo']?(data['remplazo']['documento'] + ' - ' + data['remplazo']['full_name']):'';
                     this.form.fechainicio = data['fechainicio'];
                     this.form.fechafin = data['fechafin'];
-                    this.getTiposdocumento();
-                    this.getPaises();
-                    this.getDepartamentos();
-                    this.getCiudades();
+                    this.form.fechanacimiento = data['fechanacimiento'];
+                    this.form.ccestado = data['ccestado'];
+                    this.form.ccreposicion = data['ccreposicion'];
+                    this.form.ccobservaciones = data['ccobservaciones'];
+                    this.form.cccreated_at = data['cccreated_at'];
+                    this.form.ccupdated_at = data['ccupdated_at'];
                     break;
                 }
             }
@@ -1449,8 +1871,6 @@ export default {
         },
         closeModalRemplazo: function(){
             this.isOpenRemplazo = false;
-            this.editMode = false;
-            this.verMode  = false;
             this.$page.props.errors = [];
         },
         closeModalPass: function () {
@@ -1482,6 +1902,116 @@ export default {
                 this.arrayArchivos = res.data.archivos;
             })
         },
+        getHistorial: function (data) {
+            var url= '/militantes/getHistorial';
+            axios.get(url, {
+                params: {
+                    idmilitante: data
+                }
+            }).then((res) => {
+                this.arrayHistorial = res.data.historial;
+            })
+        },
+        verHistorial: function (data) {
+            this.verHistorialobs = data;
+            this.isOpenverHistorial = true;
+        },
+        updateEstado: function (data) {
+            var url= '/militantes/updateEstado/' + data.idmilitante;
+            axios.get(url, {
+                params: {
+                    idmilitante: data.idmilitante,
+                    tipo: data.tipo,
+                    estado: data.estado,
+                    observaciones: data.observaciones,
+                }
+            }).then((res) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'El proceso se realizó correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                this.closeModal();
+                this.isOpenCambioestado = false;
+                this.getmilitantes('','updated_at');
+                this.formestado = [];
+            })
+        },
+        ccsolicitar: function (data) {
+            var url= '/militantes/ccupdate/' + data.id;
+            axios.get(url, {
+                params: {
+                    idmilitante: data.id,
+                    tipo: 'solicitar',
+                    cccreated_at: this.dateTimeFull(data.cccreated_at),
+                    ccobservaciones: data.ccobservaciones,
+                }
+            }).then((res) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'El proceso se realizó correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                this.closeModal();
+                this.isOpenCambioestado = false;
+                this.getmilitantes('','updated_at');
+                this.formestado = [];
+            })
+        },
+        ccreposicion: function (data) {
+            var url= '/militantes/ccupdate/' + data.id;
+            axios.get(url, {
+                params: {
+                    idmilitante: data.id,
+                    tipo: 'reposicion',
+                    ccreposicion: data.ccreposicion,
+                    ccupdated_at: this.dateTimeFull(data.ccupdated_at),
+                    ccobservaciones: data.ccobservaciones,
+                }
+            }).then((res) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'El proceso se realizó correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                this.closeModal();
+                this.isOpenCambioestado = false;
+                this.getmilitantes('','updated_at');
+                this.formestado = [];
+            })
+        },
+        cambiarEstado: function (id, tipo) {
+            this.formestado.idmilitante = id;
+            this.formestado.tipo = tipo;
+            this.isOpenCambioestado = true;
+        },
+        registroHistorial: function (id, tipo, observaciones) {
+            var url= '/militantes/registroHistorial';
+            axios.get(url, {
+                params: {
+                    id: id,
+                    tipo: tipo,
+                    observaciones: observaciones,
+                }
+            }).then((res) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'El proceso se realizó correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                this.closeModal();
+                this.getmilitantes('','updated_at');
+                this.formestado = [];
+            })
+        },
         descargarArchivo: function (data) {
             window.open(data, '_blank');
         },
@@ -1491,7 +2021,7 @@ export default {
             this.form.id = null;
             this.tituloModal = '';
             this.form.fechaingreso = null;
-            this.form.idpais = '-';
+            this.form.idpais = 1;
             this.form.iddepartamento = '-';
             this.form.idciudad = '-';
             this.form.idtipos_documento = '-';
@@ -1515,6 +2045,7 @@ export default {
             this.form.periodo = 0;
             this.form.electo = 0;
             this.form.votos = 0;
+            this.form.estado = 0;
             this.form.coalicion = 0;
             this.form.nombrecoalicion = null;
             this.form.renuncio = 0;
@@ -1522,10 +2053,15 @@ export default {
             this.form.idremplazo = null;
             this.form.fechainicio = null;
             this.form.fechafin = null;
+            this.form.ccestado = null;
+            this.form.ccreposicion = null;
+            this.form.ccobservaciones = null;
+            this.form.cccreated_at = null;
+            this.form.ccupdated_at = null;
         },
         save: function (data) {
             data.fechaingreso = this.dateTimeFull(data.fechaingreso);
-            //data.fechanacimiento = this.dateTimeFull(data.fechanacimiento);
+            data.fechanacimiento = data.fechanacimiento?this.dateTimeFull(data.fechanacimiento):null;
             data.fecharenuncia = data.fecharenuncia?this.dateTimeFull(data.fecharenuncia):null;
             this.$inertia.post('/militantes', data, {
                 onSuccess: (page) => {
@@ -1538,7 +2074,7 @@ export default {
                     })
                     this.reset();
                     this.closeModal();
-                    this.getmilitantes('','nombre');
+                    this.getmilitantes('','updated_at');
                     this.editMode = false;
                 },
             });
@@ -1561,17 +2097,20 @@ export default {
             this.openModal('ver', data);
         },
         update: function (data) {
+            data.fechaingreso = this.dateTimeFull(data.fechaingreso);
+            data.fechanacimiento = data.fechanacimiento?this.dateTimeFull(data.fechanacimiento):null;
+            data.fecharenuncia = data.fecharenuncia?this.dateTimeFull(data.fecharenuncia):null;
             data._method = 'PUT';
             this.$inertia.post('/militantes/'  + data.id, data, {
                 onSuccess: (page) => {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: 'El usuario se ha actualizado!',
+                        title: 'El militante se ha actualizado!',
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    this.getmilitantes('','nombre');
+                    this.getmilitantes('','updated_at');
                     this.closeModal();
                     this.reset();
                     this.editMode = false;
@@ -1579,7 +2118,6 @@ export default {
                     this.newMode = false;
                 },
             });
-
         },
         getmilitantes: function (buscar, sortBy, filtros = []) {
             this.buscar = buscar;
@@ -1589,7 +2127,7 @@ export default {
             }
             let sortOrderdesc;
             if (this.sortOrder){
-                sortOrderdesc = 'asc';
+                sortOrderdesc = 'desc';
             } else {
                 sortOrderdesc = 'desc';
             }
@@ -1676,6 +2214,8 @@ export default {
         this.getGruposetnicos();
         this.getCorporaciones();
         this.getTiposarchivos();
+        this.getEstados();
+        this.getTipohistorial();
     },
     mounted() {
         console.log(this.militantes);

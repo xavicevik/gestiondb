@@ -34,6 +34,8 @@ export default {
             arrayCorporaciones: [],
             arrayTiposarchivos: [],
             arrayArchivos: [],
+            arrayEstados: [],
+            arrayTipohistorial: [],
             editMode: false,
             verMode: false,
             newMode: false,
@@ -41,8 +43,15 @@ export default {
             isOpenAval: false,
             isOpencambiopass: false,
             isOpenRemplazo: false,
+            isOpenverHistorial: false,
+            isOpenCambioestado: false,
+            isOpenregHistorial: false,
             buscar: '',
             arrayData: {
+                data: [],
+                links: []
+            },
+            arrayHistorial: {
                 data: [],
                 links: []
             },
@@ -107,7 +116,7 @@ export default {
             return moment(value).format('DD/MM/YYYY');
         },
         dateTimeFull(value) {
-            return moment(value).format('YYYY-MM-DD HH:MM:SS');
+            return moment(value).format('YYYY-MM-DD HH:mm:ss');
         },
         getInscripciones: function () {
             axios.get('/inscripciones',).then((res) => {
@@ -139,6 +148,11 @@ export default {
                 this.arrayCorporaciones = res.data.corporacion;
             })
         },
+        getEstados: function () {
+            axios.get('/estados',).then((res) => {
+                this.arrayEstados = res.data.estados;
+            })
+        },
         getPaises: function () {
             axios.get('/paises',).then((res) => {
                 this.arrayPaises = res.data.paises;
@@ -166,6 +180,11 @@ export default {
         getTiposdocumento: function () {
             axios.get('/master/tiposdocsearch',).then((res) => {
                 this.arrayTiposdocumento = res.data.data;
+            })
+        },
+        getTipohistorial: function () {
+            axios.get('/master/getTipohistorial',).then((res) => {
+                this.arrayTipohistorial = res.data.tipo;
             })
         },
         getRoles: async function () {

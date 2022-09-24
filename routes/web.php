@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\BoletasExport;
 use App\Exports\MilitantesExport;
 use App\Imports\NumeroreservadoImport;
+use App\Models\Militante;
 use \Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -96,7 +97,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
             return redirect()->back()->with('message', 'Archivo importado correctamente');
         })->name('numerosreservados.import');
 
-
+        Route::get('/estados', [MasterController::class, 'estados'])->name('estados');
         Route::get('/inscripciones', [MasterController::class, 'inscripciones'])->name('inscripciones');
         Route::get('/generos', [MasterController::class, 'generos'])->name('generos');
         Route::get('/niveleducativo', [MasterController::class, 'niveleducativo'])->name('niveleducativo');
@@ -121,6 +122,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::put('/users/cliente/{cliente}', [UserController::class, 'updateCliente'])->name('users.updateCliente');
 
         Route::resource('users', UserController::class);
+
+        Route::get('/militantes/indexAuditoria', [MilitanteController::class, 'indexAuditoria'])->name('militantes.indexAuditoria');
+        Route::get('/militantes/getHistorial', [MilitanteController::class, 'getHistorial'])->name('militantes.getHistorial');
+        Route::get('/militantes/updateEstado/{militante}', [MilitanteController::class, 'updateEstado'])->name('militantes.updateEstado');
+        Route::get('/militantes/ccupdate/{militante}', [MilitanteController::class, 'ccupdate'])->name('militantes.ccupdate');
+        Route::get('/militantes/registroHistorial', [MilitanteController::class, 'registroHistorial'])->name('militantes.registroHistorial');
 
         Route::resource('militantes', MilitanteController::class);
 
@@ -149,7 +156,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::resource('transacciones',TransaccionController::class);
         Route::resource('pagos',Pagocontroller::class);
 
-        Route::get('/ventas/getComisiones', [VentaController::class, 'getComisiones'])->name('ventas.getComisiones');
         Route::get('/ventas/reportpdfRegistroMov', [VentaController::class, 'reportpdfRegistroMov'])->name('ventas.reportpdfRegistroMov');
         Route::get('/ventas/reportpdfAnulaMov', [VentaController::class, 'reportpdfAnulaMov'])->name('ventas.reportpdfAnulaMov');
         Route::get('/ventas/sendSmsSales', [VentaController::class, 'sendSmsSales'])->name('ventas.sendSmsSales');
@@ -198,7 +204,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/master/index', [MasterController::class, 'rolesIndex'])->name('master.index');
         Route::get('/master/rolesshow', [MasterController::class, 'rolesshow'])->name('master.rolesshow');
         Route::get('/master/rolesedit', [MasterController::class, 'rolesedit'])->name('master.rolesedit');
-        Route::post('/master/rolesupdate', [MasterController::class, 'rolesupdate'])->name('master.rolesupdate');
+        Route::get('/master/rolesupdate ', [MasterController::class, 'rolesupdate'])->name('master.rolesupdate');
         Route::get('/master/paises', [MasterController::class, 'paisesIndex'])->name('master.paises');
         Route::get('/master/empresas', [MasterController::class, 'empresasIndex'])->name('master.empresas');
         Route::get('/master/series', [MasterController::class, 'seriesIndex'])->name('master.series');
@@ -207,6 +213,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/master/puntoventas', [PuntoventaController::class, 'index'])->name('master.puntosventa');
         Route::get('/master/tiposdoc', [MasterController::class, 'tipodocIndex'])->name('master.tiposdoc');
         Route::get('/master/tiposdocsearch', [MasterController::class, 'tipodocSearch'])->name('master.tiposdocsearch');
+        Route::get('/master/getTipohistorial', [MasterController::class, 'getTipohistorial'])->name('master.getTipohistorial');
 
         Route::get('/enviar', [EmailController::class, 'send'])->name('enviar');
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');

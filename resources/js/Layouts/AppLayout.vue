@@ -187,6 +187,14 @@ export default {
                                 <span class="ml-2 text-sm tracking-wide truncate">Militantes</span>
                             </Link>
                         </li>
+                        <li>
+                            <Link v-if="$can('militantes-list')" :href="route('militantes.indexAuditoria')" :class=" (selectedRow === 'militantes.indexAuditoria' || route().current('militantes.indexAuditoria')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                                <span class="inline-flex justify-center items-center ml-4 text-green-500">
+                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">Auditoria</span>
+                            </Link>
+                        </li>
 
                         <li>
                             <a href="#" v-if="$can('configuracion-list')" @click="isMenuConfig = !isMenuConfig" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">

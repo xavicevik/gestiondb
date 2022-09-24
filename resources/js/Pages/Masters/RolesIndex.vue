@@ -8,6 +8,16 @@
         <div class="py-4 lg:px-8 md:px-6 sm:px-2">
             <div class="mx-auto 2xl:8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <!-- Mensajes Flash -->
+                    <section>
+                        <div @click="cleanMessage()" mx-auto class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-show="$page.props.flash.message">
+                            <div class="flex">
+                                <div>
+                                    <p class="text-sm">{{ $page.props.flash.message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                     <!-- Fin Mensajes Flash -->
                     <!-- Encabezado y titulo -->
                     <section>
@@ -168,9 +178,9 @@
                                                 </tbody>
                                             </table>
                                             <section class="mt-6">
-                                                <div v-if="this.form.rolePermissions.total > 3">
+                                                <div v-if="form.rolePermissions.total > 3">
                                                     <div class="flex flex-wrap -mb-1">
-                                                        <template v-for="(link, p) in this.form.rolePermissions.links" :key="p">
+                                                        <template v-for="(link, p) in form.rolePermissions.links" :key="p">
                                                             <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
                                                                  v-html="link.label" />
                                                             <a href="#" v-else
@@ -227,10 +237,9 @@
                                     <div class="">
                                         <h2 v-text="tituloModal" class="text-sm font-bold text-gray-900 px-4 py-4"></h2>
                                     </div>
-                                    <form>
-
-
+                                    <form method="get" action="/master/rolesupdate">
                                         <div class="lg:px-4 md:px-2 sm:px-0 py-2 pb-6 overflow-y-auto h-100">
+
                                             <table class="table-fixed w-full">
                                                 <thead>
                                                 <tr class="bg-gray-100">
@@ -249,16 +258,17 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr class="text-center" text-sm v-if="this.form.permission.data" v-for="(dato, id) in this.form.permission.data" :key="id">
+                                                <input type="hidden" id="idrol" name="idrol" :value="form.role.id">
+                                                <tr class="text-center" text-sm v-if="form.permission.data" v-for="(dato, atribute, id) in form.permission.data" :key="id">
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.id"></td>
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.name"></td>
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.guard_name"></td>
                                                     <td class="border px-2 py-2 mx-auto text-center flex items-center">
                                                         <input type="checkbox"
-                                                               :name="this.permissiondat[dato.id]"
-                                                               :value="dato.name"
+                                                               :id="dato.id"
+                                                               :name="dato.id"
+                                                               :checked="form.rolePermissionsjson.includes(dato.id)"
                                                                class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                                               :checked="this.form.rolePermissionsjson.includes(dato.id)"
                                                                >
                                                     </td>
                                                 </tr>
@@ -291,7 +301,7 @@
                                               </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="isOpenUpdate" @click="edit(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                              <button v-show="isOpenUpdate" wire:click.prevent="submit()" type="submit" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                 Actualizar
                                               </button>
                                             </span>
@@ -303,7 +313,6 @@
                                         </span>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -337,11 +346,13 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import JetNavLink from '@/Jetstream/NavLink.vue';
 import NavLink from "../../Jetstream/NavLink";
 import Submenu from "../../Components/Submenu";
+import Input from "../../Jetstream/Input";
 
 
 export default {
 
     components: {
+        Input,
         Submenu,
         Button,
         AppLayout,
@@ -393,7 +404,8 @@ export default {
                 role: null,
                 permission: null,
                 rolePermissions: null,
-                rolePermissionsjson: []
+                rolePermissionsjson: [],
+                permisosdata: [],
             },
             permissiondat: []
         }
@@ -463,7 +475,6 @@ export default {
                     id: data,
                 }
             }).then((res) => {
-                //console.log(res.data);
                 var respuesta = res.data;
                 this.form.role = respuesta.role;
                 this.form.permission = respuesta.permission;
@@ -473,14 +484,12 @@ export default {
             })
         },
         edit: function (data) {
-            //console.log(data);
             var url= '/master/rolesupdate';
-            axios.post(url, {
+            axios.get(url, {
                 params: {
                     data: data,
                 }
             }).then((res) => {
-                //console.log(res.data);
                 var respuesta = res.data;
                 this.form.role = respuesta.role;
                 this.form.permission = respuesta.permission;
@@ -491,7 +500,6 @@ export default {
         },
 
         getData: async function (buscar = '', filtro = 'nombre', paginate = true) {
-
             var url= '/master/index';
             axios.get(url, {
                 params: {
@@ -501,7 +509,6 @@ export default {
                     ispage: true,
                 }
             }).then((res) => {
-                //console.log(res.data);
                 var respuesta = res.data;
                 this.arrayData = respuesta.data;
 
@@ -513,7 +520,6 @@ export default {
             })
         },
         openModal: function (accion, data = []) {
-
             switch (accion) {
                 case 'registrar':
                 {
