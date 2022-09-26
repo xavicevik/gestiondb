@@ -140,17 +140,17 @@ export default {
                             </li>
                         </div>
                         <li>
-                            <a v-show="$can('cajas-list')" href="#" @click="isMenuCajas = !isMenuCajas" :class=" (selectedRow === 'isMenuCajas' || route().current('cajas.index') || route().current('cajas.movimientos') || route().current('cajas.historial')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                            <a v-show="$can('juridico-list')" href="#" @click="isMenuCajas = !isMenuCajas" :class=" (selectedRow === 'isMenuCajas' || route().current('juridico.index') || route().current('juridico.index') || route().current('juridico.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4 text-green-500">
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Jurídico</span>
                             </a>
                         </li>
-                        <div v-show="isMenuCajas && $can('cajas-list')" class="pl-8 bg-blue-100 text-white-600 hover:text-white-600">
+                        <div v-show="isMenuCajas && $can('juridico-list')" class="pl-8 bg-blue-100 text-white-600 hover:text-white-600">
 
                             <li>
-                                <Link v-if="$can('cajas-list')" :href="route('cajas.historial')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                                <Link v-if="$can('juridico-list')" :href="route('juridico.index')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />

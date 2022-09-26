@@ -78,8 +78,8 @@ export default {
                     this.arrayData = respuesta.militantes;
                 } else if (entidad == 'clientes') {
                     this.arrayClientes = respuesta.clientes;
-                } else if (entidad == 'rifas') {
-                    this.arrayRifas = respuesta.data;
+                } else if (entidad == 'auditoria') {
+                    this.arrayData = respuesta.auditorias;
                 } else if (entidad == 'vendedores') {
                     this.arrayVendedores = respuesta.vendedores;
                 } else if (entidad == 'vendedor') {

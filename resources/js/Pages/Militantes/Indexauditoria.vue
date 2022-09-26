@@ -229,7 +229,7 @@
                                             <button  v-else
                                                      class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
                                                      :class="{ 'bg-blue-700 text-white': link.active }"
-                                                     v-on:click="this.cambiarPage(link.url, 'militantes', formbusqueda)"
+                                                     v-on:click="this.cambiarPage(link.url, 'auditoria', formbusqueda)"
                                                      v-html="link.label" />
                                         </template>
                                     </div>
@@ -897,9 +897,8 @@ export default {
     created: function () {
         this.arrayData = this.auditorias;
 
-        var obj = {"hello":"world", "Test":["hello"]}
-
-        console.log(document.createTextNode(JSON.stringify(obj, null, 4)));
+        //var obj = {"hello":"world", "Test":["hello"]}
+        //console.log(document.createTextNode(JSON.stringify(obj, null, 4)));
     },
     mounted() {
     },
