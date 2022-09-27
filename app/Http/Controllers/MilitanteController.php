@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -251,10 +252,14 @@ class MilitanteController extends Controller
                     $archivo->idtipoarchivo = $request->idtipoarchivo;
                     $archivo->idmilitante = $request->idmilitante;
                     $archivo->nombre = $filename;
-                    $archivo->url = url('/storage/archivos/').'/'.time(). '_' . $filename;
+
                     $archivo->extension = $extension;
-                    $path = $file->move(public_path('/storage/archivos/'), $archivo->url);
-                    $archivo->tamaño = $path->getSize();
+                    $filename = time(). '_' . $filename;
+                    $path = $file->storeAs('archivos', $filename);
+
+                    $archivo->url = Storage::url($path);
+
+                    $archivo->tamaño = $file->getSize();
                     $archivo->save();
                 } else {
                     $codigo = -1;
