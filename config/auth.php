@@ -44,9 +44,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'cliente' => [
+        'militante' => [
             'driver' => 'session',
-            'provider' => 'clientes',
+            'provider' => 'militantes',
         ],
         'vendedor' => [
             'driver' => 'session',
@@ -82,9 +82,9 @@ return [
             'model' => App\Models\Vendedor::class,
         ],
 
-        'clientes' => [
+        'militantes' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Cliente::class,
+            'model' => App\Models\Militante::class,
         ],
 
         // 'users' => [
@@ -121,8 +121,8 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'clientes' => [
-            'provider' => 'clientes',
+        'militantes' => [
+            'provider' => 'militantes',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

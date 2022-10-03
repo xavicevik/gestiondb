@@ -36,6 +36,9 @@ Route::get('/', function () {
     ]);
 });
 */
+Route::get('/offline', function(){
+    return view('vendor.laravelpwa.offline');
+});
 
 Route::group(['middleware'=>['guest']],function(){
 
@@ -69,7 +72,8 @@ Route::group(['middleware'=>['guest']],function(){
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',])->group(function () {
-    Route::post('/changepasssu', [LoginController::class, 'updatePasswordsu'])->name('changepass.updatesu');
+
+        Route::post('/changepasssu', [LoginController::class, 'updatePasswordsu'])->name('changepass.updatesu');
 
         Route::get('/dashboard', function () {
             return Inertia::render('Dashboard');
@@ -96,6 +100,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
             return redirect()->back()->with('message', 'Archivo importado correctamente');
         })->name('numerosreservados.import');
+
+        Route::post('/militantes/import', function (Request $request) {
+            Excel::import(new MilitantesImport($request), $request->file('file'));
+
+            return redirect()->back()->with('message', 'Archivo importado correctamente');
+        })->name('militantes.import');
 
         Route::get('/estados', [MasterController::class, 'estados'])->name('estados');
         Route::get('/inscripciones', [MasterController::class, 'inscripciones'])->name('inscripciones');
@@ -131,66 +141,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
         Route::resource('militantes', MilitanteController::class);
 
-       // Route::resource('/puntoventas', PuntoventaController::class);
+        Route::get('/examens/getExamen', [ExamenController::class, 'getExamen'])->name('examens.getExamen');
+        Route::get('/examens/evaluar', [ExamenController::class, 'evaluar'])->name('examens.evaluar');
+        Route::get('/examens/putExamen', [ExamenController::class, 'putExamen'])->name('examens.putExamen');
+        Route::resource('examens', ExamenController::class);
 
         Route::get('/paises/departamentos', [PaisController::class, 'departamentos']);
         Route::get('/paises/ciudades', [PaisController::class, 'ciudades']);
 
         Route::resource('paises', PaisController::class);
 
-        Route::post('/rifas/copy', [RifaController::class, 'copy'])->name('rifas.copy');
-        Route::get('/rifas/getRifasActivas', [RifaController::class, 'getRifasActivas'])->name('rifas.getRifasActivas');
-        Route::get('/rifas/indexboletas', [RifaController::class, 'indexboletas'])->name('rifas.indexboletas');
-        Route::get('/rifas/getHistorialBoleta', [RifaController::class, 'getHistorialBoleta'])->name('rifas.getHistorialBoleta');
-
-        Route::get('/cajas/movimientos', [CajaController::class, 'movimientos'])->name('cajas.movimientos');
-        Route::get('/cajas/open', [CajaController::class, 'open'])->name('cajas.open');
-        Route::post('/cajas/apertura', [CajaController::class, 'apertura'])->name('cajas.apertura');
-       // Route::post('/cajas/cierre', [CajaController::class, 'cierre'])->name('cajas.cierre');
-        Route::get('/cajas/cierre', [CajaController::class, 'cierre'])->name('cajas.cierre');
-        Route::get('/cajas/printcierre', [CajaController::class, 'printcierre'])->name('cajas.printcierre');
-        Route::get('/cajas', [CajaController::class, 'index'])->name('cajas.index');
-        Route::get('/cajas/historial', [CajaController::class, 'historial'])->name('cajas.historial');
-        Route::get('/cajas/getHistorial', [CajaController::class, 'getHistorial'])->name('cajas.getHistorial');
-
-        Route::resource('transacciones',TransaccionController::class);
-        Route::resource('pagos',Pagocontroller::class);
-
-        Route::get('/ventas/reportpdfRegistroMov', [VentaController::class, 'reportpdfRegistroMov'])->name('ventas.reportpdfRegistroMov');
-        Route::get('/ventas/reportpdfAnulaMov', [VentaController::class, 'reportpdfAnulaMov'])->name('ventas.reportpdfAnulaMov');
-        Route::get('/ventas/sendSmsSales', [VentaController::class, 'sendSmsSales'])->name('ventas.sendSmsSales');
-        Route::get('/ventas/initSession', [VentaController::class, 'initSession'])->name('ventas.initSession');
-        Route::get('/ventas/updateSession', [VentaController::class, 'updateSession'])->name('ventas.updateSession');
-        Route::get('/ventas/updDetailSession', [VentaController::class, 'updDetailSession'])->name('ventas.updDetailSession');
-        Route::get('/ventas/finishSession', [VentaController::class, 'finishSession'])->name('ventas.finishSession');
-        Route::get('/ventas/anularVenta', [VentaController::class, 'anularVenta'])->name('ventas.anularVenta');
-
-
-        Route::resource('rifas', RifaController::class);
-        Route::resource('confcomisiones',ConfcomisionController::class);
-        Route::resource('comisiones',ComisionController::class);
-        Route::resource('transacciones',TransaccionController::class);
-
         Route::resource('roles', RoleController::class);
-
-        Route::get('/numerosreservados', [NumeroreservadoController::class, 'index'])->name('numerosreservados.index');
-        Route::get('/numerosreservados/valBoletaDisponible', [NumeroreservadoController::class, 'valBoletaDisponible'])->name('numerosreservados.valBoletaDisponible');
-        Route::get('/numerosreservados/valBoletaOcupada', [NumeroreservadoController::class, 'valBoletaOcupada'])->name('numerosreservados.valBoletaOcupada');
-        Route::get('/numerosreservados/eliminarReserva', [NumeroreservadoController::class, 'eliminarReserva'])->name('numerosreservados.eliminarReserva');
-        Route::get('/numerosreservados/reportpdfAsignacion', [NumeroreservadoController::class, 'reportpdfAsignacion'])->name('numerosreservados.reportpdfAsignacion');
-        Route::get('/numerosreservados/reportpdfDesasignacion', [NumeroreservadoController::class, 'reportpdfDesasignacion'])->name('numerosreservados.reportpdfDesasignacion');
-        Route::get('/numerosreservados/reportpdfCliente', [NumeroreservadoController::class, 'reportpdfCliente'])->name('numerosreservados.reportpdfCliente');
-
-
-        Route::get('/numerosreservados/getBoletaOcupadaVenta', [NumeroreservadoController::class, 'getBoletaOcupadaVenta'])->name('numerosreservados.getBoletaOcupadaVenta');
-        Route::get('/numerosreservados/getBoletaVendida', [NumeroreservadoController::class, 'getBoletaVendida'])->name('numerosreservados.getBoletaVendida');
-
-        Route::resource('numerosreservados', NumeroreservadoController::class);
-
-        Route::get('/ventas/getDetalles', [VentaController::class, 'getDetalles'])->name('ventas.getDetalles');
-        Route::get('/ventas/getDetallesHistorial', [VentaController::class, 'getDetallesHistorial'])->name('ventas.getDetallesHistorial');
-        Route::get('/ventas/valBoletaLibre', [VentaController::class, 'valBoletaLibre'])->name('ventas.valBoletaLibre');
-        Route::get('/ventas/getRandBoletaLibre', [VentaController::class, 'getRandBoletaLibre'])->name('ventas.getRandBoletaLibre');
 
         Route::get('/ventas/reportpdf', [VentaController::class, 'reportpdf'])->name('reportpdf');
         Route::resource('ventas', VentaController::class);
@@ -214,6 +175,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/master/tiposdoc', [MasterController::class, 'tipodocIndex'])->name('master.tiposdoc');
         Route::get('/master/tiposdocsearch', [MasterController::class, 'tipodocSearch'])->name('master.tiposdocsearch');
         Route::get('/master/getTipohistorial', [MasterController::class, 'getTipohistorial'])->name('master.getTipohistorial');
+        //Route::get('/master/getExamen', [MasterController::class, 'getExamen'])->name('master.getExamen');
 
         Route::get('/enviar', [EmailController::class, 'send'])->name('enviar');
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');

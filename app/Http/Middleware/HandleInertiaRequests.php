@@ -52,22 +52,7 @@ class HandleInertiaRequests extends Middleware
 
                 return [
                     'user' => $request->user() ? : null,
-                    'empresa' => $request->user()? Empresa::where('id', Auth::user()->idempresa)->get(): (object) [],
-                    'puntoventa' => Session::get('puntodeventa')? : null,
-                    'caja' => Session::get('caja')? : null,
                     'permissions' => json_encode($permissions)
-                ];
-            },
-            'cart' => function () use ($request) {
-                if ($request->user()) {
-                    \Cart::session(Auth::user()->id);
-                    $items = \Cart::getContent();
-                } else {
-                    $items = (object) [];
-                }
-
-                return [
-                    'cart' => $items,
                 ];
             },
         ]);

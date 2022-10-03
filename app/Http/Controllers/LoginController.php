@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\Cliente;
+use App\Models\Militante;
 use App\Models\Puntoventa;
 use App\Models\User;
 use App\Models\Vendedor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
@@ -60,13 +62,13 @@ class LoginController extends Controller
             ]);
         $roluser = User::where('username', $credentials['username'])
                          ->select('id', 'username', 'password', 'idrol', 'changedpassword', 'idempresa');
-        $rolcliente = Cliente::where('username', $credentials['username'])
-                         ->select('id', 'username', 'password', 'idrol', 'changedpassword', 'id');
+        $rolmilitante = Militante::where('username', $credentials['username'])
+                         ->select('id', 'username', 'password', DB::raw("(SELECT '3') as idrol"), 'changedpassword', 'id');
         $rolvendedor = Vendedor::where('username', $credentials['username'])
                          ->with('empresa.puntosventa')
                          ->select('id', 'username', 'password', 'idrol', 'changedpassword', 'idempresa');
 
-        $rol = $roluser->union($rolvendedor)->union($rolcliente)->first();
+        $rol = $roluser->union($rolvendedor)->union($rolmilitante)->first();
         if (! is_null($rol) && $rol->idrol == 5) {
             $puntosventa = Puntoventa::where('idempresa', $rol->idempresa)->get();
         }
@@ -95,14 +97,17 @@ class LoginController extends Controller
                 '_token' => $token
             ]);
         }
-        if (! is_null($rol) && $rol->idrol == 2) {
-            $guard = Auth::guard('cliente');
-        } else {
-            $guard = Auth::guard('web');
+        if (! is_null($rol) && $rol->idrol == 3) {
+            $guard = Auth::guard('militante');
+            if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
+                $request->session()->regenerate();
+                return redirect()->intended('examens/1');
+            }
         }
+        $guard = Auth::guard('web');
         if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('examens');
         }
 
         return back()->withErrors([
@@ -155,14 +160,13 @@ class LoginController extends Controller
         $roluser = User::where('username', $input->username)
             ->with('empresa.puntosventa')
             ->select('id', 'username', 'password', 'idrol', 'changedpassword');
-        $rolcliente = Cliente::where('username', $input->username)
-            ->with('empresa.puntosventa')
-            ->select('id', 'username', 'password', 'idrol', 'changedpassword');
+        $rolmilitante = Militante::where('username', $input->username)
+            ->select('id', 'username', 'password', DB::raw("(SELECT '3') as idrol"), 'changedpassword');
         $rolvendedor = Vendedor::where('username', $input->username)
             ->with('empresa.puntosventa')
             ->select('id', 'username', 'password', 'idrol', 'changedpassword');
 
-        $user = $roluser->union($rolvendedor)->union($rolcliente)->first();
+        $user = $roluser->union($rolvendedor)->union($rolmilitante)->first();
 
         Validator::make($request->all(), [
             'current_password' => ['required', 'string'],
@@ -177,14 +181,20 @@ class LoginController extends Controller
                 $validator->errors()->add('current_password', __('Debe ingresar el password actual.'));
             }
             if ( Hash::check($input->password, $user->password)) {
-                $validator->errors()->add('password', __('El password actual no puede ser igual al anterior'));
+                $validator->errors()->add('password', __('El password actual no puede ser igual al anterior.'));
             }
         })->validateWithBag('updatePassword');
 
-        $user->forceFill([
-            'password' => Hash::make($input->password),
-            'changedpassword' => $mytime->toDateString()
-        ])->save();
+        if ($user->idrol == 3) {
+            $usermilitante = Militante::where('id', $user->id)->first();
+            $usermilitante->password = Hash::make($input->password);
+            $usermilitante->changedpassword = $mytime->toDateString();
+            $usermilitante->save();
+        } else {
+            $user->password = Hash::make($input->password);
+            $user->changedpassword = $mytime->toDateString();
+            $user->save();
+        }
 
         return redirect()->back()
             ->with('message', 'Se cambió la contraseña');

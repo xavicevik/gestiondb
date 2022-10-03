@@ -18,6 +18,9 @@
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
         @inertiaHead
+
+        {{-- PWA Assets --}}
+        @laravelPWA
     </head>
     <body class="font-sans antialiased">
         @inertia

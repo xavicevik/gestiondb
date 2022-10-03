@@ -42,6 +42,7 @@ export default {
             isMenuRifas: false,
             isMenuVentas: false,
             isMenuComision: false,
+            isMenuExamen: false,
             sidebarOpen: true,
             selectedRow: null,
         }
@@ -160,7 +161,7 @@ export default {
                                 </Link>
                             </li>
                             <li>
-                                <Link v-if="$can('cajas-list')" :href="route('cajas.index')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                                <Link v-if="$can('cajas-list')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4">
                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
@@ -269,6 +270,15 @@ export default {
                                 </Link>
                             </li>
                         </div>
+
+                        <li>
+                            <Link v-if="$can('configuracion-list')" :href="route('examens.index')" :class=" (selectedRow === 'examens.index' || route().current('examens.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                                <span class="inline-flex justify-center items-center ml-4 text-green-500">
+                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">Cursos</span>
+                            </Link>
+                        </li>
 
                     </ul>
                 </div>

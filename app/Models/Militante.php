@@ -29,7 +29,7 @@ class Militante extends Authenticatable implements Auditable
     use TwoFactorAuthenticatable;
     use HasRoles;
 
-    protected $guard = 'militantes';
+    protected $guard = 'militante';
 
     /**
      * The attributes that are mass assignable.
@@ -111,11 +111,6 @@ class Militante extends Authenticatable implements Auditable
 
     public function archivos() {
         return $this->hasMany(Archivo::class, 'idmilitante');
-    }
-
-    public function rol()
-    {
-        return $this->belongsTo(Rol::class, 'idrol');
     }
 
     public function tipodocumento()

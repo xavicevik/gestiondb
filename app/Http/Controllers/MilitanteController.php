@@ -139,6 +139,11 @@ class MilitanteController extends Controller
             if (!is_null($filtros->estado) && $filtros->estado <> '' && $filtros->estado <> '-') {
                 $militantes = $militantes->where('estado', $filtros->estado);
             }
+
+            if (!is_null($filtros->examen) && $filtros->examen <> '' && $filtros->examen <> '-') {
+                $militantes = $militantes->join('test_examenuser', 'militantes.id', '=', 'test_examenuser.idmilitante')
+                                         ->where('test_examenuser.estado', $filtros->examen);
+            }
         }
 
         $militantes = $militantes->paginate(self::canPorPagina);
@@ -335,7 +340,12 @@ class MilitanteController extends Controller
         $militante = Militante::create($request->all());
         $militante->password = Hash::make($militante->password);
         $militante->estado = 3;
+        $militante->changedpassword = null;
+        $militante->username = $militante->documento;
         $militante->saveOrFail();
+
+        $rol = Rol::where('id', 3)->first();
+        $militante->assignRole($rol->nombre);
 
         $this->setHistorial($militante->id, self::nuCreacion, $observaciones);
 

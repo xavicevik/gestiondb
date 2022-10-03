@@ -41,6 +41,7 @@ export default {
             newMode: false,
             isOpen: false,
             isOpenAval: false,
+            isImport: false,
             isOpencambiopass: false,
             isOpenRemplazo: false,
             isOpenverHistorial: false,

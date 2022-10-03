@@ -31,13 +31,16 @@
                             <div class="pr-2 w-1/3 text-center">
                                 <button @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Nuevo Militante</button>
                             </div>
+                            <div class="w-1/6 text-center">
+                                <button @click="openModalImport()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
+                            </div>
                         </div>
                     </section>
                     <!-- Fin Encabezado y titulo Busqueda -->
                     <section>
                         <div class="px-4">
                             <form @submit.prevent="getmilitantes('', '', formbusqueda)" @keyup.enter="getmilitantes('', '', formbusqueda)">
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <input type="text" v-model="formbusqueda.documento" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -57,7 +60,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <input type="text" v-model="formbusqueda.idciudad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -80,7 +83,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.idgenero">
                                             <option value="-" >Seleccione</option>
@@ -110,7 +113,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.avalado">
                                             <option value="-" >-</option>
@@ -141,8 +144,8 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
-                                    <div class="relative z-0 w-full mb-6 group">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
+                                    <div class="relative z-0 w-full mb-4 group">
                                         <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.estado">
                                             <option value="-" >Seleccione</option>
                                             <option v-for="dato in arrayEstados" :key="dato.id" :value="dato.id" v-text="dato.nombre"></option>
@@ -156,6 +159,19 @@
                                     </div>
                                     <div class="relative z-0 w-full mb-4 group">
                                         <Datepicker v-model="formbusqueda.fechafin" :enableTimePicker="false" autoApply placeholder="Fecha fin" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                    </div>
+                                </div>
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
+                                    <div class="relative z-0 w-full mb-4 group">
+                                        <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.examen">
+                                            <option value="-" >-</option>
+                                            <option value="2" >No aprobado</option>
+                                            <option value="1" >Aprobado</option>
+                                            <option value="1" >No presentado</option>
+                                        </select>
+                                        <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                            Certificado curso
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="flex mx-auto">
@@ -330,7 +346,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr :class="user.id === selectedRow ? 'bg-blue-200' : ''"  class="text-center hover:bg-blue-400" @click="rowSelect(user.id)" text-sm v-if="arrayData.data" v-for="(user, id) in arrayData.data" :key="id">
+                                <tr :class="user.id === selectedRow ? 'bg-blue-200' : ''"  class="text-center hover:bg-blue-400" v-on:dblclick="ver(user)" @click="rowSelect(user.id)" text-sm v-if="arrayData.data" v-for="(user, id) in arrayData.data" :key="id">
                                     <td class="border px-1 py-2 text-sm truncate" v-text="dateTime(user.fechaingreso)"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.tipoinscripcion.nombre"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.documento"></td>
@@ -451,11 +467,18 @@
                                                         </svg>Historial
                                                     </a>
                                                 </li>
-                                                <li class="mr-2">
-                                                    <a href="#" v-on:click="activetab='6'; getHistorial(form.id); tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                <li class="mr-2" v-if="form.electo">
+                                                    <a href="#" v-on:click="activetab='6'; tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
                                                         </svg>Cuentas claras
+                                                    </a>
+                                                </li>
+                                                <li class="mr-2">
+                                                    <a href="#" v-on:click="activetab='7'; getExamen(form.id); tituloModalDetalle = 'Cursos'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                        <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                                        </svg>Cursos
                                                     </a>
                                                 </li>
                                             </ul>
@@ -775,21 +798,20 @@
                                             </div>
                                         </div>
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                  <button v-show="newMode" @click="save(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Guardar
-                                                  </button>
-                                                </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                              <button v-show="newMode" @click="save(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                Guardar
+                                              </button>
+                                            </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Actualizar
                                                   </button>
                                                 </span>
                                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-
-                                              <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                                Cancelar
-                                              </button>
+                                                <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                                    Cancelar
+                                                </button>
                                             </span>
                                         </div>
                                         <!-- Fin Ventana modal Aval -->
@@ -926,9 +948,6 @@
                                                             </div>
                                                         </form>
 
-
-
-
                                                         <section>
                                                             <div class="lg:px-4 md:px-2 sm:px-0 py-2 pb-6">
                                                                 <table class="table-fixed w-full">
@@ -1017,12 +1036,8 @@
                                                                     </tbody>
                                                                 </table>
 
-
-
-
                                                             </div>
                                                         </section>
-
 
                                                     </div>
                                                 </section>
@@ -1213,13 +1228,55 @@
                                     </section>
                                     <!-- fin menu 6 -->
 
+                                    <!-- Seccion menu 6 -->
+                                    <section v-if="activetab ==='7'" >
+                                        <button type="button" @click="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </button>
+                                        <section>
+                                            <div class="px-4">
+                                            <form>
+                                                <div class="grid xl:grid-cols-2 xl:gap-6 mt-4">
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        El curso tiene una duración de 40 minutos y lo podrá repetir las veces que se desee.
+                                                    </div>
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        El examen de certificación tendrá una duración de 20 minútos y para poder aprobarlo deberá superar 70% de respuestas correctas.
+                                                    </div>
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        Estado examen: <span class="font-bold">{{ examenuser?(examenuser.estado==1?'Aprobado':'No aprobado'):'No presentado' }}</span>
+                                                    </div>
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        Cantidad de preguntas:  <span class="font-bold">{{ examen?examen.preguntas:'-' }}</span>
+                                                    </div>
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        Calificación:  <span class="font-bold">{{ examenuser?examenuser.calificacion:'0' }} ( {{examenuser?examenuser.respuestas:'0' }} de {{ examen?examen.preguntas:'-' }})</span>
+                                                    </div>
+                                                    <div class="relative z-0 w-full mb-6 group">
+                                                        Fecha de presentación de examen: <span class="font-bold">{{ examenuser?dateTimeFull(examenuser.updated_at):'' }}</span>
+                                                    </div>
+
+                                                    <div v-if="(examenuser?(examenuser.estado==1)?true:false:false)" class="relative z-0 w-full mb-6 group">
+                                                        <button @click="openModal('registrar')" :disabled="!(examenuser?examenuser.estado:false)" class="bg-yellow-500 text-xs  hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded ">Descargar certificado</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        </section>
+                                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                            <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+                                                <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                                    Cancelar
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </section>
+
                                 </div>
                             </div>
                         </div>
                     </section>
                     <!-- Fin Ventana modal Detalles -->
-
-
 
                     <!-- Ventana modal buscar remplazo-->
                     <section>
@@ -1523,6 +1580,61 @@
                     </section>
                     <!-- Fin Ventana modal ver hitorial -->
 
+
+                    <!-- Ventana modal Crear Reserva-->
+                    <section>
+                        <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isImport">
+                            <div class="flex items-end justify-center h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                                <div class="fixed inset-0 transition-opacity">
+                                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                </div>
+                                <!-- This element is to trick the browser into centering the modal contents. -->
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+
+                                <!-- Contenido modal -->
+                                <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left h-fit shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                    <button type="button" @click="isImport = !isImport" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div class="">
+                                        <h2 v-text="tituloModal" class="text-xl font-bold text-gray-900 px-4 py-2"></h2>
+                                    </div>
+                                    <!-- Inicio Form -->
+                                    <div class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
+                                        <div class="">
+
+                                            <!-- Fin Mensajes Flash -->
+                                            <!-- Formulario -->
+                                            <section>
+                                                <div class="flex py-1 w-full max-h-fit overflow-y-scroll">
+                                                    <div class="mb-4 w-full">
+                                                        <label class="block text-gray-700 text-sm font-bold mb-2">Importar</label>
+
+                                                        <form name="import" id="import" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
+                                                            <div class="form-group mb-4">
+                                                                <div class="custom-file text-left">
+                                                                    <input type="hidden" name="_token" :value="form._token">
+                                                                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="file" id="customFile">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <button onclick="document.getElementById('import').submit()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
+
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <!-- Fin formulario -->
+                                        </div>
+                                    </div>
+                                    <!-- Fin form -->
+                                </div>
+                                <!-- Fin Contenido modal -->
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Fin Ventana modal Reserva -->
+
                 </div>
             </div>
         </div>
@@ -1573,6 +1685,8 @@ export default {
             activetab: '1',
             tituloModal: '',
             tituloModalDetalle: '',
+            examenuser: null,
+            examen: null,
             formpasswd: {
                 _token: usePage().props.value._token,
                 id: '',
@@ -1703,6 +1817,10 @@ export default {
                 },
             });
         },
+        openModalImport: function() {
+            this.tituloModal = 'Importar archivo Excel';
+            this.isImport = true;
+        },
         openModal: function (accion, data = []) {
             this.isOpen = true;
             this.reset();
@@ -1719,7 +1837,7 @@ export default {
                     this.form.idgenero = '-';
                     this.form.idniveleducativo = '-';
                     this.form.idgrupoetnico = '-';
-                    this.form.idcorporacion = '-';
+                    this.form.idcorporacion = null;
                     this.form.idremplazo = null;
                     this.form.idremplazonombre = null;
                     this.form.estado = 3;
@@ -1900,6 +2018,17 @@ export default {
             }).then((res) => {
                 console.log(res);
                 this.arrayArchivos = res.data.archivos;
+            })
+        },
+        getExamen: function (data) {
+            var url= '/examens/getExamen';
+            axios.get(url, {
+                params: {
+                    idmilitante: data
+                }
+            }).then((res) => {
+                this.examenuser = res.data.examenuser;
+                this.examen = res.data.examen;
             })
         },
         getHistorial: function (data) {

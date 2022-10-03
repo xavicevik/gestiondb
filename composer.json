@@ -15,6 +15,7 @@
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.4",
         "inertiajs/inertia-laravel": "^0.5.2",
+        "ladumor/laravel-pwa": "^0.0.3",
         "laravel/framework": "^9.2",
         "laravel/jetstream": "^2.7",
         "laravel/sanctum": "^2.14.1",
@@ -22,6 +23,7 @@
         "league/flysystem-aws-s3-v3": "^3.5",
         "maatwebsite/excel": "^3.1",
         "owen-it/laravel-auditing": "^13.0",
+        "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^5.5",
         "tightenco/ziggy": "^1.0"
     },
