@@ -28,7 +28,7 @@ class EmailController extends Controller
         $venta = $data[0];
 
         $subject = "TresAses - Venta #".$request->idventa;
-        $for = $venta['cliente']->correo;
+        $for = $venta['cliente']->email;
         $url = $request->url;
 
         $data = array(

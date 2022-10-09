@@ -50,8 +50,8 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
                 $militantes = $militantes->where('nombre', 'like', '%' . $filtros->nombre . '%')
                     ->orWhere('apellido', 'like', '%' . $filtros->nombre . '%');
             }
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $militantes = $militantes->where('correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $militantes = $militantes->where('email', 'like', '%' . $filtros->email . '%');
             }
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
                 $militantes = $militantes->where('movil', 'like', '%' . $filtros->movil . '%');
@@ -89,7 +89,7 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
             'militantes.documento as documento',
             'militantes.nombre as nombre',
             'militantes.apellido as apellido',
-            'militantes.correo as correo',
+            'militantes.email as email',
             'militantes.movil as movil',
             'militantes.direccion as direccion',
             'ciudades.nombre as ciudad',
@@ -129,7 +129,7 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Documento',
             'Nombre',
             'Apellido',
-            'Correo',
+            'email',
             'Movil',
             'Dirección',
             'Ciudad',

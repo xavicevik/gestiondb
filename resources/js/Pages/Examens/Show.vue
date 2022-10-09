@@ -261,7 +261,7 @@ export default {
             form: {
                 id: null,
                 nombre: '',
-                correo: null,
+                email: null,
                 username: null,
                 apellido: null,
                 idrol: 2,
@@ -326,7 +326,7 @@ export default {
                     this.form.idempresa = data['idempresa'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.username = data['username'];
@@ -355,7 +355,7 @@ export default {
                     this.form.idempresa = data['idempresa'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.username = data['username'];
@@ -393,7 +393,7 @@ export default {
             this.form.nombre = null;
             this.form.documento = null;
             this.form.apellido = null;
-            this.form.correo = null;
+            this.form.email = null;
             this.form.telefono = null;
             this.form.movil = null;
             this.form.username = null;

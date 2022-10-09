@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Correo de venta</title>
+    <title>email de venta</title>
 </head>
 <body>
 

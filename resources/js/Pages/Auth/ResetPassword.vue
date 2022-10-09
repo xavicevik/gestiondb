@@ -62,7 +62,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <JetLabel for="password_confirmation" value="Confirm Password" />
+                <JetLabel for="password_confirmation" value="Confirmar Password" />
                 <JetInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"

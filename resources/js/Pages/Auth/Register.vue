@@ -12,7 +12,7 @@ const form = useForm({
     nombre: '',
     apellido: '',
     idrol: 0,
-    correo: '',
+    email: '',
     username: '',
     password: '',
     password_confirmation: '',
@@ -63,10 +63,10 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-            <JetLabel for="correo" value="Correo" />
+            <JetLabel for="email" value="email" />
             <JetInput
-                id="correo"
-                v-model="form.correo"
+                id="email"
+                v-model="form.email"
                 type="email"
                 class="mt-1 block w-full"
                 required

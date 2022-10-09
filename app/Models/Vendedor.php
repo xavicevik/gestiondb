@@ -33,7 +33,7 @@ class Vendedor extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'nombre', 'correo', 'username','password', 'apellido', 'idtipos_documento', 'idrol', 'estado',
+        'nombre', 'email', 'username','password', 'apellido', 'idtipos_documento', 'idrol', 'estado',
         'documento', 'direccion', 'indicativo', 'idpais', 'iddepartamento', 'idciudad', 'observaciones',
         'telefono', 'movil', 'isnatural', 'camaracomercio', 'rut', 'url', 'idempresa', 'changedpassword'
     ];

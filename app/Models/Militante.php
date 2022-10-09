@@ -37,13 +37,13 @@ class Militante extends Authenticatable implements Auditable
      * @var string[]
      */
     protected $fillable = [
-        'nombre', 'correo', 'username','password', 'apellido', 'idtipos_documento', 'estado',
+        'nombre', 'email', 'username','password', 'apellido', 'idtipos_documento', 'estado',
         'documento', 'direccion', 'idpais', 'iddepartamento', 'idciudad', 'observaciones',
         'telefono', 'movil', 'changedpassword', 'telefono', 'fechaingreso', 'idinscripcion',
         'fechanacimiento', 'idgenero', 'idniveleducativo', 'discapacitado', 'victimaconflicto',
         'idgrupoetnico', 'lider', 'avalado', 'idcorporacion', 'periodo', 'electo', 'votos',
         'coalicion', 'nombrecoalicion','renuncio', 'fecharenuncia', 'aval', 'idremplazo',
-        'facebook', 'instagram', 'twitter', 'ccestado','ccreposicion', 'ccobservaciones',
+        'aportes', 'facebook', 'instagram', 'twitter', 'ccestado','ccreposicion', 'ccobservaciones',
         'cccreated_at', 'ccupdated_at'
     ];
 

@@ -594,7 +594,7 @@
                                                         Documento
                                                     </th>
                                                     <th class="px-4 py-2 w-1/3 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
-                                                        Correo
+                                                        email
                                                     </th>
                                                 </tr>
                                                 </thead>
@@ -602,7 +602,7 @@
                                                 <tr @click="onSelectVendedor(vendedor, )" class="hover:bg-blue-50 text-center" text-sm v-if="arrayVendedores.data" v-for="(vendedor, id) in arrayVendedores.data" :key="id">
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.full_name"></td>
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.documento"></td>
-                                                    <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.correo"></td>
+                                                    <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.email"></td>
                                                 </tr>
                                                 <tr v-else>
                                                     <td class="border px-4 py-2 text-xs text-center" colspan="5"> La consulta no obtuvo datos</td>

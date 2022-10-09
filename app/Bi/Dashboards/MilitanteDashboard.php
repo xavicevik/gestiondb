@@ -1,0 +1,160 @@
+<?php
+
+namespace App\Bi\Dashboards;
+
+use LaravelBi\LaravelBi\Dashboard;
+use LaravelBi\LaravelBi\Dimensions\BelongsToDimension;
+use LaravelBi\LaravelBi\Dimensions\DateDimension;
+use LaravelBi\LaravelBi\Dimensions\StringDimension;
+use LaravelBi\LaravelBi\Filters\BelongsToFilter;
+use LaravelBi\LaravelBi\Filters\DateFilter;
+use LaravelBi\LaravelBi\Filters\DateIntervalFilter;
+use LaravelBi\LaravelBi\Filters\StringFilter;
+use LaravelBi\LaravelBi\Metrics\CountMetric;
+use LaravelBi\LaravelBi\Metrics\SumMetric;
+use LaravelBi\LaravelBi\Widgets\BigNumber;
+use App\Models\Militante;
+use LaravelBi\LaravelBi\Widgets\LineChart;
+use LaravelBi\LaravelBi\Widgets\PartitionPie;
+use LaravelBi\LaravelBi\Widgets\Table;
+use LaravelBi\LaravelBi\Widgets\Traits\SingleMetric;
+
+class MilitanteDashboard extends Dashboard
+{
+
+    public $model  = Militante::class;
+    public $uriKey = 'militantes';
+    public $name   = 'Dashboard Militantes';
+
+    public function filters()
+    {
+        return [
+            DateIntervalFilter::create('created_at', 'Fecha'),
+            BelongsToFilter::create('genero', 'Género')
+                            ->relation('genero')
+                            ->otherColumn('nombre'),
+            BelongsToFilter::create('etnia', 'Etnia')
+                ->relation('grupoEtnico')
+                ->otherColumn('nombre'),
+            BelongsToFilter::create('estado', 'Estado')
+                ->relation('estados')
+                ->otherColumn('nombre'),
+            BelongsToFilter::create('inscripcion', 'Tipo inscripción')
+                ->relation('inscripcion')
+                ->otherColumn('nombre'),
+            BelongsToFilter::create('ciudad', 'Ciudad')
+                ->relation('ciudad')
+                ->otherColumn('nombre'),
+            StringFilter::create('avalado', 'Avalado'),
+            StringFilter::create('lider', 'Lider'),
+        ];
+    }
+
+    public function widgets()
+    {
+        return [
+            BigNumber::create('militantes', 'Cantidad de militantes')
+                ->metric(
+                    CountMetric::create('count', 'Cantidad')
+                        ->color('#ff5555')
+                )
+                ->width('1/3'),
+
+            PartitionPie::create('miliantes-generos', 'Militantes por géneros')
+                ->dimensions([
+                    BelongsToDimension::create('idgenero', 'Género')
+                        ->relation('genero')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Count')
+                        ->color('#ff0055'),
+                ])
+                ->width('1/3')
+                ->scope(function($builder) {
+                    return $builder->where('idgenero', '>', 0);
+                }),
+
+            PartitionPie::create('miliantes-estado', 'Militantes por estado')
+                ->dimensions([
+                    BelongsToDimension::create('estado', 'Estados')
+                        ->relation('estados')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Count')
+                        ->color('#ff5500'),
+                ])
+                ->width('1/3')->scope(function($builder) {
+                    return $builder->where('estado', '!=', null);
+                }),
+
+            PartitionPie::create('miliantes-etnia', 'Militantes por Étnia')
+                ->dimensions([
+                    BelongsToDimension::create('etnia', 'Etnia')
+                        ->relation('grupoEtnico')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Count')
+                        ->color('#ff5500'),
+                ])
+                ->width('1/3')->scope(function($builder) {
+                    return $builder->where('idgrupoetnico', '>', 0);
+                }),
+
+            PartitionPie::create('miliantes-nivel', 'Militantes por Nivel')
+                ->dimensions([
+                    BelongsToDimension::create('niveleducativo', 'Estados')
+                        ->relation('niveleducativo')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Count')
+                        ->color('#ff5500'),
+                ])
+                ->width('1/3')
+                ->scope(function($builder) {
+                    return $builder->where('idniveleducativo', '!=', null);
+                }),
+
+            LineChart::create('user-per-country', 'Fecha ingreso')
+                ->dimensions([
+                    StringDimension::create('fechaingreso', 'Fecha de ingreso')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Count')
+                        ->color('#cc5555'),
+                ])
+                ->width('1/3'),
+
+            Table::create('militantes-ciudad', 'Geolocalización')
+                ->dimensions([
+                    BelongsToDimension::create('idciudad', 'Ciudad')
+                        ->relation('ciudad')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Cantidad')
+                        ->color('#dc0555'),
+                ])
+                ->orderBy('count', 'desc')
+                ->width('1/3'),
+
+            Table::create('militantes-votos', 'Cantidad Votos')
+                ->dimensions([
+                    StringDimension::create('nombre', 'Votos')
+                ])
+                ->metrics([
+                    SumMetric::create('votos', 'Cantidad')
+                        ->color('#dc0555'),
+                ])
+                ->orderBy('sum', 'desc')
+                ->width('1/3')
+                ->scope(function($builder) {
+                    return $builder->where('votos', '>', 0)->limit(5);
+                }),
+
+        ];
+    }
+}

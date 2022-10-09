@@ -147,7 +147,7 @@ class ExamenController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'movil' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'idtipos_documento' => 'required|numeric|gt:0',
@@ -161,7 +161,7 @@ class ExamenController extends Controller
             [
                 'nombre.required' => 'Ingrese el nombre',
                 'apellido.required' => 'Ingrese el apellido',
-                'correo.required' => 'Ingrese el correo',
+                'email.required' => 'Ingrese el email',
                 'movil.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
                 'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
@@ -220,7 +220,7 @@ class ExamenController extends Controller
             Validator::make($request->all(), [
                 'nombre' => ['required', 'string', 'max:255'],
                 'apellido' => ['required', 'string', 'max:255'],
-                'correo' => ['required', 'string', 'email', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
                 'movil' => ['required', 'string', 'max:255'],
                 'documento' => ['required', 'string', 'max:255'],
                 'idtipos_documento' => 'required|numeric|gt:0',
@@ -234,7 +234,7 @@ class ExamenController extends Controller
                 [
                     'nombre.required' => 'Ingrese el nombre',
                     'apellido.required' => 'Ingrese el apellido',
-                    'correo.required' => 'Ingrese el correo',
+                    'email.required' => 'Ingrese el email',
                     'movil.required' => 'Ingrese el teléfono celular',
                     'documento.required' => 'Ingrese el número de identificacion',
                     'idtipos_documento.numeric' => 'Seleccione un tipo de documento',

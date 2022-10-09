@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\Console\Input\Input;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use App\Models\UserCode;
 
 
 class LoginController extends Controller
@@ -107,7 +108,11 @@ class LoginController extends Controller
         $guard = Auth::guard('web');
         if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
             $request->session()->regenerate();
-            return redirect()->intended('examens');
+
+            //return redirect()->intended('dashboard');
+            auth()->user()->generateCode();
+
+            return redirect()->route('2fa.index');
         }
 
         return back()->withErrors([

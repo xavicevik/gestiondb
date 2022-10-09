@@ -43,8 +43,8 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
                 $users = $users->where('users.apellido', 'like', '%' . $filtros->apellido . '%');
             }
 
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $users = $users->where('users.correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $users = $users->where('users.email', 'like', '%' . $filtros->email . '%');
             }
 
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
@@ -59,7 +59,7 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
                           'users.apellido as apellido',
                           'tipos_documentos.nombre as tipo_documento',
                           'users.documento as documento',
-                          'users.correo as correo',
+                          'users.email as email',
                           'users.telefono as telefono',
                           'users.movil as movil',
                           'users.username as username',
@@ -77,7 +77,7 @@ class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Apellido',
             'Tipo_documento',
             'Documento',
-            'Correo',
+            'email',
             'Teléfono',
             'Movil',
             'Username',

@@ -468,10 +468,10 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <label class="block text-sm font-medium text-gray-700">Correo</label>
+                                                    <label class="block text-sm font-medium text-gray-700">email</label>
                                                     <div class="mt-1">
-                                                        <input type="email" :disabled="!isNewCliente" :class="{'bg-blue-100' : !isNewCliente}" v-model="form.cliente.correo" autocomplete="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                        <div v-if="$page.props.errors.correo" class="text-red-500">{{ $page.props.errors.correo }}</div>
+                                                        <input type="email" :disabled="!isNewCliente" :class="{'bg-blue-100' : !isNewCliente}" v-model="form.cliente.email" autocomplete="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <div v-if="$page.props.errors.email" class="text-red-500">{{ $page.props.errors.email }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -597,10 +597,10 @@
                                 </svg>
                             </div>
 
-                            <p>A continuación recibirá un mensaje de correo electrónico al: {{ form.cliente.correo}}</p>
+                            <p>A continuación recibirá un mensaje de email electrónico al: {{ form.cliente.email}}</p>
                             <div class="mt-4">
                                 <a :href="'/ventas/reportpdf?id=' + $page.props.flash.message" target="_blank" class="px-2 py-2 text-blue-200 bg-blue-600 rounded">Imprimir</a>
-                                <p class="mt-4 text-sm">Si tiene problemas para poder acceder al correo, puede ver el resumen de la compra en:
+                                <p class="mt-4 text-sm">Si tiene problemas para poder acceder al email, puede ver el resumen de la compra en:
                                     <a :href="'/ventas/sumary?id=' + $page.props.flash.message" target="_blank" class="text-blue-600 underline">Resumen</a>
                                 </p>
                             </div>
@@ -881,7 +881,7 @@
                                                     </th>
                                                     <th class="px-4 py-2 w-4/12 text-sm font-bold rounded-b">
                                                         <button @click="getRifas('', '.nombre_tecnico')" class="font-bold">
-                                                            Correo
+                                                            email
                                                             <div v-show="sortBy == 'nombre_tecnico'">
                                                             <span v-show="!sortOrder">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -904,7 +904,7 @@
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="cliente.nombre"></td>
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="cliente.documento"></td>
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="cliente.movil"></td>
-                                                    <td class="border px-1 py-2 text-sm truncate" v-text="cliente.correo"></td>
+                                                    <td class="border px-1 py-2 text-sm truncate" v-text="cliente.email"></td>
                                                 </tr>
                                                 <tr v-else>
                                                     <td class="border px-4 py-2 text-xs text-center" colspan="4"> La consulta no obtuvo datos</td>
@@ -1056,7 +1056,7 @@ export default {
                 cliente: {
                     nombre: null,
                     apellido: null,
-                    correo: null,
+                    email: null,
                     movil: null,
                     telefono: null,
                     idtipos_documento: 0,
@@ -1374,7 +1374,7 @@ export default {
             var formData = new FormData();
             formData.append('nombre', this.form.cliente.nombre);
             formData.append('apellido', this.form.cliente.apellido);
-            formData.append('correo', this.form.cliente.correo);
+            formData.append('email', this.form.cliente.email);
             formData.append('password', this.form.cliente.documento);
             formData.append('username', this.form.cliente.documento);
             formData.append('idrol', 2);
@@ -1644,7 +1644,7 @@ export default {
                             fechaventa: null,
                             comprobante: null,
                             nombre: null,
-                            correo: null,
+                            email: null,
                             telefono: null,
                             documento: null,
                             paymentmethod: null,
@@ -1657,7 +1657,7 @@ export default {
                         data.fechaventa = this.dateTimeFull(Date.now());
                         data.comprobante = this.form.comprobante;
                         data.nombre = this.form.cliente.nombre + ' ' + this.form.cliente.apellido;
-                        data.correo = this.form.cliente.correo;
+                        data.email = this.form.cliente.email;
                         data.telefono = this.form.cliente.telefono;
                         data.movil = this.form.cliente.telefono;
                         data.documento = this.form.cliente.documento;

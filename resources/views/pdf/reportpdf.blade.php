@@ -26,8 +26,8 @@
         <br>{{ $cliente->nombre }}
         <br>Documento:
         <br>{{$cliente->documento}}
-        <br>Correo:
-        <br>{{$cliente->correo}}
+        <br>email:
+        <br>{{$cliente->email}}
         <br>Vendedor:
         <br>{{$vendedor->nombre}}
     </p>

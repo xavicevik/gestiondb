@@ -367,7 +367,7 @@ class VentaController extends Controller
             DB::commit();
 
             $subject = "TresAses - Venta # ".$venta->id;
-            $for = $venta['cliente']->correo;
+            $for = $venta['cliente']->email;
             $url = $request->url;
 
             $data = Venta::where('id', $venta->id)
@@ -1230,7 +1230,7 @@ dd($e);
         return 1;
     }
 
-    private function sendSMS($to, $message) {
+    public function sendSMS($to, $message) {
         $to = '573155665528';
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

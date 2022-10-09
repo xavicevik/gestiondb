@@ -68,9 +68,9 @@
                                 </div>
                                 <div class="grid xl:grid-cols-2 xl:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
-                                        <input type="text" v-model="form.correo" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                                        <input type="text" v-model="form.email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Correo
+                                            email
                                         </label>
                                     </div>
                                     <div class="relative z-0 w-full mb-6 group">
@@ -151,7 +151,7 @@
                                     </th>
                                     <th class="px-4 py-2 text-sm w-2/12 font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                         <button @click="getUsers(buscar, 'ciudad.precio')" class="font-bold">
-                                            Correo
+                                            email
                                             <div v-show="sortBy == 'ciudad.precio'">
                                                 <span v-show="!sortOrder">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -191,7 +191,7 @@
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.documento"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.nombre + ' ' + user.apellido"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.movil"></td>
-                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.correo"></td>
+                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.email"></td>
                                     <td class="border px-2 py-2 text-sm truncate" v-if="user.estado">
                                         <span class="inline-flex px-2 text-sm font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                                             Activo
@@ -293,10 +293,10 @@
                                                         </div>
 
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Correo</label>
+                                                            <label class="block text-sm font-medium text-gray-700">email</label>
                                                             <div class="mt-1">
-                                                                <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.correo" autocomplete="street-address" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                <div v-if="$page.props.errors.correo" class="text-red-500">{{ $page.props.errors.correo }}</div>
+                                                                <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.email" autocomplete="street-address" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                <div v-if="$page.props.errors.email" class="text-red-500">{{ $page.props.errors.email }}</div>
                                                             </div>
                                                         </div>
                                                         <div>
@@ -549,7 +549,7 @@ export default {
             form: {
                 id: null,
                 nombre: '',
-                correo: null,
+                email: null,
                 username: null,
                 apellido: null,
                 idrol: 2,
@@ -627,7 +627,7 @@ export default {
                     this.form.idempresa = data['idempresa'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.username = data['username'];
@@ -656,7 +656,7 @@ export default {
                     this.form.idempresa = data['idempresa'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.username = data['username'];
@@ -694,7 +694,7 @@ export default {
             this.form.nombre = null;
             this.form.documento = null;
             this.form.apellido = null;
-            this.form.correo = null;
+            this.form.email = null;
             this.form.telefono = null;
             this.form.movil = null;
             this.form.username = null;

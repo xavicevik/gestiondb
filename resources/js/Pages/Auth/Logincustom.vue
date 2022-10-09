@@ -10,7 +10,7 @@ import JetValidationErrors from '@/Jetstream/ValidationErrors.vue';
 import { usePage } from '@inertiajs/inertia-vue3'
 
 defineProps({
-    canResetPassword: Boolean,
+    //canResetPassword: Boolean,
     status: String,
     _token: String
 });
@@ -82,8 +82,20 @@ const submit = () => {
                 </label>
             </div>
 
+            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
+                <JetLabel for="terms">
+                    <div class="flex items-center">
+                        <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
+
+                        <div class="ml-2">
+                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                        </div>
+                    </div>
+                </JetLabel>
+            </div>
+
             <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 mx-4">
+                <Link :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 mx-4">
                     Olvido el passsword?
                 </Link>
 

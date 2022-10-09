@@ -85,7 +85,7 @@ class MilitanteController extends Controller
             $militantes = $militantes
                         ->where('nombre', 'like', '%'. $buscar . '%')
                         ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                        ->orWhere('correo', 'like', '%'. $buscar . '%')
+                        ->orWhere('email', 'like', '%'. $buscar . '%')
                         ->orWhere('documento', 'like', '%'. $buscar . '%');
         }
 
@@ -103,8 +103,8 @@ class MilitanteController extends Controller
                 $militantes = $militantes->where('nombre', 'like', '%' . $filtros->nombre . '%')
                                          ->orWhere('apellido', 'like', '%' . $filtros->nombre . '%');
             }
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $militantes = $militantes->where('correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $militantes = $militantes->where('email', 'like', '%' . $filtros->email . '%');
             }
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
                 $militantes = $militantes->where('movil', 'like', '%' . $filtros->movil . '%');
@@ -182,7 +182,7 @@ class MilitanteController extends Controller
             $auditorias = $auditorias
                 ->where('nombre', 'like', '%'. $buscar . '%')
                 ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                ->orWhere('correo', 'like', '%'. $buscar . '%')
+                ->orWhere('email', 'like', '%'. $buscar . '%')
                 ->orWhere('documento', 'like', '%'. $buscar . '%');
         }
 
@@ -311,7 +311,7 @@ class MilitanteController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'movil' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'idtipos_documento' => 'required|numeric|gt:0',
@@ -325,7 +325,7 @@ class MilitanteController extends Controller
             [
                 'nombre.required' => 'Ingrese el nombre',
                 'apellido.required' => 'Ingrese el apellido',
-                'correo.required' => 'Ingrese el correo',
+                'email.required' => 'Ingrese el email',
                 'movil.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
                 'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
@@ -390,7 +390,7 @@ class MilitanteController extends Controller
             Validator::make($request->all(), [
                 'nombre' => ['required', 'string', 'max:255'],
                 'apellido' => ['required', 'string', 'max:255'],
-                'correo' => ['required', 'string', 'email', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
                 'movil' => ['required', 'string', 'max:255'],
                 'documento' => ['required', 'string', 'max:255'],
                 'idtipos_documento' => 'required|numeric|gt:0',
@@ -404,7 +404,7 @@ class MilitanteController extends Controller
                 [
                     'nombre.required' => 'Ingrese el nombre',
                     'apellido.required' => 'Ingrese el apellido',
-                    'correo.required' => 'Ingrese el correo',
+                    'email.required' => 'Ingrese el email',
                     'movil.required' => 'Ingrese el teléfono celular',
                     'documento.required' => 'Ingrese el número de identificacion',
                     'idtipos_documento.numeric' => 'Seleccione un tipo de documento',

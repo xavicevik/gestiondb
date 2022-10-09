@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\VentaController;
+use App\Mail\Notificaciones;
+use App\Notifications\EmailcodeNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Http;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
@@ -14,9 +18,10 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use HasApiTokens;
     use HasFactory;
@@ -32,7 +37,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'nombre', 'correo', 'username','password', 'apellido', 'idtipos_documento', 'idrol', 'estado',
+        'nombre', 'email', 'username','password', 'apellido', 'idtipos_documento', 'idrol', 'estado',
         'documento', 'direccion', 'indicativo', 'idpais', 'iddepartamento', 'idciudad', 'observaciones',
         'telefono', 'movil', 'isnatural', 'camaracomercio', 'rut', 'url', 'idempresa', 'changedpassword'
     ];
@@ -111,5 +116,57 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return ucwords("{$this->nombre} {$this->apellido}");
+    }
+
+    public function generateCode()
+    {
+        $code = rand(1000, 9999);
+
+        Usercode::updateOrCreate(
+            [ 'user_id' => auth()->user()->id ],
+            [ 'code' => $code ]
+        );
+
+        $receiverNumber = auth()->user()->movil;
+        $message = "Codigo de acceso: ". $code;
+
+        try {
+            $to = '573155665528'; //$receiverNumber
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Basic QWRhbW1Tb2x1Y2lvbmVzX0JfMVdFOjZpW3pMRVEkTWI=',
+            ])->post("https://api-sms.masivapp.com/send-message", [
+                "to" => $to,
+                "text" => $message,
+                "isPremium" => false,
+                "isFlash" => false,
+                "isLongmessage" => false,
+                "isRandomRoute" => false
+            ]);
+
+        } catch (Exception $e) {
+            info("Error: ". $e->getMessage());
+        }
+    }
+
+    public function sendemail()
+    {
+        $code = rand(1000, 9999);
+
+        Usercode::updateOrCreate(
+            [ 'user_id' => auth()->user()->id ],
+            [ 'code' => $code ]
+        );
+
+        $receiverNumber = auth()->user()->movil;
+        $message = "Codigo de acceso: ". $code;
+
+        try {
+
+            auth()->user()->notify(new EmailcodeNotification($code));
+
+        } catch (Exception $e) {
+            info("Error: ". $e->getMessage());
+        }
     }
 }

@@ -15,6 +15,15 @@ return [
 
     'default' => env('MAIL_MAILER', 'smtp'),
 
+    'resetpassword' => [
+        'subject' => env('RESET_PASS_SUBJECT', 'Reset Password Notification'),
+        'line1' => env('RESET_PASS_LINE1', 'Usted ha recibido este correo porque recibimos una solicitud de reseteo de contraseña para su cuenta.'),
+        'action' => env('RESET_PASS_ACTION', 'Resetear contraseña'),
+        'line2' => env('RESET_PASS_LINE2', 'Este enlace de cambio de contraseña expira en :count minutos.'),
+        'line3' => env('RESET_PASS_LINE3', 'Si no requiere cambio de contraseña, no debe realizar ningúna acción.'),
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations

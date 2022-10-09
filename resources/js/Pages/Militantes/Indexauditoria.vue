@@ -532,7 +532,7 @@ export default {
             form: {
                 id: null,
                 nombre: '',
-                correo: null,
+                email: null,
                 username: null,
                 apellido: null,
                 estado: 3,
@@ -719,7 +719,7 @@ export default {
             this.form.idtipos_documento = '-';
             this.form.nombre = null;
             this.form.apellido = null;
-            this.form.correo = null;
+            this.form.email = null;
             this.form.movil = null;
             this.form.documento = null;
             this.form.direccion = null;

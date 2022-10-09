@@ -36,14 +36,18 @@ Route::get('/', function () {
     ]);
 });
 */
+
 Route::get('/offline', function(){
     return view('vendor.laravelpwa.offline');
 });
+Route::get('/', [LoginController::class, 'index'])->name('login.index');
+Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
 Route::group(['middleware'=>['guest']],function(){
 
     Route::get('/', [LoginController::class, 'index'])->name('login.index');
     Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
+
     Route::get('/loginvendedor', [LoginController::class, 'indexVendedor'])->name('loginvendedor.index');
     Route::post('/loginvendedor', [LoginController::class, 'authenticatevendedor'])->name('loginvendedor.authenticate');
 
@@ -72,7 +76,14 @@ Route::group(['middleware'=>['guest']],function(){
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',])->group(function () {
+    Route::get('/', [LoginController::class, 'index'])->name('login.index');
+    Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
+    Route::get('2fa', [TwoFAController::class, 'index'])->name('2fa.index');
+    Route::post('2fa', [TwoFAController::class, 'store'])->name('2fa.post');
+    Route::get('2fa/reset', [TwoFAController::class, 'resend'])->name('2fa.resend');
+    Route::get('2fa/sendemail', [TwoFAController::class, 'sendemail'])->name('2fa.sendemail');
 
+    Route::middleware('2fa')->group(function () {
         Route::post('/changepasssu', [LoginController::class, 'updatePasswordsu'])->name('changepass.updatesu');
 
         Route::get('/dashboard', function () {
@@ -116,9 +127,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/tiposarchivos', [MasterController::class, 'tiposarchivos'])->name('tiposarchivos');
         Route::get('/getArchivos', [MilitanteController::class, 'getArchivos'])->name('getArchivos');
         Route::post('/archivo/upload', [MilitanteController::class, 'archivoupload'])->name('fileUpload');
-
-
-
 
         Route::get('/users/getClientes', [UserController::class, 'getClientes'])->name('users.clientes');
         Route::get('/ventas/sumary', [VentaController::class, 'sumary'])->name('sumary');
@@ -179,6 +187,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
         Route::get('/enviar', [EmailController::class, 'send'])->name('enviar');
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');
+    });
 
 
 

@@ -54,9 +54,9 @@
                                         </label>
                                     </div>
                                     <div class="relative z-0 w-full mb-6 group">
-                                        <input type="text" v-model="formbusqueda.correo" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
+                                        <input type="text" v-model="formbusqueda.email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Correo
+                                            email
                                         </label>
                                     </div>
                                 </div>
@@ -208,23 +208,6 @@
                                     </th>
                                     <th class="px-4 py-2 w-1/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                         <button @click="getmilitantes(buscar, 'documento')" class="font-bold">
-                                            Inscripción
-                                            <div v-show="sortBy == 'nombre'">
-                                                <span v-show="!sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                                <span v-show="sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </th>
-                                    <th class="px-4 py-2 w-1/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
-                                        <button @click="getmilitantes(buscar, 'documento')" class="font-bold">
                                             Documento
                                             <div v-show="sortBy == 'nombre'">
                                                 <span v-show="!sortOrder">
@@ -261,40 +244,6 @@
                                         <button @click="getmilitantes(buscar, 'documento')" class="font-bold">
                                             Municipio
                                             <div v-show="sortBy == 'nombre'">
-                                                <span v-show="!sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                                <span v-show="sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </th>
-                                    <th class="px-4 py-2 text-sm w-1/12 font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
-                                        <button @click="getmilitantes(buscar, 'movil')" class="font-bold">
-                                            Celular
-                                            <div v-show="sortBy == 'movil'">
-                                                <span v-show="!sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                                <span v-show="sortOrder">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </button>
-                                    </th>
-                                    <th class="px-4 py-2 text-sm w-2/12 font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
-                                        <button @click="getmilitantes(buscar, 'ciudad.precio')" class="font-bold">
-                                            Correo
-                                            <div v-show="sortBy == 'ciudad.precio'">
                                                 <span v-show="!sortOrder">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -348,12 +297,9 @@
                                 <tbody>
                                 <tr :class="user.id === selectedRow ? 'bg-blue-200' : ''"  class="text-center hover:bg-blue-400" v-on:dblclick="ver(user)" @click="rowSelect(user.id)" text-sm v-if="arrayData.data" v-for="(user, id) in arrayData.data" :key="id">
                                     <td class="border px-1 py-2 text-sm truncate" v-text="dateTime(user.fechaingreso)"></td>
-                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.tipoinscripcion.nombre"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.documento"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.full_name.toUpperCase()"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.ciudad.nombre"></td>
-                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.movil"></td>
-                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.correo"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.estados.nombre"></td>
                                     <td class="border px-2 py-2 text-sm truncate" v-if="user.avalado">
                                         <span class="inline-flex px-2 text-sm font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
@@ -426,12 +372,12 @@
                                 </div>
                                 <!-- This element is to trick the browser into centering the modal contents. -->
                                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
-                                <div class="inline-block lg:w-8/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                <div class="inline-block md:w-8/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
                                     <!-- Menu Tabs -->
                                     <section>
-                                        <div class="border-b border-gray-200 dark:border-gray-700">
-                                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                                        <div class="border-b border-gray-200">
+                                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
                                                 <li class="mr-2">
                                                     <a href="#" v-on:click="activetab='1'; tituloModalDetalle = 'Información'" v-bind:class="[ activetab === '1' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '1' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -542,12 +488,14 @@
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Correo</label>
+                                                                <label class="block text-sm font-medium text-gray-700">email</label>
                                                                 <div class="mt-1">
-                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.correo" autocomplete="street-address" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                                    <div v-if="$page.props.errors.correo" class="text-red-500">{{ $page.props.errors.correo }}</div>
+                                                                    <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.email" autocomplete="street-address" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                    <div v-if="$page.props.errors.email" class="text-red-500">{{ $page.props.errors.email }}</div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-4 sm:gap-x-4">
                                                             <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Movil</label>
                                                                 <div class="mt-1">
@@ -574,6 +522,16 @@
                                                                     <div v-if="$page.props.errors.documento" class="text-red-500">{{ $page.props.errors.documento }}</div>
                                                                 </div>
                                                             </div>
+                                                            <div>
+                                                                <label class="block text-sm font-medium text-gray-700">Aportes</label>
+                                                                <div class="mt-1">
+                                                                    <money3 v-bind="configMoney" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.aportes" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></money3>
+                                                                    <div v-if="$page.props.errors.aportes" class="text-red-500">{{ $page.props.errors.aportes }}</div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
 
                                                             <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Género</label>
@@ -597,7 +555,7 @@
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Gruop Étnico</label>
+                                                                <label class="block text-sm font-medium text-gray-700">Grupo Étnico</label>
                                                                 <div class="mt-1">
                                                                     <select :disabled="verMode" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idgrupoetnico">
                                                                         <option value="-" >Seleccione</option>
@@ -674,7 +632,7 @@
                                                             </div>
 
                                                             <div>
-                                                                <label class="block text-sm font-medium text-gray-700">Víctima conflicto Armado?</label>
+                                                                <label class="block text-sm font-medium text-gray-700">Víctima conflicto?</label>
                                                                 <div class="mt-1">
                                                                     <Toggle v-model="form.victimaconflicto" :disabled="verMode"/>
                                                                 </div>
@@ -694,7 +652,7 @@
                                                             <div>
                                                                 <label class="block text-sm font-medium text-gray-700">Estado</label>
                                                                 <div class="mt-1">
-                                                                    <span class="inline-flex px-2 text-sm font-semibold leading-5 text-grey-800 bg-green-100 rounded-full">
+                                                                    <span class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-green-500 rounded-full">
                                                                         {{ form.estados.nombre }}
                                                                     </span>
                                                                 </div>
@@ -1175,25 +1133,93 @@
                                         <div class="">
                                             <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
                                         </div>
+
                                         <div class="bg-white px-4 pt-2 pb-4 ">
                                             <div class="">
                                                 <section>
-                                                    <div class="mt-2 grid gap-y-6 ">
+                                                    <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
                                                         <div class="relative z-0 w-full mb-4 group">
-                                                            <label class="block text-sm font-medium text-gray-700">Fecha solicitud</label>
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha entrega informe</label>
                                                             <Datepicker v-model="form.cccreated_at" :disabled="form.ccestado != 4" :enableTimePicker="false" autoApply placeholder="Fecha solicitud" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
                                                         </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Entrego a tiempo?</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha entrega CNE</label>
+                                                            <Datepicker v-model="form.cccreated_at" :disabled="form.ccestado != 4" :enableTimePicker="false" autoApply placeholder="Fecha solicitud" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                                        </div>
+                                                        <div class="relative z-0 w-full mb-4 group">
+                                                            <label class="block text-sm font-medium text-gray-700">Auto entrega CNE</label>
+                                                            <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.ccreposicion" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Requiere corrección?</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">En investigación?</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Presentó recurso?</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Estado</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Estado sanción</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+
+
                                                         <div v-if="form.ccestado != 4">
                                                             <div class="relative z-0 w-full mb-4 group">
                                                                 <label class="block text-sm font-medium text-gray-700">Fecha reposición de votos</label>
                                                                 <Datepicker v-model="form.ccupdated_at" :disabled="form.ccestado == 1" :enableTimePicker="false" autoApply placeholder="Fecha repposición" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
                                                             </div>
 
-                                                            <label class="block text-sm mt-2 font-medium text-gray-700">Reposición de votos</label>
+                                                            <label class="block text-sm mt-2 font-medium text-gray-700">Resolución</label>
                                                             <div class="mt-1">
                                                                 <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.ccreposicion" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             </div>
                                                         </div>
+
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha de pago</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <form name="import" id="import" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
+                                                                <label class="block text-sm font-medium text-gray-700">Certificado de pago</label>
+                                                                <div class="form-group mb-4">
+                                                                    <div class="custom-file text-left">
+                                                                        <input type="hidden" name="_token" :value="form._token">
+                                                                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="file" id="customFile">
+                                                                    </div>
+                                                                </div>
+                                                                <button onclick="document.getElementById('import').submit()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
+                                                            </form>
+                                                        <div>
+
+
 
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">Observaciones</label>
@@ -1208,20 +1234,34 @@
                                         </div>
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                Solicitar
-                                              </button>
+                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Solicitar
+                                                </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                  <button v-show="form.ccestado == 3" @click="ccreposicion(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Entregar
+                                                </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Reposición
-                                                  </button>
-                                                </span>
+                                                </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Pagado
+                                                </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <button v-show="form.ccestado == 3" @click="ccreposicion(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Reposición
+                                                </button>
+                                            </span>
                                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-
-                                              <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                                Cancelar
-                                              </button>
+                                                <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                                    Cancelar
+                                                </button>
                                             </span>
                                         </div>
                                         <!-- Fin Ventana modal Aval -->
@@ -1696,7 +1736,7 @@ export default {
             form: {
                 id: null,
                 nombre: '',
-                correo: null,
+                email: null,
                 username: null,
                 apellido: null,
                 estado: 3,
@@ -1722,6 +1762,7 @@ export default {
                 periodo: 0,
                 electo: 0,
                 votos: 0,
+                aportes: 0,
                 coalicion: 0,
                 facebook: null,
                 twitter: null,
@@ -1741,7 +1782,7 @@ export default {
             formbusqueda: {
                 id: null,
                 nombre: '',
-                correo: null,
+                email: null,
                 username: null,
                 apellido: null,
                 idrol: 0,
@@ -1768,6 +1809,7 @@ export default {
                 electo: '-',
                 estado: '-',
                 votos: 0,
+                aportes: 0,
                 coalicion: '-',
                 nombrecoalicion: null,
                 renuncio: '-',
@@ -1842,6 +1884,7 @@ export default {
                     this.form.idremplazonombre = null;
                     this.form.estado = 3;
                     this.ccestado = 4;
+                    this.aportes = 0;
                     this.newMode = true;
                     this.verMode = false;
                     this.editMode = false;
@@ -1858,7 +1901,7 @@ export default {
                     this.form.idtipos_documento = data['idtipos_documento'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.direccion = data['direccion'];
@@ -1877,6 +1920,7 @@ export default {
                     this.form.electo = data['electo'];
                     this.form.estado = data['estado'];
                     this.form.votos = data['votos'];
+                    this.form.aportes = data['aportes'];
                     this.form.coalicion = data['coalicion'];
                     this.form.nombrecoalicion = data['nombrecoalicion'];
                     this.form.renuncio = data['renuncio'];
@@ -1911,7 +1955,7 @@ export default {
                     this.form.idtipos_documento = data['idtipos_documento'];
                     this.form.nombre = data['nombre'];
                     this.form.apellido = data['apellido'];
-                    this.form.correo = data['correo'];
+                    this.form.email = data['email'];
                     this.form.movil = data['movil'];
                     this.form.documento = data['documento'];
                     this.form.direccion = data['direccion'];
@@ -1933,6 +1977,7 @@ export default {
                     this.form.periodo = data['periodo'];
                     this.form.electo = data['electo'];
                     this.form.votos = data['votos'];
+                    this.form.aportes = data['aportes'];
                     this.form.estados = data['estados'];
                     this.form.coalicion = data['coalicion'];
                     this.form.nombrecoalicion = data['nombrecoalicion'];
@@ -2156,7 +2201,7 @@ export default {
             this.form.idtipos_documento = '-';
             this.form.nombre = null;
             this.form.apellido = null;
-            this.form.correo = null;
+            this.form.email = null;
             this.form.movil = null;
             this.form.documento = null;
             this.form.direccion = null;

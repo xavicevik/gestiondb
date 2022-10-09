@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Jetstream/Welcome.vue';
-import Statscards from "../Components/Statscards";
 </script>
 
 <template>
@@ -11,10 +10,6 @@ import Statscards from "../Components/Statscards";
                 Dashboard
             </h2>
         </template>
-
-        <!-- Tarjetas
-        <Statscards></Statscards>
-         -->
 
         <div class="py-4">
             <div class="mx-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">

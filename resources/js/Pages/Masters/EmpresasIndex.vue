@@ -387,7 +387,7 @@
                                                                 <tbody>
                                                                 <tr class="text-center hover:bg-blue-100" text-sm v-if="datos.distribuidores.length > 0" v-for="(dato, id) in datos.distribuidores" :key="id">
                                                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.nombre"></td>
-                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.correo"></td>
+                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.email"></td>
                                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.idpais"></td>
                                                                 </tr>
                                                                 <tr v-else>
@@ -427,7 +427,7 @@
                                                                 <tbody>
                                                                 <tr class="text-center hover:bg-blue-100" text-sm v-if="datos.vendedores.length > 0" v-for="(dato, id) in datos.vendedores" :key="id">
                                                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.nombre"></td>
-                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.correo"></td>
+                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.email"></td>
                                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.idpais"></td>
                                                                 </tr>
                                                                 <tr v-else>
@@ -468,7 +468,7 @@
                                                                 <tbody>
                                                                 <tr class="text-center hover:bg-blue-100" text-sm v-if="datos.vendedores.length > 0" v-for="(dato, id) in datos.vendedores" :key="id">
                                                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.nombre"></td>
-                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.correo"></td>
+                                                                    <td class="border px-2 py-2 text-sm truncate" v-text="dato.email"></td>
                                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.idpais"></td>
                                                                 </tr>
                                                                 <tr v-else>

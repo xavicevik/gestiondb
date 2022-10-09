@@ -62,7 +62,7 @@ class UserController extends Controller
                         ->with('empresa')
                         ->where('nombre', 'like', '%'. $buscar . '%')
                         ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                        ->orWhere('correo', 'like', '%'. $buscar . '%')
+                        ->orWhere('email', 'like', '%'. $buscar . '%')
                         ->orWhere('username', 'like', '%'. $buscar . '%')
                         ->orWhere('documento', 'like', '%'. $buscar . '%');
         }
@@ -79,8 +79,8 @@ class UserController extends Controller
                 $users = $users->where('apellido', 'like', '%' . $filtros->apellido . '%');
             }
 
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $users = $users->where('correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $users = $users->where('email', 'like', '%' . $filtros->email . '%');
             }
 
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
@@ -132,7 +132,7 @@ class UserController extends Controller
                 ->with('empresa')
                 ->where('nombre', 'like', '%'. $buscar . '%')
                 ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                ->orWhere('correo', 'like', '%'. $buscar . '%')
+                ->orWhere('email', 'like', '%'. $buscar . '%')
                 ->orWhere('username', 'like', '%'. $buscar . '%')
                 ->orWhere('documento', 'like', '%'. $buscar . '%');
         }
@@ -149,8 +149,8 @@ class UserController extends Controller
                 $users = $users->where('apellido', 'like', '%' . $filtros->apellido . '%');
             }
 
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $users = $users->where('correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $users = $users->where('email', 'like', '%' . $filtros->email . '%');
             }
 
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
@@ -202,7 +202,7 @@ class UserController extends Controller
                 ->with('empresa')
                 ->where('nombre', 'like', '%'. $buscar . '%')
                 ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                ->orWhere('correo', 'like', '%'. $buscar . '%')
+                ->orWhere('email', 'like', '%'. $buscar . '%')
                 ->orWhere('username', 'like', '%'. $buscar . '%')
                 ->orWhere('documento', 'like', '%'. $buscar . '%');
         }
@@ -219,8 +219,8 @@ class UserController extends Controller
                 $vendedores = $vendedores->where('apellido', 'like', '%' . $filtros->apellido . '%');
             }
 
-            if (!is_null($filtros->correo) && $filtros->correo <> '') {
-                $vendedores = $vendedores->where('correo', 'like', '%' . $filtros->correo . '%');
+            if (!is_null($filtros->email) && $filtros->email <> '') {
+                $vendedores = $vendedores->where('email', 'like', '%' . $filtros->email . '%');
             }
 
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
@@ -274,11 +274,11 @@ class UserController extends Controller
 
         if ($buscar == ''){
             $users = Vendedor::orderBy('id', 'asc')
-                ->select('id', 'nombre', 'apellido', 'documento', 'correo')
+                ->select('id', 'nombre', 'apellido', 'documento', 'email')
                 ->where('estado', 1);
         } else {
             $users = Vendedor::orderBy('id', 'asc')
-                    ->select('id', 'nombre', 'apellido', 'documento', 'correo')
+                    ->select('id', 'nombre', 'apellido', 'documento', 'email')
                     ->where('estado', 1)
                     ->where(function ($query) use ($buscar) {
                         return $query->where('nombre', 'like', "%$buscar%")
@@ -395,7 +395,7 @@ class UserController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'telefono' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'idtipos_documento' => 'required|numeric|gt:0',
@@ -407,7 +407,7 @@ class UserController extends Controller
         [
             'nombre.required' => 'Ingrese el nombre',
             'apellido.required' => 'Ingrese el apellido',
-            'correo.required' => 'Ingrese el correo',
+            'email.required' => 'Ingrese el email',
             'telefono.required' => 'Ingrese el teléfono celular',
             'documento.required' => 'Ingrese el número de identificacion',
             'idtipos_documento.gt' => 'Seleccione una tipo de documento',
@@ -481,7 +481,7 @@ class UserController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'telefono' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
@@ -495,7 +495,7 @@ class UserController extends Controller
             [
                 'nombre.required' => 'Ingrese el nombre',
                 'apellido.required' => 'Ingrese el apellido',
-                'correo.required' => 'Ingrese el correo',
+                'email.required' => 'Ingrese el email',
                 'telefono.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
                 'idtipos_documento.gt' => 'Seleccione una tipo de documento',
@@ -514,7 +514,7 @@ class UserController extends Controller
                           'nombre' => $request->nombre,
                           'apellido' => $request->apellido,
                           'username' => $request->username,
-                          'correo' => $request->correo,
+                          'email' => $request->email,
                           'movil' => $request->movil,
                           'telefono' => $request->telefono,
                           'direccion' => $request->direccion,
@@ -541,7 +541,7 @@ class UserController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'telefono' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
@@ -555,7 +555,7 @@ class UserController extends Controller
             [
                 'nombre.required' => 'Ingrese el nombre',
                 'apellido.required' => 'Ingrese el apellido',
-                'correo.required' => 'Ingrese el correo',
+                'email.required' => 'Ingrese el email',
                 'telefono.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
                 'idtipos_documento.gt' => 'Seleccione una tipo de documento',
@@ -575,7 +575,7 @@ class UserController extends Controller
                           'nombre' => $request->nombre,
                           'apellido' => $request->apellido,
                           'username' => $request->username,
-                          'correo' => $request->correo,
+                          'email' => $request->email,
                           'movil' => $request->movil,
                           'telefono' => $request->telefono,
                           'direccion' => $request->direccion,
@@ -602,7 +602,7 @@ class UserController extends Controller
         Validator::make($request->all(), [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
-            'correo' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'telefono' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
             'documento' => ['required', 'string', 'max:255'],
@@ -615,7 +615,7 @@ class UserController extends Controller
             [
                 'nombre.required' => 'Ingrese el nombre',
                 'apellido.required' => 'Ingrese el apellido',
-                'correo.required' => 'Ingrese el correo',
+                'email.required' => 'Ingrese el email',
                 'telefono.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
                 'idtipos_documento.gt' => 'Seleccione una tipo de documento',
@@ -634,7 +634,7 @@ class UserController extends Controller
                 'nombre' => $request->nombre,
                 'apellido' => $request->apellido,
                 'username' => $request->username,
-                'correo' => $request->correo,
+                'email' => $request->email,
                 'movil' => $request->movil,
                 'telefono' => $request->telefono,
                 'direccion' => $request->direccion,

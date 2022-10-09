@@ -749,7 +749,7 @@
                                                         Documento
                                                     </th>
                                                     <th class="px-4 py-2 w-1/3 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
-                                                        Correo
+                                                        email
                                                     </th>
                                                 </tr>
                                                 </thead>
@@ -757,7 +757,7 @@
                                                 <tr @click="onSelectVendedor(vendedor)" class="hover:bg-blue-50 text-center" text-sm v-if="arrayVendedores.data" v-for="(vendedor, id) in arrayVendedores.data" :key="id">
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.full_name"></td>
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.documento"></td>
-                                                    <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.correo"></td>
+                                                    <td class="border px-1 py-2 text-sm truncate" v-text="vendedor.email"></td>
                                                 </tr>
                                                 <tr v-else>
                                                     <td class="border px-4 py-2 text-xs text-center" colspan="5"> La consulta no obtuvo datos</td>
@@ -1012,10 +1012,10 @@
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <label class="block text-sm font-medium text-gray-700">Correo</label>
+                                                        <label class="block text-sm font-medium text-gray-700">email</label>
                                                         <div class="mt-1">
-                                                            <input type="email" :disabled="!isNewCliente" :class="{'bg-blue-100' : !isNewCliente}" v-model="form.cliente.correo" autocomplete="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                            <div v-if="$page.props.errors.correo" class="text-red-500">{{ $page.props.errors.correo }}</div>
+                                                            <input type="email" :disabled="!isNewCliente" :class="{'bg-blue-100' : !isNewCliente}" v-model="form.cliente.email" autocomplete="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                            <div v-if="$page.props.errors.email" class="text-red-500">{{ $page.props.errors.email }}</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1564,7 +1564,7 @@ export default {
             var formData = new FormData();
             formData.append('nombre', this.form.cliente.nombre);
             formData.append('apellido', this.form.cliente.apellido);
-            formData.append('correo', this.form.cliente.correo);
+            formData.append('email', this.form.cliente.email);
             formData.append('password', this.form.cliente.documento);
             formData.append('username', this.form.cliente.documento);
             formData.append('idrol', 2);

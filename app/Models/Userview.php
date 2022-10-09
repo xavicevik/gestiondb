@@ -13,7 +13,7 @@ class Userview extends Model
         'id',
         'full_name',
         'documento',
-        'correo',
+        'email',
         'username',
         'idrol',
         'estado',
