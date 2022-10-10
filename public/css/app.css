@@ -1352,9 +1352,6 @@ select {
 .w-14 {
   width: 3.5rem;
 }
-.w-64 {
-  width: 16rem;
-}
 .w-2\.5 {
   width: 0.625rem;
 }
@@ -1417,9 +1414,6 @@ select {
 }
 .w-2\/3 {
   width: 66.666667%;
-}
-.w-2\/6 {
-  width: 33.333333%;
 }
 .min-w-0 {
   min-width: 0px;
@@ -3181,28 +3175,12 @@ select {
     width: 100%;
   }
 
-  .sm\:w-auto {
-    width: auto;
-  }
-
-  .sm\:w-1 {
-    width: 0.25rem;
-  }
-
-  .sm\:w-1\/2 {
-    width: 50%;
-  }
-
-  .sm\:w-40 {
-    width: 10rem;
-  }
-
-  .sm\:w-20 {
-    width: 5rem;
-  }
-
   .sm\:w-52 {
     width: 13rem;
+  }
+
+  .sm\:w-auto {
+    width: auto;
   }
 
   .sm\:max-w-md {
@@ -3438,8 +3416,16 @@ select {
     height: 1.75rem;
   }
 
+  .md\:w-64 {
+    width: 16rem;
+  }
+
   .md\:w-10 {
     width: 2.5rem;
+  }
+
+  .md\:w-8\/12 {
+    width: 66.666667%;
   }
 
   .md\:w-40 {
@@ -3448,18 +3434,6 @@ select {
 
   .md\:w-full {
     width: 100%;
-  }
-
-  .md\:w-64 {
-    width: 16rem;
-  }
-
-  .md\:w-8\/12 {
-    width: 66.666667%;
-  }
-
-  .md\:w-10\/12 {
-    width: 83.333333%;
   }
 
   .md\:grid-cols-3 {
@@ -3714,10 +3688,6 @@ select {
 
   .xl\:w-48 {
     width: 12rem;
-  }
-
-  .xl\:w-64 {
-    width: 16rem;
   }
 
   .xl\:grid-cols-2 {

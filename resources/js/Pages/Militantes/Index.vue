@@ -1206,8 +1206,7 @@
                                                                 <Toggle v-model="form.discapacitado" :disabled="verMode"/>
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <form name="import" id="import" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
+                                                            <form name="import" id="import2" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
                                                                 <label class="block text-sm font-medium text-gray-700">Certificado de pago</label>
                                                                 <div class="form-group mb-4">
                                                                     <div class="custom-file text-left">
@@ -1217,9 +1216,6 @@
                                                                 </div>
                                                                 <button onclick="document.getElementById('import').submit()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
                                                             </form>
-                                                        <div>
-
-
 
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">Observaciones</label>
@@ -1227,7 +1223,6 @@
                                                                 <textarea v-model="form.ccobservaciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Observaciones"></textarea>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </section>
                                             </div>

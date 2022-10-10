@@ -110,7 +110,8 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             //return redirect()->intended('dashboard');
-            auth()->user()->generateCode();
+            //auth()->user()->generateCode();
+            auth()->user()->sendemail();
 
             return redirect()->route('2fa.index');
         }
