@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'GestionDB'),
+    'name' => env('APP_NAME', 'Conel'),
 
     'regxpage' => env('MAX_CANT_REG_PAGE', 3),
 

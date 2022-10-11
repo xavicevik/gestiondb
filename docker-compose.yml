@@ -1,8 +1,8 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    gestiondb-app:
-        container_name: gestiondb
+    conel-app:
+        container_name: conel
         build:
             context: ./docker/8.1
             dockerfile: Dockerfile

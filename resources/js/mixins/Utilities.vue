@@ -66,12 +66,13 @@ export default {
         }
     },
     methods: {
-        cambiarPage: function (url = '', entidad = '', filtros = [], id = null) {
+        cambiarPage: function (url = '', entidad = '', filtros = [], id = null, idmilitante = null) {
             axios.get(url, {
                 params: {
                     filtros: filtros,
                     ispage: 1,
                     id: id,
+                    idmilitante: idmilitante
                 }
             }).then((res) => {
                 var respuesta = res.data;
@@ -89,8 +90,8 @@ export default {
                     this.arrayDetalles = respuesta.data;
                 } else if (entidad == 'cajas') {
                     this.arrayCajas = respuesta.cajas;
-                } else if (entidad == 'ventas') {
-                    this.arrayVentas = respuesta.data;
+                } else if (entidad == 'historial') {
+                    this.arrayHistorial = respuesta.historial;
                 } else if (entidad == 'detalles') {
                     this.arrayDetalles = respuesta.data;
                 } else if (entidad == 'users') {
@@ -396,7 +397,42 @@ export default {
         },
         onCountdownEnd: function () {
             this.finishSession()
-        }
+        },
+
+        validaEntrega: function(data) {
+            console.log('validaEntrega');
+            var url= '/cc/validaEntrega';
+            axios.get(url, {
+                params: {
+                    data: data,
+                }
+            }).then((res) => {
+                var respuesta = res.data;
+                this.formcc.presentacion = respuesta.isOportuno;
+            })
+        },
+        updateCuentasclaras: function (data, tipo, idmilitante) {
+            var url= '/cc/updateCuentasclaras';
+            axios.get(url, {
+                params: {
+                    data: data,
+                    tipo: tipo,
+                    idmilitante: idmilitante
+                }
+            }).then((res) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'El proceso se realizó correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                //this.closeModal();
+                //this.isOpenCambioestado = false;
+                //this.getmilitantes('','updated_at');
+                this.getCuentasClaras(idmilitante);
+            })
+        },
     },
 };
 </script>

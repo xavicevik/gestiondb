@@ -37,7 +37,7 @@ class Cuentasclara extends Model
         return $this->belongsTo(Militante::class, 'idmilitante');
     }
 
-    public function estado(){
+    public function estadonombre(){
         return $this->belongsTo(Estadocc::class, 'estado');
     }
 

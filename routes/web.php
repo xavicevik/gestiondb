@@ -127,6 +127,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/tiposarchivos', [MasterController::class, 'tiposarchivos'])->name('tiposarchivos');
         Route::get('/getArchivos', [MilitanteController::class, 'getArchivos'])->name('getArchivos');
         Route::post('/archivo/upload', [MilitanteController::class, 'archivoupload'])->name('fileUpload');
+        Route::post('/archivocc/upload', [CuentasclarasController::class, 'archivoupload'])->name('fileUploadcc');
+
 
         Route::get('/users/getClientes', [UserController::class, 'getClientes'])->name('users.clientes');
         Route::get('/ventas/sumary', [VentaController::class, 'sumary'])->name('sumary');
@@ -141,6 +143,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
         Route::resource('users', UserController::class);
 
+
+        Route::get('/cc/validaEntrega', [CuentasclarasController::class, 'validaEntrega'])->name('cc.validaEntrega');
+        Route::get('/cc/updateCuentasclaras', [CuentasclarasController::class, 'updateCuentasclaras'])->name('cc.updateCuentasclaras');
+
+
+        Route::get('/militantes/getCuentasClaras', [MilitanteController::class, 'getCuentasClaras'])->name('militantes.getCuentasClaras');
         Route::get('/militantes/indexAuditoria', [MilitanteController::class, 'indexAuditoria'])->name('militantes.indexAuditoria');
         Route::get('/militantes/getHistorial', [MilitanteController::class, 'getHistorial'])->name('militantes.getHistorial');
         Route::get('/militantes/updateEstado/{militante}', [MilitanteController::class, 'updateEstado'])->name('militantes.updateEstado');
@@ -158,7 +166,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/paises/ciudades', [PaisController::class, 'ciudades']);
 
         Route::resource('paises', PaisController::class);
-
         Route::resource('roles', RoleController::class);
 
         Route::get('/ventas/reportpdf', [VentaController::class, 'reportpdf'])->name('reportpdf');

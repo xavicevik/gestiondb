@@ -7,7 +7,9 @@ use App\Exports\MilitantesExport;
 use App\Exports\UsersExport;
 use App\Models\Archivo;
 use App\Models\Audits;
+use App\Models\Configuración;
 use App\Models\Cuentasclara;
+use App\Models\Estadocc;
 use App\Models\Historial;
 use App\Models\Imagen;
 use App\Models\Militante;
@@ -35,7 +37,7 @@ use Spatie\Permission\Models\Role;
 
 use Illuminate\Support\Facades\Http;
 
-class MilitanteController extends Controller
+class CuentasclarasController extends Controller
 {
     const canPorPagina = 15;
     const nuCreacion = 1;
@@ -156,89 +158,15 @@ class MilitanteController extends Controller
         }
     }
 
-    public function indexAuditoria(Request $request)
-    {
-        $buscar = $request->buscar;
-        $filtros = json_decode($request->filtros);
-
-        if ($request->has('sortBy') && $request->sortBy <> ''){
-            $sortBy = $request->sortBy;
-        } else {
-            $sortBy = 'id';
-        }
-
-        if ($request->has('sortOrder') && $request->sortOrder <> ''){
-            $sortOrder = $request->sortOrder;
-        } else {
-            $sortOrder = 'desc';
-        }
-
-        $auditorias = Audit::orderBy($sortBy, $sortOrder)
-                             ->join('users', 'user_id', 'users.id')
-                             ->join('militantes', 'auditable_id', 'militantes.id')
-                             ->select('audits.*', 'users.nombre AS nombreusuario', 'users.apellido AS apellidousuario',
-                                      'militantes.nombre AS nombremilitante', 'militantes.apellido AS apellidomilitante');
-
-        if ($buscar <> '') {
-            $auditorias = $auditorias
-                ->where('nombre', 'like', '%'. $buscar . '%')
-                ->orWhere('apellido', 'like', '%'. $buscar . '%')
-                ->orWhere('email', 'like', '%'. $buscar . '%')
-                ->orWhere('documento', 'like', '%'. $buscar . '%');
-        }
-
-        if (!is_null($filtros)) {
-            if(!is_null($filtros->fechainicio) && $filtros->fechainicio <> '' && $filtros->fechainicio <> null) {
-                $auditorias = $auditorias->where('audits.updated_at', '>=', $filtros->fechainicio);
-            }
-            if(!is_null($filtros->fechafin) && $filtros->fechafin <> '' && $filtros->fechafin <> null) {
-                $auditorias = $auditorias->where('audits.updated_at', '<=', $filtros->fechafin);
-            }
-            if(!is_null($filtros->usuario) && $filtros->usuario <> '-') {
-                $auditorias = $auditorias->join('users as t1', 'audits.user_id', '=', 't1.id')
-                    ->where('t1.nombre', 'like', '%'.$filtros->usuario.'%')
-                    ->orWhere('t1.apellido', 'like', '%'.$filtros->usuario.'%')
-                    ->orWhere('t1.documento', 'like', '%'.$filtros->usuario.'%');
-            }
-            if(!is_null($filtros->militante) && $filtros->militante <> '-') {
-                $auditorias = $auditorias->join('militantes as t2', 'audits.auditable_id', '=', 't2.id')
-                    ->where('t2.nombre', 'like', '%'.$filtros->militante.'%')
-                    ->orWhere('t2.apellido', 'like', '%'.$filtros->militante.'%')
-                    ->orWhere('t2.documento', 'like', '%'.$filtros->militante.'%');
-            }
-            if (!is_null($filtros->evento) && $filtros->evento <> '-') {
-                $auditorias = $auditorias->where('event', $filtros->evento);
-            }
-        }
-
-        $auditorias = $auditorias->paginate(self::canPorPagina);
-
-        if ($request->has('ispage') && $request->ispage){
-            return ['auditorias' => $auditorias];
-        } else {
-            return Inertia::render('Militantes/Indexauditoria', ['auditorias' => $auditorias, '_token' => csrf_token()]);
-        }
-    }
-
     public function getHistorial(Request $request)
     {
         $historial = Historial::where('idmilitante', $request->idmilitante)
                         ->with('usuario')
                         ->with('tipo')
                         ->orderby('updated_at', 'desc')
-                        ->paginate(10);
+                        ->paginate(self::canPorPagina);
 
         return ['historial' => $historial];
-    }
-
-    public function getCuentasClaras(Request $request)
-    {
-        $cuentasclaras = Cuentasclara::where('idmilitante', $request->idmilitante)
-            ->with('archivo')
-            ->with('estadonombre')
-            ->first();
-
-        return ['cuentasclaras' => $cuentasclaras];
     }
 
     public function getArchivos(Request $request)
@@ -248,56 +176,6 @@ class MilitanteController extends Controller
                               ->get();
 
         return ['archivos' => $archivos];
-    }
-
-    public function archivoupload(Request $request) {
-        try{
-            DB::beginTransaction();
-
-            $allowedfileExtension = ['pdf','jpg','png','docx', 'doc', 'xls', 'xlsx'];
-            $codigo = 1;
-
-            if(isset($request->file)){
-                $file = $request->file;
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
-
-                if($check) {
-                    $archivo = new Archivo();
-                    $archivo->idtipoarchivo = $request->idtipoarchivo;
-                    $archivo->idmilitante = $request->idmilitante;
-                    $archivo->nombre = $filename;
-
-                    $archivo->extension = $extension;
-                    $filename = time(). '_' . $filename;
-                    $path = $file->storeAs('archivos', $filename);
-
-                    $archivo->url = Storage::url($path);
-
-                    $archivo->tamaño = $file->getSize();
-                    $archivo->save();
-                } else {
-                    $codigo = -1;
-                    $mensaje = 'La extensión de al menos un archivo no es permitida';
-                }
-            }
-
-            if ($codigo == -1) {
-                DB::rollBack();
-            } else {
-                DB::commit();
-            }
-
-            $mensaje = 'Archivo actualizado';
-        } catch (Throwable $e){
-            DB::rollBack();
-
-            $codigo = -1;
-            $mensaje = 'Se ha presentado un error';
-        }
-        return redirect()->back()->with('message', $mensaje);
-        //return ['codigo' => $codigo, 'mensaje' => $mensaje];
     }
 
     /**
@@ -473,43 +351,6 @@ class MilitanteController extends Controller
         }
     }
 
-    public function ccupdate(Request $request, Militante $militante)
-    {
-        try{
-            DB::beginTransaction();
-
-            if ($request->tipo == 'solicitar') {
-                $tipo = self::nuSolicitudcc;
-                $estado = 3;
-                $militante->cccreated_at = $request->cccreated_at;
-            } elseif ($request->tipo == 'reposicion') {
-                $tipo = self::nuReposicioncc;
-                $estado = 1;
-                $militante->ccupdated_at = $request->ccupdated_at;
-                $militante->ccreposicion = $request->ccreposicion;
-
-            }
-
-            $militante->ccestado = $estado;
-            $militante->ccobservaciones = $militante->ccobservaciones." \n".$request->ccobservaciones;
-            $militante->save();
-            $this->setHistorial($militante->id, $tipo, $request->ccobservaciones);
-            DB::commit();
-
-            return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
-
-        } catch (Throwable $e){
-            DB::rollBack();
-
-            return redirect()->back()->with('message', 'Erro');
-        }
-    }
-
-    public function registroHistorial(Request $request) {
-        $this->setHistorial($request->id, $request->tipo, $request->observaciones);
-
-        return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -533,52 +374,139 @@ class MilitanteController extends Controller
         return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
     }
 
-    public function MilitantesExport(Request $request)
+    public function validaEntrega(Request $request)
     {
-        return Excel::download(new MilitantesExport($request), 'militantes.xlsx');
+        $conf = Configuración::where('nombre', 'ccfechamax')->first();
+        $horaconf = Carbon::create($conf->valorstr);
+        $horaparam = Carbon::create($request->data);
+
+        if ($horaparam <= $horaconf) {
+            $isOportuno = true;
+        } else {
+            $isOportuno = false;
+        }
+
+        return ['isOportuno' => $isOportuno];
     }
 
-    public function UsersExport(Request $request)
+    public function updateCuentasclaras(Request $request)
     {
-        return Excel::download(new UsersExport($request), 'users.xlsx');
+        $form = json_decode($request->data);
+        try{
+            DB::beginTransaction();
+
+            if ($request->tipo == 1) {
+                $cuentasclaras = new Cuentasclara();
+                $cuentasclaras->idmilitante = $request->idmilitante;
+            } else {
+                $cuentasclaras = Cuentasclara::where('idmilitante', $request->idmilitante)->first();
+            }
+
+            $cuentasclaras->estado = $request->tipo;
+            if (isset($form->fechapresentacion)) $cuentasclaras->fechapresentacion = Carbon::create($form->fechapresentacion);
+            if (isset($form->requerimientos)) $cuentasclaras->requerimientos = Carbon::create($form->requerimientos);
+            if (isset($form->autorequerimiento)) $cuentasclaras->autorequerimiento = $form->autorequerimiento;
+            if (isset($form->correccion)) $cuentasclaras->correccion = $form->correccion;
+            if (isset($form->presentacorreccion)) $cuentasclaras->presentacorreccion = $form->presentacorreccion;
+            if (isset($form->renuente)) $cuentasclaras->renuente = $form->renuente;
+            if (isset($form->investigado)) $cuentasclaras->investigado = $form->investigado;
+            if (isset($form->sancionado)) $cuentasclaras->sancionado = $form->sancionado;
+            if (isset($form->recurso)) $cuentasclaras->recurso = $form->recurso;
+            if (isset($form->resolucionpago)) $cuentasclaras->resolucionpago = $form->resolucionpago;
+            if (isset($form->fecharesolucion)) $cuentasclaras->fecharesolucion = Carbon::create($form->fecharesolucion);
+            if (isset($form->fechapago)) $cuentasclaras->fechapago = Carbon::create($form->fechapago);
+            if (isset($form->observaciones)) $cuentasclaras->observaciones = $form->observaciones;
+
+            $r = new Request();
+            $r->data = $cuentasclaras->fechapresentacion;
+            $attime = $this->validaEntrega($r);
+
+            if ($attime['isOportuno']) {
+                $cuentasclaras->ingresosgastos = true;
+            } else {
+                $cuentasclaras->ingresosgastos = false;
+            }
+
+            if (!$cuentasclaras->requerimientos) {
+                $cuentasclaras->renuente = true;
+            }
+            if ($cuentasclaras->correccion && !$cuentasclaras->presentacorreccion) {
+                $cuentasclaras->renuente = true;
+                $cuentasclaras->investigado = true;
+            }
+
+            if ($cuentasclaras->estado > 1 && $cuentasclaras->fechapresentacion === null) {
+                $cuentasclaras->renuente = true;
+                $cuentasclaras->investigado = true;
+            }
+
+            $cuentasclaras->save();
+            $observaciones = Estadocc::where('id', $request->tipo)->first()->nombre;
+            MilitanteController::setHistorial($cuentasclaras->idmilitante, 9, $observaciones);
+
+            DB::commit();
+            return ['estado' => true, 'message' => 'Usuario modificado satisfactoriamente'];
+            //return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
+
+        } catch (Throwable $e){
+            DB::rollBack();
+
+            return redirect()->back()->with('message', 'Error');
+        }
+
     }
 
-    public function ClientesExport(Request $request)
-    {
-        return Excel::download(new ClientesExport($request), 'clientes.xlsx');
-    }
+    public function archivoupload(Request $request) {
+        try{
+            DB::beginTransaction();
 
-    private function setRenuncia(Militante $renuncia) {
-        $remplazo = Militante::where('id', $renuncia->idremplazo)->first();
-        $remplazo->avalado = $renuncia->avalado;
-        $remplazo->idcorporacion = $renuncia->idcorporacion;
-        $remplazo->periodo = $renuncia->periodo;
-        $remplazo->electo = $renuncia->electo;
-        $remplazo->votos = $renuncia->votos;
-        $remplazo->coalicion = $renuncia->coalicion;
-        $remplazo->nombrecoalicion = $renuncia->nombrecoalicion;
-        $remplazo->observaciones = $remplazo->observaciones.' - Remplazo de '.$renuncia->documento;
-        $remplazo->save();
-        $this->setHistorial($remplazo->id, self::nuRemplazo, 'Remplazo');
+            $allowedfileExtension = ['pdf','jpg','png','docx', 'doc', 'xls', 'xlsx'];
+            $codigo = 1;
 
-        $renuncia->avalado = 0;
-        $renuncia->idcorporacion = null;
-        $renuncia->periodo = null;
-        $renuncia->electo = 0;
-        $renuncia->votos = null;
-        $renuncia->coalicion = 0;
-        $renuncia->nombrecoalicion = null;
-        $renuncia->save();
-        $this->setHistorial($renuncia->id, self::nuRenuncia, 'Renunció');
-    }
+            if(isset($request->file)){
+                $file = $request->file;
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $check = in_array($extension, $allowedfileExtension);
 
-    public static function setHistorial(int $idmilitante, int $idtipohistorial, string $observaciones) {
-        $historial = new Historial();
-        $historial->idmilitante = $idmilitante;
-        $historial->idtipohistorial = $idtipohistorial;
-        $historial->idusuario = Auth::user()->id;
-        $historial->observaciones = $observaciones;
-        $historial->save();
+                if($check) {
+                    $cuentasclaras = Cuentasclara::where('id', $request->id)->first();
+                    $archivo = new Archivo();
+                    $archivo->idtipoarchivo = 5;
+                    $archivo->nombre = $filename;
+                    $archivo->idmilitante = $cuentasclaras->idmilitante;
+
+                    $archivo->extension = $extension;
+                    $filename = time(). '_' . $filename;
+                    $path = $file->storeAs('archivos', $filename);
+
+                    $archivo->url = Storage::url($path);
+
+                    $archivo->tamaño = $file->getSize();
+                    $archivo->save();
+
+                    $cuentasclaras->idarchivo = $archivo->id;
+                    $cuentasclaras->save();
+                } else {
+                    $codigo = -1;
+                    $mensaje = 'La extensión de al menos un archivo no es permitida';
+                }
+            }
+
+            if ($codigo == -1) {
+                DB::rollBack();
+            } else {
+                DB::commit();
+            }
+
+            $mensaje = 'Archivo actualizado';
+        } catch (Throwable $e){
+            DB::rollBack();
+
+            $codigo = -1;
+            $mensaje = 'Se ha presentado un error';
+        }
+        return redirect()->back()->with('message', $mensaje);
     }
 
 }

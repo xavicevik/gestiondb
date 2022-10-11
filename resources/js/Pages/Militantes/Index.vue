@@ -414,15 +414,15 @@
                                                     </a>
                                                 </li>
                                                 <li class="mr-2" v-if="form.electo">
-                                                    <a href="#" v-on:click="activetab='6'; tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                    <a href="#" v-on:click="activetab='6'; getCuentasClaras(form.id); tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
                                                         </svg>Cuentas claras
                                                     </a>
                                                 </li>
                                                 <li class="mr-2">
-                                                    <a href="#" v-on:click="activetab='7'; getExamen(form.id); tituloModalDetalle = 'Cursos'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
-                                                        <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                    <a href="#" v-on:click="activetab='7'; getExamen(form.id); tituloModalDetalle = 'Cursos'" v-bind:class="[ activetab === '7' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
+                                                        <svg v-bind:class="[ activetab === '7' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                                             <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
                                                         </svg>Cursos
                                                     </a>
@@ -1112,7 +1112,23 @@
                                                         </tr>
                                                         </tbody>
                                                     </table>
-
+                                                    <!-- Paginacion -->
+                                                    <section class="mt-6">
+                                                        <div v-if="arrayHistorial.links.length > 3">
+                                                            <div class="flex flex-wrap -mb-1">
+                                                                <template v-for="(link, p) in arrayHistorial.links" :key="p">
+                                                                    <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
+                                                                         v-html="link.label" />
+                                                                    <button  v-else
+                                                                             class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
+                                                                             :class="{ 'bg-blue-700 text-white': link.active }"
+                                                                             v-on:click="this.cambiarPage(link.url, 'historial', null, null, form.id)"
+                                                                             v-html="link.label" />
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <!-- Paginacion -->
                                                 </div>
                                             </section>
 
@@ -1130,98 +1146,168 @@
                                         <button type="button" @click="closeModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                         </button>
-                                        <div class="">
+                                        <div class="flex">
                                             <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
+                                            <div>
+                                                <div class="mt-2">
+                                                    <span v-if="formcc.estado == 0" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-gray-500 rounded-full">
+                                                        Pendiente
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 1" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
+                                                        {{ formcc.estadonombre.nombre }}
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 2" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-pink-500 rounded-full">
+                                                        {{ formcc.estadonombre.nombre }}
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 3" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-orange-500 rounded-full">
+                                                        Correcciones
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 4" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-teal-700-500 rounded-full">
+                                                        En firme
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 5" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-yellow-500 rounded-full">
+                                                        Resolución
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 6" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-green-500 rounded-full">
+                                                        Pagado
+                                                    </span>
+                                                    <span v-else-if="formcc.estado == 7" class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-red-500 rounded-full">
+                                                        Renuente
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
+
 
                                         <div class="bg-white px-4 pt-2 pb-4 ">
                                             <div class="">
                                                 <section>
-                                                    <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
-                                                        <div class="relative z-0 w-full mb-4 group">
-                                                            <label class="block text-sm font-medium text-gray-700">Fecha entrega informe</label>
-                                                            <Datepicker v-model="form.cccreated_at" :disabled="form.ccestado != 4" :enableTimePicker="false" autoApply placeholder="Fecha solicitud" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
-                                                        </div>
+                                                    <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-4 sm:gap-x-4">
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Entrego a tiempo?</label>
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha de presentación</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <Datepicker v-model="formcc.fechapresentacion" :disabled="verMode" @update:modelValue="validaEntrega(formcc.fechapresentacion)" required textInput :enableTimePicker="false" autoApply placeholder="Fecha presentación" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                <div v-if="$page.props.errors.fechapresentacion" class="text-red-500">{{ $page.props.errors.fechaingreso }}</div>
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Fecha entrega CNE</label>
-                                                            <Datepicker v-model="form.cccreated_at" :disabled="form.ccestado != 4" :enableTimePicker="false" autoApply placeholder="Fecha solicitud" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
+                                                            <label class="block text-sm font-medium text-gray-700">Entregó a tiempo</label>
+                                                            <div class="mt-1">
+                                                                <span v-if="formcc.presentacion" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
+                                                                    Si
+                                                                </span>
+                                                                <span v-else class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-red-500 rounded-full">
+                                                                    No
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                        <div class="relative z-0 w-full mb-4 group">
+                                                        <div v-show="formcc.estado >= 1">
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha de requerimientos</label>
+                                                            <div class="mt-1">
+                                                                <Datepicker v-model="formcc.requerimientos" :disabled="verMode" required textInput :enableTimePicker="false" autoApply placeholder="Fecha ingreso" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                <div v-if="$page.props.errors.fechaingreso" class="text-red-500">{{ $page.props.errors.fechaingreso }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div v-show="formcc.estado >= 1">
                                                             <label class="block text-sm font-medium text-gray-700">Auto entrega CNE</label>
-                                                            <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.ccreposicion" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                            <div class="mt-1">
+                                                                <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="formcc.autorequerimiento" autocomplete="given-name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                                <div v-if="$page.props.errors.autorequerimiento" class="text-red-500">{{ $page.props.errors.autorequerimiento }}</div>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <div v-show="formcc.estado >= 2" class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">Requiere corrección?</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <Toggle v-model="formcc.correccion" :disabled="verMode"/>
                                                             </div>
                                                         </div>
+                                                        <div v-show="formcc.correccion">
+                                                            <label class="block text-sm font-medium text-gray-700">Presentó corrección?</label>
+                                                            <div class="mt-1">
+                                                                <Toggle v-model="formcc.presentacorreccion" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-show="formcc.estado >= 3"  class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-5 sm:gap-x-4">
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">En investigación?</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <Toggle v-model="formcc.investigado" :disabled="verMode"/>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Renuente</label>
+                                                            <div class="mt-1">
+                                                                <span v-if="formcc.renuente" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-red-500 rounded-full">
+                                                                    Si
+                                                                </span>
+                                                                <span v-else class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
+                                                                    No
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">Presentó recurso?</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <Toggle v-model="formcc.recurso" :disabled="verMode"/>
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Estado</label>
+                                                            <label class="block text-sm font-medium text-gray-700">Sanción</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <span v-if="formcc.sancion" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-red-500 rounded-full">
+                                                                    Si
+                                                                </span>
+                                                                <span v-else class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
+                                                                    No
+                                                                </span>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-show="formcc.estado >= 4"  class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Fecha reposición de votos</label>
+                                                            <Datepicker v-model="formcc.fecharesolucion" :disabled="formcc.ccestado == 1" :enableTimePicker="false" autoApply placeholder="Fecha repposición" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
                                                         </div>
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Estado sanción</label>
-                                                            <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div v-if="form.ccestado != 4">
-                                                            <div class="relative z-0 w-full mb-4 group">
-                                                                <label class="block text-sm font-medium text-gray-700">Fecha reposición de votos</label>
-                                                                <Datepicker v-model="form.ccupdated_at" :disabled="form.ccestado == 1" :enableTimePicker="false" autoApply placeholder="Fecha repposición" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
-                                                            </div>
-
                                                             <label class="block text-sm mt-2 font-medium text-gray-700">Resolución</label>
-                                                            <div class="mt-1">
-                                                                <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="form.ccreposicion" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                            </div>
+                                                            <input type="text" :disabled="verMode" :class="{'bg-blue-100' : verMode}" v-model="formcc.resolucionpago" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         </div>
-
+                                                    </div>
+                                                    <div v-show="formcc.estado >= 5"  class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                                                         <div>
                                                             <label class="block text-sm font-medium text-gray-700">Fecha de pago</label>
                                                             <div class="mt-1">
-                                                                <Toggle v-model="form.discapacitado" :disabled="verMode"/>
+                                                                <Datepicker v-model="formcc.fechapago" :disabled="verMode" required textInput :enableTimePicker="false" autoApply placeholder="Fecha pago" class="border border-gray-700 rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                                                                <div v-if="$page.props.errors.fechapago" class="text-red-500">{{ $page.props.errors.fechapago }}</div>
                                                             </div>
                                                         </div>
-                                                            <form name="import" id="import2" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
-                                                                <label class="block text-sm font-medium text-gray-700">Certificado de pago</label>
-                                                                <div class="form-group mb-4">
-                                                                    <div class="custom-file text-left">
-                                                                        <input type="hidden" name="_token" :value="form._token">
-                                                                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="file" id="customFile">
+                                                        <div class="flex">
+
+                                                            <form @submit.prevent="submit" enctype="multipart/form-data">
+                                                                <div>
+                                                                    <div class="mt-1">
+                                                                        <input v-model="archivoform.id" type="hidden">
+                                                                        <input @change="onFileChange" type="file" name="file" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-black-500 sm:text-sm">
                                                                     </div>
                                                                 </div>
-                                                                <button onclick="document.getElementById('import').submit()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
+                                                                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                                  <button wire:click.prevent="submit()" @click="subirArchivocc(archivoform)" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                                    Subir
+                                                                  </button>
+                                                                </span>
+                                                                </div>
                                                             </form>
 
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Observaciones</label>
-                                                            <div class="mt-1">
-                                                                <textarea v-model="form.ccobservaciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Observaciones"></textarea>
-                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4">
+                                                        <label class="block text-sm font-medium text-gray-700">Observaciones</label>
+                                                        <div class="mt-1">
+                                                            <textarea v-model="formcc.observaciones" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Observaciones"></textarea>
                                                         </div>
                                                     </div>
                                                 </section>
@@ -1229,28 +1315,33 @@
                                         </div>
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Solicitar
+                                                <button v-show="formcc.estado == 0" @click="updateCuentasclaras(formcc, 1, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-yellow-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-yellow-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Entergar informe
                                                 </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Entregar
+                                                <button v-show="formcc.estado == 1" @click="updateCuentasclaras(formcc, 2, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Requerimientos CNE
                                                 </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                <button v-show="formcc.estado == 2" @click="updateCuentasclaras(formcc, 3, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Correcciones
+                                                </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <button v-show="formcc.estado == 3" @click="updateCuentasclaras(formcc, 4, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    En firme
+                                                </button>
+                                            </span>
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <button v-show="formcc.estado == 4" @click="updateCuentasclaras(formcc, 5, form.id)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-pink-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-pink-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Reposición
                                                 </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                <button v-show="form.ccestado == 4" @click="ccsolicitar(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                <button v-show="formcc.estado == 5" @click="updateCuentasclaras(formcc, 6, form.id)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Pagado
-                                                </button>
-                                            </span>
-                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                <button v-show="form.ccestado == 3" @click="ccreposicion(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Reposición
                                                 </button>
                                             </span>
                                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
@@ -1813,6 +1904,11 @@ export default {
                 fechainicio: null,
                 fechafin: null
             },
+            formcc: {
+                fechapresentacion: null,
+                estado: 0,
+                correccion: 0,
+            },
             formestado: {
                 idmilitante: null,
                 estado: null,
@@ -1828,7 +1924,6 @@ export default {
     },
     methods: {
         onFileChange(e){
-            //console.log(e.target.files[0]);
             this.archivoform.file = e.target.files[0];
         },
         cambiarPass: function(){
@@ -2049,6 +2144,21 @@ export default {
                 },
             });
         },
+        subirArchivocc: function (data) {
+            data.id = this.formcc.id;
+            this.$inertia.post('/archivocc/upload', data, {
+                onSuccess: (page) => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Archivo actualizado',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.actualizarArchivos(data.idmilitante);
+                },
+            });
+        },
         actualizarArchivos: function (data) {
             var url= '/getArchivos';
             axios.get(url, {
@@ -2081,6 +2191,28 @@ export default {
                 this.arrayHistorial = res.data.historial;
             })
         },
+        getCuentasClaras: function (data) {
+            var url= '/militantes/getCuentasClaras';
+            axios.get(url, {
+                params: {
+                    idmilitante: data
+                }
+            }).then((res) => {
+                if (res.data.cuentasclaras) {
+                    this.formcc = res.data.cuentasclaras;
+                    this.validaEntrega(this.formcc.fechapresentacion);
+                    if (this.formcc.correccion == 1) this.formcc.correccion = true;
+                    if (this.formcc.presentacion == 1) this.formcc.presentacion = true;
+                    if (this.formcc.presentacorreccion == 1) this.formcc.presentacorreccion = true;
+                    if (this.formcc.renuente == 1) this.formcc.renuente = true;
+                    if (this.formcc.investigado == 1) this.formcc.investigado = true;
+                    if (this.formcc.sancionado == 1) this.formcc.sancionado = true;
+                    if (this.formcc.recurso == 1) this.formcc.recurso = true;
+                    if (this.formcc.pagado == 1) this.formcc.pagado = true;
+
+                }
+            })
+        },
         verHistorial: function (data) {
             this.verHistorialobs = data;
             this.isOpenverHistorial = true;
@@ -2108,29 +2240,7 @@ export default {
                 this.formestado = [];
             })
         },
-        ccsolicitar: function (data) {
-            var url= '/militantes/ccupdate/' + data.id;
-            axios.get(url, {
-                params: {
-                    idmilitante: data.id,
-                    tipo: 'solicitar',
-                    cccreated_at: this.dateTimeFull(data.cccreated_at),
-                    ccobservaciones: data.ccobservaciones,
-                }
-            }).then((res) => {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'El proceso se realizó correctamente',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-                this.closeModal();
-                this.isOpenCambioestado = false;
-                this.getmilitantes('','updated_at');
-                this.formestado = [];
-            })
-        },
+
         ccreposicion: function (data) {
             var url= '/militantes/ccupdate/' + data.id;
             axios.get(url, {
@@ -2184,6 +2294,12 @@ export default {
         descargarArchivo: function (data) {
             window.open(data, '_blank');
         },
+        resetcc: function () {
+            this.formcc = [];
+            this.formcc.fechapresentacion = null;
+            this.formcc.estado = 0;
+            this.formcc.correccion = 0;
+        },
         reset: function () {
             this.activetab = '1';
             this.tituloModalDetalle = '';
@@ -2227,6 +2343,7 @@ export default {
             this.form.ccobservaciones = null;
             this.form.cccreated_at = null;
             this.form.ccupdated_at = null;
+            this.resetcc();
         },
         save: function (data) {
             data.fechaingreso = this.dateTimeFull(data.fechaingreso);
