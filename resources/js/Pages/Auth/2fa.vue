@@ -44,6 +44,7 @@ export default {
     methods: {
         finish: function() {
             this.form.code = document.getElementById('pincode-1').value + document.getElementById('pincode-2').value + document.getElementById('pincode-3').value + document.getElementById('pincode-4').value;
+            console.log(this.form);
         },
         next: function(actual, next) {
             document.getElementById(next).focus();
