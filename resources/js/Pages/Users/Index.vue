@@ -28,8 +28,8 @@
                                 </h1>
                             </div>
 
-                            <div class="pr-2 w-1/3 text-center">
-                                <button @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">CREAR USUARIO</button>
+                            <div v-if="$can('users-create')" class="pr-2 w-1/3 text-center">
+                                <button @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Crear Usuario</button>
                             </div>
                         </div>
                     </section>
@@ -38,7 +38,7 @@
                     <section>
                         <div class="px-4">
                             <form @submit.prevent="getUsers('', '', form)" @keyup.enter="getUsers('', '', form)">
-                                <div class="grid xl:grid-cols-2 xl:gap-6">
+                                <div class="grid sm:grid-cols-2 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <input type="text" v-model="form.documento" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -52,7 +52,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-2 xl:gap-6">
+                                <div class="grid sm:grid-cols-2 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <input type="text" v-model="form.apellido" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -66,7 +66,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="grid xl:grid-cols-2 xl:gap-6">
+                                <div class="grid sm:grid-cols-2 sm:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
                                         <input type="text" v-model="form.email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "  />
                                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
@@ -87,9 +87,11 @@
                                 </div>
                                 <div class="flex mx-auto">
                                     <button type="button" @click="getUsers('', '', form)" class="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
-                                    <a  href="#" @click="UsersExport(form)">
-                                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" class="h-8 w-8"><path fill="#4CAF50" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"/><path fill="#FFF" d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"/><path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"/><path fill="#FFF" d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"/></svg>
-                                    </a>
+                                    <Popper content="Exportar" hover=true placement="top" arrow=true>
+                                        <a  href="#" @click="UsersExport(form)">
+                                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" class="h-8 w-8"><path fill="#4CAF50" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"/><path fill="#FFF" d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"/><path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"/><path fill="#FFF" d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"/></svg>
+                                        </a>
+                                    </Popper>
                                 </div>
                             </form>
                         </div>
@@ -222,29 +224,34 @@
                                             Inactivo
                                         </span>
                                     </td>
-                                    <td class="border px-1 py-1 mx-auto text-center flex items-center">
-                                        <button @click="ver(user)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
-                                            </svg>
-                                        </button>
-                                        <button @click="edit(user)" class="hover:bg-blue-700 text-white font-bold rounded">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                        </button>
-                                        <button @click="deleteRow(user)" class="hover:bg-red-700 text-white font-bold rounded">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path v-if="user.estado" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                <path v-else fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                            </svg>
-
-                                        </button>
+                                    <td class="border px-1 py-1 mx-auto mx-auto items-center justify-center">
+                                        <Popper v-if="$can('users-list')" content="Ver" hover=true placement="top" arrow=true>
+                                            <button @click="ver(user)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+                                                </svg>
+                                            </button>
+                                        </Popper>
+                                        <Popper v-if="$can('users-edit')" content="Editar" hover=true placement="top" arrow=true>
+                                            <button @click="edit(user)" class="hover:bg-blue-700 text-white font-bold rounded">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                            </button>
+                                        </Popper>
+                                        <Popper v-if="$can('users-delete')" content="Eliminar" hover=true placement="top" arrow=true>
+                                            <button @click="deleteRow(user)" class="hover:bg-red-700 text-white font-bold rounded">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path v-if="user.estado" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    <path v-else fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </Popper>
                                     </td>
                                 </tr>
                                 <tr v-else>
@@ -422,7 +429,7 @@
                                                             <div class="mt-1">
                                                                 <select :disabled="verMode" @change="getEmpresas()" :class="{'bg-blue-100' : verMode}" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="form.idrol">
                                                                     <option value="0" >Seleccione Rol</option>
-                                                                    <option v-show="rol.id != 5 && rol.id != 2" v-for="rol in arrayRoles" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
+                                                                    <option v-show="rol.id != 4" v-for="rol in arrayRoles" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
                                                                 </select>
                                                                 <div v-if="$page.props.errors.idrol" class="text-red-500">{{ $page.props.errors.idrol }}</div>
                                                             </div>
@@ -556,6 +563,7 @@ import JetNavLink from '@/Jetstream/NavLink.vue';
 import NavLink from "../../Jetstream/NavLink";
 import Input from "../../Jetstream/Input";
 
+
 export default {
 
     components: {
@@ -638,6 +646,12 @@ export default {
         },
         openModal: function (accion, data = []) {
             this.isOpen = true;
+            this.getRoles();
+            this.getPaises();
+            this.getCiudades();
+            this.getDepartamentos();
+            this.getTiposdocumento();
+            this.getEmpresas();
 
             switch (accion) {
                 case 'registrar':
@@ -650,11 +664,6 @@ export default {
                     this.form.idtipos_documento = 0;
                     this.form.idrol = 0;
                     this.form.idempresa = 0;
-                    this.getRoles();
-                    this.getPaises();
-                    this.getCiudades();
-                    this.getDepartamentos();
-                    this.getTiposdocumento();
                     this.newMode = true;
                     this.verMode = false;
                     this.editMode = false;
@@ -676,12 +685,6 @@ export default {
                     this.form.username = data['username'];
                     this.form.direccion = data['direccion'];
                     this.form.telefono = data['telefono'];
-                    this.getRoles();
-                    this.getPaises();
-                    this.getCiudades();
-                    this.getDepartamentos();
-                    this.getTiposdocumento();
-                    this.getEmpresas();
                     this.newMode = false;
                     this.verMode = true;
                     this.editMode = false;
@@ -705,12 +708,6 @@ export default {
                     this.form.username = data['username'];
                     this.form.direccion = data['direccion'];
                     this.form.telefono = data['telefono'];
-                    this.getRoles();
-                    this.getPaises();
-                    this.getCiudades();
-                    this.getDepartamentos();
-                    this.getTiposdocumento();
-                    this.getEmpresas();
                     this.newMode = false;
                     this.verMode = false;
                     this.editMode = true;
@@ -893,3 +890,4 @@ export default {
     },
 }
 </script>
+

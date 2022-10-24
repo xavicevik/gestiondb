@@ -166,7 +166,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        Darryldecode\Cart\CartServiceProvider::class,
+        //Darryldecode\Cart\CartServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
         /*
@@ -185,6 +185,8 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        'Intervention\Image\ImageServiceProvider',
+
     ],
 
     /*
@@ -200,7 +202,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        //'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Image' => 'Intervention\Image\Facades\Image'
     ])->toArray(),
 
 ];

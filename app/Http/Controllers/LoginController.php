@@ -65,14 +65,9 @@ class LoginController extends Controller
                          ->select('id', 'username', 'password', 'idrol', 'changedpassword', 'idempresa');
         $rolmilitante = Militante::where('username', $credentials['username'])
                          ->select('id', 'username', 'password', DB::raw("(SELECT '3') as idrol"), 'changedpassword', 'id');
-        $rolvendedor = Vendedor::where('username', $credentials['username'])
-                         ->with('empresa.puntosventa')
-                         ->select('id', 'username', 'password', 'idrol', 'changedpassword', 'idempresa');
 
-        $rol = $roluser->union($rolvendedor)->union($rolmilitante)->first();
-        if (! is_null($rol) && $rol->idrol == 5) {
-            $puntosventa = Puntoventa::where('idempresa', $rol->idempresa)->get();
-        }
+        $rol = $roluser->union($rolmilitante)->first();
+
         if (! is_null($rol) && is_null($rol->changedpassword)) {
             /*
             return redirect()->route('changepass.index', [
@@ -90,14 +85,7 @@ class LoginController extends Controller
                 '_token' => $token
             ]);
         }
-        if (! is_null($rol) && $rol['idrol'] == 5) {
-            return Inertia::render('Auth/Loginvendedor', [
-                'puntoventas' => empty($puntosventa)?[]:$puntosventa,
-                'username' => $request->username,
-                'password' => $request->password,
-                '_token' => $token
-            ]);
-        }
+
         if (! is_null($rol) && $rol->idrol == 3) {
             $guard = Auth::guard('militante');
             if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
@@ -114,25 +102,6 @@ class LoginController extends Controller
             auth()->user()->sendemail();
 
             return redirect()->route('2fa.index');
-        }
-
-        return back()->withErrors([
-            'username' => 'Las credenciales ingresadas no corresponden con un usuario registrado',
-        ])->onlyInput('username');
-    }
-
-    public function authenticatevendedor(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::guard('vendedor')->attempt($credentials, ($request->remember == 'on') ? true : false)) {
-            $request->session()->regenerate();
-            $request->session()->push('puntodeventa', $request['puntodeventa']);
-
-            return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([

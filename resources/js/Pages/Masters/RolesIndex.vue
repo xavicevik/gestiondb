@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pr-2 w-1/3 text-center">
+                            <div v-if="$can('roles-create')" class="pr-2 w-1/3 text-center">
                                 <button @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Crear Rol</button>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <table class="table-fixed w-full">
                                 <thead>
                                 <tr class="bg-gray-100">
-                                    <th class="px-4 py-2 w-2/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
+                                    <th class="px-4 py-2 w-1/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                         Id
                                     </th>
                                     <th class="px-4 py-2 w-2/12 text-sm font-bold hover:bg-blue-500 hover:text-gray-50 rounded-b">
@@ -78,20 +78,23 @@
                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.id"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.name"></td>
                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.guard_name"></td>
-                                    <td class="border px-2 py-2 mx-auto text-center flex items-center">
-                                        <button @click="ver(dato.id)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
-                                            </svg>
-                                        </button>
-                                        <button @click="update(dato.id)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                            </svg>
-                                        </button>
-
+                                    <td class="border px-2 py-2 flex mx-auto items-center justify-center">
+                                        <Popper v-if="$can('roles-list')" content="Ver" hover=true placement="top" arrow=true>
+                                            <button @click="ver(dato.id)" class="hover:bg-blue-700 text-blue-400 font-bold rounded" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+                                                </svg>
+                                            </button>
+                                        </Popper>
+                                        <Popper v-if="$can('roles-edit')" content="Editar" hover=true placement="top" arrow=true>
+                                            <button @click="update(dato.id)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                                </svg>
+                                            </button>
+                                        </Popper>
                                     </td>
                                 </tr>
                                 <tr v-else>
@@ -152,7 +155,7 @@
                                                     <th class="px-4 py-2 text-sm font-bold w-2/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                                         Descripcion
                                                     </th>
-                                                    <th class="px-4 py-2 text-sm font-bold w-2/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
+                                                    <th class="px-4 py-2 text-sm font-bold w-1/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                                         Acciones
                                                     </th>
                                                 </tr>
@@ -162,7 +165,7 @@
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.id"></td>
                                                     <td class="border px-1 py-2 text-sm truncate" v-text="dato.name"></td>
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.guard_name"></td>
-                                                    <td class="border px-2 py-2 mx-auto text-center flex items-center">
+                                                    <td class="border px-2 py-2 mx-auto items-center justify-center">
                                                         <button @click="ver(dato.id)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
                                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -196,12 +199,12 @@
 
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="!editMode" @click="save(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                              <button v-show="!editMode || $can('roles-create')" @click="save(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                 Guardar
                                               </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="editMode" @click="update(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                              <button v-show="editMode || $can('roles-edit')" @click="update(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                 Actualizar
                                               </button>
                                             </span>
@@ -252,7 +255,7 @@
                                                     <th class="px-4 py-2 text-sm font-bold w-2/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                                         Descripcion
                                                     </th>
-                                                    <th class="px-4 py-2 text-sm font-bold w-2/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
+                                                    <th class="px-4 py-2 text-sm font-bold w-1/12 hover:bg-blue-500 hover:text-gray-50 rounded-b">
                                                         Seleccionar
                                                     </th>
                                                 </tr>
@@ -263,7 +266,7 @@
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.id"></td>
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.name"></td>
                                                     <td class="border px-2 py-2 text-sm truncate" v-text="dato.guard_name"></td>
-                                                    <td class="border px-2 py-2 mx-auto text-center flex items-center">
+                                                    <td class="border px-2 py-2 mx-auto items-center justify-center">
                                                         <input type="checkbox"
                                                                :id="dato.id"
                                                                :name="dato.id"
@@ -296,12 +299,12 @@
 
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="isOpen" @click="save(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                              <button v-show="isOpen||$can('roles-create')" @click="save(form)" wire:click.prevent="store()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                 Guardar
                                               </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                              <button v-show="isOpenUpdate" wire:click.prevent="submit()" type="submit" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                              <button v-show="isOpenUpdate || $can('roles-edit')" wire:click.prevent="submit()" type="submit" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                 Actualizar
                                               </button>
                                             </span>

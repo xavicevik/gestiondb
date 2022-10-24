@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\BoletasExport;
 use App\Exports\MilitantesExport;
+use App\Imports\MilitantesImport;
 use App\Imports\NumeroreservadoImport;
 use App\Models\Militante;
 use \Illuminate\Http\Request;
@@ -40,16 +41,13 @@ Route::get('/', function () {
 Route::get('/offline', function(){
     return view('vendor.laravelpwa.offline');
 });
-Route::get('/', [LoginController::class, 'index'])->name('login.index');
-Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
+//Route::get('/', [LoginController::class, 'index'])->name('login.index');
+//Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
 Route::group(['middleware'=>['guest']],function(){
 
     Route::get('/', [LoginController::class, 'index'])->name('login.index');
     Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
-
-    Route::get('/loginvendedor', [LoginController::class, 'indexVendedor'])->name('loginvendedor.index');
-    Route::post('/loginvendedor', [LoginController::class, 'authenticatevendedor'])->name('loginvendedor.authenticate');
 
     Route::get('/changepass', [LoginController::class, 'changePassword'])->name('changepass.index');
     Route::post('/changepass', [LoginController::class, 'updatePassword'])->name('changepass.update');
@@ -71,13 +69,11 @@ Route::group(['middleware'=>['guest']],function(){
     });
 */
 
-    Route::get('/ventas/sumary', [VentaController::class, 'sumary'])->name('sumary');
-
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',])->group(function () {
-    Route::get('/', [LoginController::class, 'index'])->name('login.index');
-    Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
+    //Route::get('/', [Militante::class, 'index'])->name('militantes.index');
+    //Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
     Route::get('2fa', [TwoFAController::class, 'index'])->name('2fa.index');
     Route::post('2fa', [TwoFAController::class, 'store'])->name('2fa.post');
     Route::get('2fa/reset', [TwoFAController::class, 'resend'])->name('2fa.resend');
@@ -113,12 +109,30 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         })->name('numerosreservados.import');
 
         Route::post('/militantes/import', function (Request $request) {
+            try {
+                Excel::import(new MilitantesImport($request), $request->file('file'));
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $fallas = $e->failures();
+
+                foreach ($fallas as $falla) {
+                    $falla->row(); // fila en la que ocurrió el error
+                    $falla->attribute(); // el número de columna o la "llave" de la columna
+                    $falla->errors(); // Errores de las validaciones de laravel
+                    $falla->values(); // Valores de la fila en la que ocurrió el error.
+                }
+            }
+
+            return redirect()->back()->with('message', 'Archivo importado correctamente');
+        })->name('militantes.import');
+
+        Route::get('/militantes/import', function (Request $request) {
             Excel::import(new MilitantesImport($request), $request->file('file'));
 
             return redirect()->back()->with('message', 'Archivo importado correctamente');
         })->name('militantes.import');
 
         Route::get('/estados', [MasterController::class, 'estados'])->name('estados');
+        Route::get('/estadoscc', [MasterController::class, 'estadoscc'])->name('estadoscc');
         Route::get('/inscripciones', [MasterController::class, 'inscripciones'])->name('inscripciones');
         Route::get('/generos', [MasterController::class, 'generos'])->name('generos');
         Route::get('/niveleducativo', [MasterController::class, 'niveleducativo'])->name('niveleducativo');
@@ -144,6 +158,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::resource('users', UserController::class);
 
 
+        Route::get('/cc', [CuentasclarasController::class, 'index'])->name('cc.index');
         Route::get('/cc/validaEntrega', [CuentasclarasController::class, 'validaEntrega'])->name('cc.validaEntrega');
         Route::get('/cc/updateCuentasclaras', [CuentasclarasController::class, 'updateCuentasclaras'])->name('cc.updateCuentasclaras');
 

@@ -34,7 +34,7 @@
                     <section>
                         <div class="px-4">
                             <form @submit.prevent="getauditoria('', '', formbusqueda)" @keyup.enter="getauditoria('', '', formbusqueda)">
-                                <div class="grid xl:grid-cols-3 xl:gap-6">
+                                <div class="grid sm:grid-cols-3 sm:gap-6">
                                     <div class="relative z-0 w-full mb-4 group">
                                         <Datepicker v-model="formbusqueda.fechainicio" :enableTimePicker="false" autoApply placeholder="Fecha inicio" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"/>
                                     </div>

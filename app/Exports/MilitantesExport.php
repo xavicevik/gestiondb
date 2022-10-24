@@ -38,23 +38,23 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
 
         if (!is_null($filtros)) {
             if(!is_null($filtros->fechainicio) && $filtros->fechainicio <> '' && $filtros->fechainicio <> null) {
-                $militantes = $militantes->where('fechaingreso', '>=', $filtros->fechainicio);
+                $militantes = $militantes->where('militantes.fechaingreso', '>=', $filtros->fechainicio);
             }
             if(!is_null($filtros->fechafin) && $filtros->fechafin <> '' && $filtros->fechafin <> null) {
-                $militantes = $militantes->where('fechaingreso', '<=', $filtros->fechafin);
+                $militantes = $militantes->where('militantes.fechaingreso', '<=', $filtros->fechafin);
             }
             if (!is_null($filtros->documento) && $filtros->documento <> '') {
-                $militantes = $militantes->where('documento', 'like', '%' . $filtros->documento . '%');
+                $militantes = $militantes->where('militantes.documento', 'like', '%' . $filtros->documento . '%');
             }
             if (!is_null($filtros->nombre) && $filtros->nombre <> '') {
-                $militantes = $militantes->where('nombre', 'like', '%' . $filtros->nombre . '%')
-                    ->orWhere('apellido', 'like', '%' . $filtros->nombre . '%');
+                $militantes = $militantes->where('militantes.nombre', 'like', '%' . $filtros->nombre . '%')
+                    ->orWhere('militantes.apellido', 'like', '%' . $filtros->nombre . '%');
             }
             if (!is_null($filtros->email) && $filtros->email <> '') {
-                $militantes = $militantes->where('email', 'like', '%' . $filtros->email . '%');
+                $militantes = $militantes->where('militantes.email', 'like', '%' . $filtros->email . '%');
             }
             if (!is_null($filtros->movil) && $filtros->movil <> '') {
-                $militantes = $militantes->where('movil', 'like', '%' . $filtros->movil . '%');
+                $militantes = $militantes->where('militantes.movil', 'like', '%' . $filtros->movil . '%');
             }
             if(!is_null($filtros->idciudad) && $filtros->idciudad <> '') {
                 $ciudades = $filtros->idciudad;
@@ -63,25 +63,45 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
                 });
             }
             if (!is_null($filtros->idinscripcion) && $filtros->idinscripcion <> '-' && $filtros->idinscripcion <> 0) {
-                $militantes = $militantes->where('idinscripcion', $filtros->idinscripcion);
+                $militantes = $militantes->where('militantes.idinscripcion', $filtros->idinscripcion);
             }
             if (!is_null($filtros->idgenero) && $filtros->idgenero <> '-' && $filtros->idgenero <> 0) {
-                $militantes = $militantes->where('idgenero', $filtros->idgenero);
+                $militantes = $militantes->where('militantes.idgenero', $filtros->idgenero);
             }
             if (!is_null($filtros->idgrupoetnico) && $filtros->idgrupoetnico <> '-' && $filtros->idgrupoetnico <> 0) {
-                $militantes = $militantes->where('idgrupoetnico', $filtros->idgrupoetnico);
+                $militantes = $militantes->where('militantes.idgrupoetnico', $filtros->idgrupoetnico);
             }
             if (!is_null($filtros->idcorporacion) && $filtros->idcorporacion <> '-' && $filtros->idcorporacion <> 0 && $filtros->idcorporacion <> null) {
-                $militantes = $militantes->where('idcorporacion', $filtros->idcorporacion);
+                $militantes = $militantes->where('militantes.idcorporacion', $filtros->idcorporacion);
             }
             if (!is_null($filtros->lider) && $filtros->lider <> '' && $filtros->lider <> '-') {
-                $militantes = $militantes->where('lider', $filtros->lider);
+                $militantes = $militantes->where('militantes.lider', $filtros->lider);
             }
             if (!is_null($filtros->avalado) && $filtros->avalado <> '' && $filtros->avalado <> '-') {
-                $militantes = $militantes->where('avalado', $filtros->avalado);
+                $militantes = $militantes->where('militantes.avalado', $filtros->avalado);
             }
             if (!is_null($filtros->electo) && $filtros->electo <> '' && $filtros->electo <> '-') {
-                $militantes = $militantes->where('electo', $filtros->electo);
+                $militantes = $militantes->where('militantes.electo', $filtros->electo);
+            }
+            if (!is_null($filtros->estado) && $filtros->estado <> '' && $filtros->estado <> '-') {
+                $militantes = $militantes->where('militantes.estado', $filtros->estado);
+            }
+            if (!is_null($filtros->aportes) && $filtros->aportes <> '' && $filtros->aportes <> '-') {
+                if ($filtros->aportes == 1) {
+                    $militantes = $militantes->where('militantes.aportes', '>', $filtros->aportes);
+                }
+            }
+            if (isset($filtros->examen)) {
+                if (!is_null($filtros->examen) && $filtros->examen <> '' && $filtros->examen <> '-') {
+                    $militantes = $militantes->join('test_examenuser', 'militantes.id', '=', 'test_examenuser.idmilitante')
+                        ->where('test_examenuser.estado', $filtros->examen);
+                }
+            }
+            if (isset($filtros->estadocc)) {
+                if (!is_null($filtros->estadocc) && $filtros->estadocc <> '' && $filtros->estadocc <> '-') {
+                    $militantes = $militantes->join('cc_cuentasclaras', 'militantes.id', '=', 'cc_cuentasclaras.idmilitante')
+                        ->where('cc_cuentasclaras.estado', $filtros->estadocc);
+                }
             }
         }
 
@@ -101,6 +121,7 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
 
             'militantes.discapacitado as discapacitado',
             'militantes.victimaconflicto as victimaconflicto',
+            'militantes.aportes as aportes',
             'grupoetnico.nombre as grupoetnico',
             'militantes.lider as lider',
             'militantes.avalado as avalado',
@@ -141,6 +162,7 @@ class MilitantesExport implements FromCollection, WithHeadings, ShouldAutoSize
 
             'Discapacitado',
             'Víctima',
+            'Aportes',
             'Grupo Étnico',
             'Líder',
             'Avalado',

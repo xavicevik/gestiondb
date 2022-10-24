@@ -6,6 +6,7 @@ use App\Models\Boleta;
 use App\Models\Corporacion;
 use App\Models\Empresa;
 use App\Models\Estado;
+use App\Models\Estadocc;
 use App\Models\Genero;
 use App\Models\Grupoetnico;
 use App\Models\Loteria;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Redis;
 
 class MasterController extends Controller
 {
@@ -38,7 +40,6 @@ class MasterController extends Controller
      */
     public function rolesIndex(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         if ($request->has('sortBy') && $request->sortBy <> ''){
             $sortBy = $request->sortBy;
@@ -135,7 +136,6 @@ class MasterController extends Controller
 
     public function paisesIndex(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         if ($request->has('sortBy') && $request->sortBy <> ''){
             $sortBy = $request->sortBy;
@@ -287,7 +287,6 @@ class MasterController extends Controller
 
     public function terminosIndex(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         if ($request->has('sortBy') && $request->sortBy <> ''){
             $sortBy = $request->sortBy;
@@ -360,61 +359,7 @@ class MasterController extends Controller
 
     public function getEmpresas(Request $request)
     {
-        $estado = $request->estado;
-
-        if($request->has('estado') && $estado == 2) {
-            $empresas = Vendedor::join('empresas', 'vendedors.idempresa', '=', 'empresas.id')
-                              ->where('vendedors.idrol', 5)
-                              ->where('empresas.idpadre', $request->idpadre)
-                              ->select('vendedors.id as id', DB::raw('CONCAT(vendedors.nombre, " ", vendedors.apellido) AS razon_social'))
-                              ->get();
-        } else {
-            if (!$request->has('idpadre')) {
-                switch ($request->idrol) {
-                    case 1:
-                        $empresas = Empresa::where('id', 3)->get();
-                        break;
-                    case 2:
-                        $empresas = Empresa::where('id', 3)->get();
-                        break;
-                    case 3:
-                        $empresas = Empresa::where('idtipoempresa', 2)->get();
-                        break;
-                    case 4:
-                        $empresas = Empresa::where('idtipoempresa', 1)->get();
-                        break;
-                    case 5:
-                        $empresas = Empresa::where('idtipoempresa', 3)->get();
-                        break;
-                    default:
-                        $empresas = Empresa::all();
-                        break;
-                }
-            } else {
-                switch ($request->idrol) {
-                    case 1:
-                        $empresas = Empresa::where('id', 3)->where('idpadre', $request->idpadre)->get();
-                        break;
-                    case 2:
-                        $empresas = Empresa::where('id', 3)
-                            ->where('idpadre', $request->idpadre)
-                            ->get();
-                        break;
-                    case 3:
-                        $empresas = Empresa::where('idtipoempresa', 2)->where('idpadre', $request->idpadre)->get();
-                        break;
-                    case 4:
-                        $empresas = Empresa::where('idtipoempresa', 1)->where('idpadre', $request->idpadre)->get();
-                        break;
-                    case 5:
-                        $empresas = Empresa::where('idtipoempresa', 3)->where('idpadre', $request->idpadre)->get();
-                        break;
-                    default:
-                        $empresas = Empresa::all();
-                        break;
-                }
-            }
-        }
+        $empresas = Empresa::all();
 
         return ['data' => $empresas];
     }
@@ -457,6 +402,13 @@ class MasterController extends Controller
     public function estados(Request $request)
     {
         $estados =  Estado::all();
+
+        return ['estados' => $estados];
+    }
+
+    public function estadoscc(Request $request)
+    {
+        $estados =  Estadocc::all();
 
         return ['estados' => $estados];
     }

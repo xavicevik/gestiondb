@@ -13,7 +13,6 @@ services:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
             - '3001:3001'
             - '3000:3000'
         environment:

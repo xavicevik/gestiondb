@@ -71,7 +71,7 @@ export default {
                             </div>
                         </li>
                         <li v-if="$can('dashboard-list')">
-                            <Link :href="route('bidashboard')" @click="rowSelect('7439')" :class=" (selectedRow === 'bidashboard' || route().current('bidashboard')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                            <Link :href="route('bidashboard')" @click="rowSelect('bidashboard')" :class=" (selectedRow === 'bidashboard' || route().current('bidashboard')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4 text-red-500">
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                                 </span>
@@ -109,94 +109,35 @@ export default {
                             </li>
                         </div>
                         <li>
-                            <a v-show="$can('rifas-list')" href="#" @click="isMenuRifas = !isMenuRifas" :class=" (selectedRow === 'rifas' || route().current('rifas.index') || route().current('rifas.indexboletas') || route().current('numerosreservados.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4 text-yellow-500">
-                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                                </span>
-                                <span class="ml-2 text-sm tracking-wide truncate">Cuentas claras</span>
-                            </a>
-                        </li>
-                        <div v-show="isMenuRifas && $can('rifas-list')" class="pl-8 bg-blue-100 text-white-600 hover:text-white-600">
-                            <li>
-                                <Link v-if="$can('rifas-list')" :href="route('rifas.index')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                  </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Buscar</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('rifas-create')" :href="route('rifas.indexboletas')" href="#" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                      <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" />
-                                  </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Avalados</span>
-                                </Link>
-                            </li>
-                        </div>
-                        <li>
-                            <a v-show="$can('juridico-list')" href="#" @click="isMenuCajas = !isMenuCajas" :class=" (selectedRow === 'isMenuCajas' || route().current('juridico.index') || route().current('juridico.index') || route().current('juridico.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4 text-green-500">
-                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                                </span>
-                                <span class="ml-2 text-sm tracking-wide truncate">Jurídico</span>
-                            </a>
-                        </li>
-                        <div v-show="isMenuCajas && $can('juridico-list')" class="pl-8 bg-blue-100 text-white-600 hover:text-white-600">
-
-                            <li>
-                                <Link v-if="$can('juridico-list')" :href="route('juridico.index')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-xs tracking-wide truncate">Sancionados</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('cajas-list')" class="relative flex flex-row items-center h-8 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-xs tracking-wide truncate">Resumen</span>
-                                </Link>
-                            </li>
-                        </div>
-
-                        <li>
                             <Link v-if="$can('users-list')" :href="route('users.index')" :class=" (selectedRow === 'users.index' || route().current('users.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4 text-pink-500">
-                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Usuarios</span>
                             </Link>
                         </li>
                         <li>
                             <Link v-if="$can('militantes-list')" :href="route('militantes.index')" :class=" (selectedRow === 'militantes.index' || route().current('militantes.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4 text-green-500">
+                                <span class="inline-flex justify-center items-center ml-4 text-blue-500">
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Militantes</span>
                             </Link>
                         </li>
                         <li>
-                            <Link v-if="$can('militantes-list')" :href="route('militantes.indexAuditoria')" :class=" (selectedRow === 'militantes.indexAuditoria' || route().current('militantes.indexAuditoria')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                            <Link v-if="$can('auditoria-list')" :href="route('militantes.indexAuditoria')" :class=" (selectedRow === 'militantes.indexAuditoria' || route().current('militantes.indexAuditoria')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4 text-green-500">
-                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                                  </svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Auditoria</span>
                             </Link>
                         </li>
-
                         <li>
-                            <a href="#" v-if="$can('configuracion-list')" @click="isMenuConfig = !isMenuConfig" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                            <Link v-if="$can('configuracion-list')" :href="route('master.paises')" :class=" (selectedRow === 'master.paises' || route().current('master.paises')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
                                 <span class="inline-flex justify-center items-center ml-4">
                                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -204,75 +145,14 @@ export default {
                                   </svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Configuración</span>
-                            </a>
+                            </Link>
                         </li>
-                        <div v-show="isMenuConfig" class="pl-8 bg-blue-100 text-white-600 hover:text-white-600">
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.paises')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Localización</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.index')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Roles</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.empresas')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Empresas</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.series')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Series</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.terminos')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">T&C</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link v-if="$can('configuracion-list')" :href="route('master.tiposdoc')" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                                    </svg>
-                                </span>
-                                    <span class="ml-2 text-sm tracking-wide truncate">Tipos de Doc</span>
-                                </Link>
-                            </li>
-                        </div>
-
                         <li>
-                            <Link v-if="$can('configuracion-list')" :href="route('examens.index')" :class=" (selectedRow === 'examens.index' || route().current('examens.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
-                                <span class="inline-flex justify-center items-center ml-4 text-green-500">
-                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            <Link v-if="$can('cursos-list')" :href="route('examens.index')" :class=" (selectedRow === 'examens.index' || route().current('examens.index')) ? 'border-blue-500 bg-blue-200' : 'hover:border-gray-500'" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-200 text-white-600 hover:text-white-800 border-l-4 border-transparent pr-6">
+                                <span class="inline-flex justify-center items-center ml-4 text-red-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                    </svg>
                                 </span>
                                 <span class="ml-2 text-sm tracking-wide truncate">Cursos</span>
                             </Link>
@@ -283,7 +163,7 @@ export default {
                 <footer class="text-center text-white">
                     <div class="container pt-4">
                         <div class="flex justify-center mb-4">
-                            <a href="#!" class="mr-4 text-gray-800">
+                            <a href="#!" class="mx-3 text-gray-800">
                                 <svg
                                     aria-hidden="true"
                                     focusable="false"
@@ -300,9 +180,7 @@ export default {
                                     ></path>
                                 </svg>
                             </a>
-
-
-                            <a href="#!" class="mr-9 text-gray-800">
+                            <a href="#!" class="mx-3 text-gray-800">
                                 <svg
                                     aria-hidden="true"
                                     focusable="false"
@@ -319,7 +197,7 @@ export default {
                                     ></path>
                                 </svg>
                             </a>
-                            <a href="#!" class="mr-9 text-gray-800">
+                            <a href="#!" class="mx-3 text-gray-800">
                                 <svg
                                     aria-hidden="true"
                                     focusable="false"
@@ -348,52 +226,57 @@ export default {
             </div>
         </aside>
         <div class="flex-1">
-            <header class="sticky top-0 w-full flex items-center p-4 text-semibold text-red-900 bg-white">
-                <button class="p-1 mr-4" @click="sidebarOpen = !sidebarOpen;">
+            <header class="sticky top-0 w-full flex items-center p-4 text-semibold text-blue-900 bg-white">
+                <button class="p-1 mr-4 text-black" @click="sidebarOpen = !sidebarOpen;">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-
-
                 <!-- Header -->
-                <div class="flex items-center justify-start md:justify-center pl-3 h-10 border-none">
-                    <img class="w-5 h-5 md:w-10 md:h-7 mr-2 rounded-md overflow-hidden" src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
+                <div class="flex items-center w-1/3 justify-start md:justify-center pl-3 h-10 border-none">
+                    <img class="w-5 h-5 md:w-7 md:h-7 mr-2 rounded-md overflow-hidden" src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
                     <span class="hidden md:block">
-                        {{ $page.props.auth.user.roles[0].name }}<br>
+                        <span class="font-bold"> {{ $page.props.auth.user.roles[0].name }}</span> -
                         {{ $page.props.user.full_name }}
                     </span>
-
                 </div>
-                <div class="flex justify-between items-center h-10 header-right">
-                    <div class="flex items-center w-full max-w-xl mr-4 p-2 shadow-sm ">
-                    </div>
-                    <ul class="flex items-center">
+                <div class="flex w-1/3 justify-end pr-2 items-right h-10 header-right">
+                    <ul class="flex">
                         <li>
+                            <div class="block w-px h-7 mx-3 px-3 text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="block w-px h-7 mx-3 px-3 text-yellow-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+                                </svg>
+                            </div>
+                        </li>
 
+                        <li>
+                            <div class="block w-px h-7 mx-3 px-4 text-black">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
+                                </svg>
+                            </div>
                         </li>
                         <li>
-                            <div class="block w-px h-6 mx-3 bg-gray-400 dark:bg-blue-100"></div>
-                        </li>
-                        <li v-if="$page.props.auth.puntoventa">
-
-                        </li>
-
-                        <li>
-                            <div class="block w-px h-6 mx-3 bg-gray-400 dark:bg-blue-100"></div>
-                        </li>
-                        <li>
+                            <div class="block w-px h-7 mx-3 px-4">
                             <!-- Authentication -->
-
-                            <form method="POST" @submit.prevent="logout">
-                                <button class="flex items-center mr-4 hover:text-blue-100">
-                                    <span class="inline-flex mr-1">
-                                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                    </span>
-                                    Logout
-                                </button>
-                            </form>
-
+                            <Popper content="Salir" hover=true placement="top" arrow=true>
+                                <form method="POST" @submit.prevent="logout">
+                                    <button class="flex mr-4 hover:text-blue-100">
+                                        <span class="inline-flex mr-1">
+                                          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                        </span>
+                                    </button>
+                                </form>
+                            </Popper>
+                            </div>
                         </li>
                     </ul>
                 </div>

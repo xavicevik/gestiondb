@@ -9,6 +9,8 @@ import Submenu from '@/Components/Submenu';
 import Permissions from "./mixins/Permissions";
 import Utilities from "./mixins/Utilities";
 import Statscards from "./Components/Statscards";
+import Popper from "vue3-popper";
+
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -22,6 +24,7 @@ createInertiaApp({
             .component('Datepicker', Datepicker)
             .component('Submenu', Submenu)
             .component('Statscards', Statscards)
+            .component('Popper', Popper)
             .mixin(Permissions)
             .mixin(Utilities)
             .mount(el);

@@ -154,7 +154,7 @@ class CuentasclarasController extends Controller
         if ($request->has('ispage') && $request->ispage){
             return ['militantes' => $militantes];
         } else {
-            return Inertia::render('Militantes/Index', ['militantes' => $militantes, '_token' => csrf_token()]);
+            return Inertia::render('Cuentasclaras/Index', ['militantes' => $militantes, '_token' => csrf_token()]);
         }
     }
 
@@ -427,17 +427,24 @@ class CuentasclarasController extends Controller
                 $cuentasclaras->ingresosgastos = false;
             }
 
-            if (!$cuentasclaras->requerimientos) {
-                $cuentasclaras->renuente = true;
-            }
-            if ($cuentasclaras->correccion && !$cuentasclaras->presentacorreccion) {
-                $cuentasclaras->renuente = true;
-                $cuentasclaras->investigado = true;
+            if ($cuentasclaras->estado >= 1) {
+                if (is_null($cuentasclaras->fechapresentacion) || $cuentasclaras->fechapresentacion == null) {
+                    $cuentasclaras->renuente = true;
+                    $cuentasclaras->investigado = true;
+                }
             }
 
-            if ($cuentasclaras->estado > 1 && $cuentasclaras->fechapresentacion === null) {
-                $cuentasclaras->renuente = true;
-                $cuentasclaras->investigado = true;
+            if ($cuentasclaras->estado >= 2) {
+                if (is_null($cuentasclaras->requerimientos) || $cuentasclaras->requerimientos == null) {
+                    $cuentasclaras->renuente = true;
+                }
+            }
+
+            if ($cuentasclaras->estado >= 3) {
+                if ($cuentasclaras->correccion && !$cuentasclaras->presentacorreccion) {
+                    $cuentasclaras->renuente = true;
+                    $cuentasclaras->investigado = true;
+                }
             }
 
             $cuentasclaras->save();
@@ -446,7 +453,6 @@ class CuentasclarasController extends Controller
 
             DB::commit();
             return ['estado' => true, 'message' => 'Usuario modificado satisfactoriamente'];
-            //return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
 
         } catch (Throwable $e){
             DB::rollBack();

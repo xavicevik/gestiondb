@@ -17,18 +17,23 @@ defineProps({
 
 const form = useForm({
     username: '',
+    terms: false,
     password: '',
     remember: false,
     _token: usePage().props.value._token,
 });
 
 const submit = () => {
-    form.transform(data => ({
-        ...data,
-        remember: form.remember ? 'on' : '',
-    })).post(route('login.authenticate'), {
-        onFinish: () => form.reset('password'),
-    });
+    if (form.terms) {
+        form.transform(data => ({
+            ...data,
+            remember: form.remember ? 'on' : '',
+        })).post(route('login.authenticate'), {
+            onFinish: () => form.reset('password'),
+        });
+    } else {
+        alert('Debe aceptar los términos y condiciones');
+    }
 };
 </script>
 
@@ -45,7 +50,7 @@ const submit = () => {
         <div mx-auto class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-show="$page.props.flash.message">
             <div class="flex">
                 <div>
-                    <p class="text-sm">{{ $page.props.flash.message }}</p>
+                    <p class="text-sm">{{ $page.props.flash.message|| $flash }}</p>
                 </div>
             </div>
         </div>
@@ -88,7 +93,7 @@ const submit = () => {
                         <JetCheckbox id="terms" v-model:checked="form.terms" name="terms" />
 
                         <div class="ml-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                            Estoy de acuerdo con <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Términos de servicio</a> y <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">Política de privacidad</a>
                         </div>
                     </div>
                 </JetLabel>

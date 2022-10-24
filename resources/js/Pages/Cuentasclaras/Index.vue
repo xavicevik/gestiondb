@@ -2,23 +2,12 @@
     <AppLayout title="Militantes">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Lista de Militantes
+                Cuentas claras
             </h2>
         </template>
         <div class="py-4 lg:px-4 md:px-2 sm:px-2">
             <div class="mx-auto 2xl:8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <!-- Mensajes Flash -->
-                    <section>
-                        <div @click="cleanMessage()" mx-auto class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert" v-show="$page.props.flash.message">
-                            <div class="flex">
-                                <div>
-                                    <p class="text-sm">{{ $page.props.flash.message }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- Fin Mensajes Flash -->
                     <!-- Encabezado y titulo -->
                     <section>
                         <div class="flex justify-between mx-auto p-4">
@@ -26,13 +15,6 @@
                                 <h1 class="font-bold text-xl text-black-800 leading-tight">
                                     Militantes
                                 </h1>
-                            </div>
-
-                            <div class="pr-2 w-1/3 text-center">
-                                <button v-if="$can('militantes-create')" @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Nuevo Militante</button>
-                            </div>
-                            <div class="w-1/6 text-center">
-                                <button v-if="$can('militantes-import')" @click="openModalImport()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
                             </div>
                         </div>
                     </section>
@@ -173,33 +155,12 @@
                                             Certificado curso
                                         </label>
                                     </div>
-                                    <div class="relative z-0 w-full mb-4 group">
-                                        <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.estadocc">
-                                            <option value="-" >-</option>
-                                            <option v-for="dato in arrayEstadoscc" :key="dato.id" :value="dato.id" v-text="dato.nombre"></option>
-                                        </select>
-                                        <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Estado cuentas claras
-                                        </label>
-                                    </div>
-                                    <div class="relative z-0 w-full mb-6 group">
-                                        <select class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" v-model="formbusqueda.aportes">
-                                            <option value="-" >-</option>
-                                            <option value="1" >Si</option>
-                                            <option value="0" >No</option>
-                                        </select>
-                                        <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Aportes
-                                        </label>
-                                    </div>
                                 </div>
                                 <div class="flex mx-auto">
                                     <button type="button" @click="getmilitantes('', '', formbusqueda)" class="mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
-                                    <Popper content="Exportar" hover=true placement="top" arrow=true>
-                                        <a  href="#" @click="militantesExport(formbusqueda)">
-                                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" class="h-8 w-8"><path fill="#4CAF50" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"/><path fill="#FFF" d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"/><path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"/><path fill="#FFF" d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"/></svg>
-                                        </a>
-                                    </Popper>
+                                    <a  href="#" @click="militantesExport(formbusqueda)">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" class="h-8 w-8"><path fill="#4CAF50" d="M41,10H25v28h16c0.553,0,1-0.447,1-1V11C42,10.447,41.553,10,41,10z"/><path fill="#FFF" d="M32 15H39V18H32zM32 25H39V28H32zM32 30H39V33H32zM32 20H39V23H32zM25 15H30V18H25zM25 25H30V28H25zM25 30H30V33H25zM25 20H30V23H25z"/><path fill="#2E7D32" d="M27 42L6 38 6 10 27 6z"/><path fill="#FFF" d="M19.129,31l-2.411-4.561c-0.092-0.171-0.186-0.483-0.284-0.938h-0.037c-0.046,0.215-0.154,0.541-0.324,0.979L13.652,31H9.895l4.462-7.001L10.274,17h3.837l2.001,4.196c0.156,0.331,0.296,0.725,0.42,1.179h0.04c0.078-0.271,0.224-0.68,0.439-1.22L19.237,17h3.515l-4.199,6.939l4.316,7.059h-3.74V31z"/></svg>
+                                    </a>
                                 </div>
                             </form>
                         </div>
@@ -320,7 +281,7 @@
                                     <td class="border px-1 py-2 text-sm truncate" v-text="dateTime(user.fechaingreso)"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.documento"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.full_name.toUpperCase()"></td>
-                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.ciudad?user.ciudad.nombre:''"></td>
+                                    <td class="border px-1 py-2 text-sm truncate" v-text="user.ciudad.nombre"></td>
                                     <td class="border px-1 py-2 text-sm truncate" v-text="user.estados.nombre"></td>
                                     <td class="border px-2 py-2 text-sm truncate" v-if="user.avalado">
                                         <span class="inline-flex px-2 text-sm font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
@@ -332,34 +293,29 @@
                                             No
                                         </span>
                                     </td>
-                                    <td class="border px-1 py-1 flex mx-auto items-center justify-center">
-                                          <Popper v-if="$can('militantes-list')" content="Ver" hover=true placement="top" arrow=true>
-                                              <button @click="ver(user)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
-                                                  </svg>
-                                              </button>
-                                        </Popper>
-                                        <Popper v-if="$can('militantes-edit')" content="Editar" hover=true placement="top" arrow=true>
-                                            <button @click="edit(user)" class="hover:bg-blue-700 text-white font-bold rounded">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
-                                                     viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </button>
-                                        </Popper>
-                                        <Popper v-if="$can('militantes-delete')" content="Eliminar" hover=true placement="top" arrow=true>
-                                            <button @click="deleteRow(user)" class="hover:bg-red-700 text-white font-bold rounded">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
-                                                     viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path v-if="user.estado" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    <path v-else fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </Popper>
+                                    <td class="border px-1 py-1 mx-auto text-center flex items-center">
+                                        <button @click="ver(user)" class="hover:bg-green-700 text-green-400 font-bold rounded" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
+                                            </svg>
+                                        </button>
+                                        <button @click="edit(user)" class="hover:bg-blue-700 text-white font-bold rounded">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
+                                        <button @click="deleteRow(user)" class="hover:bg-red-700 text-white font-bold rounded">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path v-if="user.estado" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                <path v-else fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            </svg>
+
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr v-else>
@@ -420,18 +376,16 @@
                                                 </li>
                                                 <li class="mr-2" v-if="form.electo">
                                                     <a href="#" v-on:click="activetab='3'; tituloModalDetalle = 'Detalle Electo'" v-bind:class="[ activetab === '3' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
-                                                        <svg v-bind:class="[ activetab === '2' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
-                                                        </svg>
-                                                        Detalle Electo
+                                                        <svg v-bind:class="[ activetab === '2' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                                                        </svg>Detalle Electo
                                                     </a>
                                                 </li>
                                                 <li class="mr-2" v-if="verMode||editMode">
                                                     <a href="#" v-on:click="activetab='4'; tituloModalDetalle = 'Documentos'" v-bind:class="[ activetab === '4' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
-                                                        <svg v-bind:class="[ activetab === '4' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
-                                                        </svg>
-                                                        Documentos
+                                                        <svg v-bind:class="[ activetab === '4' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                                        </svg>Documentos
                                                     </a>
                                                 </li>
                                                 <li class="mr-2">
@@ -441,20 +395,18 @@
                                                         </svg>Historial
                                                     </a>
                                                 </li>
-                                                <li class="mr-2" v-if="form.electo && $can('cuentasclaras-list')">
+                                                <li class="mr-2" v-if="form.electo">
                                                     <a href="#" v-on:click="activetab='6'; getCuentasClaras(form.id); tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
-                                                        <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
-                                                        </svg>
-                                                        Cuentas claras
+                                                        <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                                        </svg>Cuentas claras
                                                     </a>
                                                 </li>
-                                                <li v-if="$can('cursos-list')" class="mr-2">
+                                                <li class="mr-2">
                                                     <a href="#" v-on:click="activetab='7'; getExamen(form.id); tituloModalDetalle = 'Cursos'" v-bind:class="[ activetab === '7' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
-                                                        <svg v-bind:class="[ activetab === '7' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                                        </svg>
-                                                        Cursos
+                                                        <svg v-bind:class="[ activetab === '7' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                                                        </svg>Cursos
                                                     </a>
                                                 </li>
                                             </ul>
@@ -692,22 +644,22 @@
                                                 </div>
                                             </div>
                                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                                <span v-if="$can('militantes-delete')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="editMode" @click="cambiarEstado(form.id, 'eliminar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Eliminar
                                                   </button>
                                                 </span>
-                                                <span v-if="form.estado == 3 && $can('militantes-edit')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="editMode" @click="cambiarEstado(form.id, 'aprobar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Aprobar
                                                   </button>
                                                 </span>
-                                                <span v-if="$can('militantes-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="newMode" @click="save(form)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Guardar
                                                   </button>
                                                 </span>
-                                                <span v-if="$can('militantes-edit')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Actualizar
                                                   </button>
@@ -922,7 +874,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div v-if="$can('militantes-edit') || $can('militantes-create')" class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                 <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                                   <button wire:click.prevent="submit()" @click="subirArchivo(archivoform)" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                                     Adicionar
@@ -1041,16 +993,11 @@
                                         </button>
                                         <div class="flex">
                                             <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
-                                            <Popper content="Nuevo" hover=true placement="top" arrow=true>
-                                                <div class="items-center pt-3">
-                                                    <a href="#" @click="isOpenregHistorial = !isOpenregHistorial">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
-                                                        </svg>
-                                                    </a>
-                                                </div>
-                                            </Popper>
-
+                                            <a href="#" @click="isOpenregHistorial = !isOpenregHistorial">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+                                                </svg>
+                                            </a>
                                         </div>
 
                                         <div class="bg-white px-4 pt-2 pb-4 ">
@@ -1311,10 +1258,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="my-auto">
-                                                            <form name="cc" id="cc" @submit.prevent="submit" enctype="multipart/form-data">
+                                                            <form @submit.prevent="submit" enctype="multipart/form-data">
                                                                 <div>
                                                                     <input v-model="archivoform.id" type="hidden">
-                                                                    <input @change="onFileChange2" type="file" name="file" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-black-500 sm:text-sm">
+                                                                    <input @change="onFileChange; subirArchivocc(archivoform)" type="file" name="file" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-black-500 sm:text-sm">
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -1326,32 +1273,32 @@
                                             </div>
                                         </div>
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 0" @click="updateCuentasclaras(formcc, 1, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-yellow-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-yellow-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Entergar informe
                                                 </button>
                                             </span>
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 1" @click="updateCuentasclaras(formcc, 2, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Requerimientos CNE
                                                 </button>
                                             </span>
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 2" @click="updateCuentasclaras(formcc, 3, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Correcciones
                                                 </button>
                                             </span>
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 3" @click="updateCuentasclaras(formcc, 4, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     En firme
                                                 </button>
                                             </span>
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 4" @click="updateCuentasclaras(formcc, 5, form.id)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-pink-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-pink-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Reposición
                                                 </button>
                                             </span>
-                                            <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 5" @click="updateCuentasclaras(formcc, 6, form.id)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Pagado
                                                 </button>
@@ -1752,7 +1699,7 @@
                                                         <form name="import" id="import" :action="route('militantes.import')" method="POST" enctype="multipart/form-data">
                                                             <div class="form-group mb-4">
                                                                 <div class="custom-file text-left">
-                                                                    <input type="hidden" name="_token" :value="formpasswd._token">
+                                                                    <input type="hidden" name="_token" :value="form._token">
                                                                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="file" id="customFile">
                                                                 </div>
                                                             </div>
@@ -1812,8 +1759,7 @@ export default {
     },
     props:{
         militantes : [],
-        errors: Object,
-        _token: null
+        errors: Object
     },
     computed: {
 
@@ -1827,7 +1773,7 @@ export default {
             examenuser: null,
             examen: null,
             formpasswd: {
-                _token: this._token,
+                _token: usePage().props.value._token,
                 id: '',
                 password: '',
                 password_confirmation: '',
@@ -1907,9 +1853,8 @@ export default {
                 periodo: '-',
                 electo: '-',
                 estado: '-',
-                estadocc: '-',
                 votos: 0,
-                aportes: '-',
+                aportes: 0,
                 coalicion: '-',
                 nombrecoalicion: null,
                 renuncio: '-',
@@ -1941,10 +1886,6 @@ export default {
     methods: {
         onFileChange(e){
             this.archivoform.file = e.target.files[0];
-        },
-        onFileChange2(e){
-            this.archivoform.file = e.target.files[0];
-            this.subirArchivocc(this.archivoform);
         },
         cambiarPass: function(){
             this.isOpencambiopass = true;
@@ -2152,31 +2093,18 @@ export default {
             this.$page.props.errors.updatePassword = null;
         },
         subirArchivo: function (data) {
-            if (data.idtipoarchivo > 0 && data.file) {
-                this.$inertia.post('/archivo/upload', data, {
-                    onSuccess: (page) => {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Archivo actualizado',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        this.actualizarArchivos(data.idmilitante);
-                        this.archivoform.idmilitante = 0;
-                        this.archivoform.file = '';
-                        this.archivoform.idtipoarchivo = 0;
-                    },
-                });
-            } else {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'Seleccione un archivo',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            }
+            this.$inertia.post('/archivo/upload', data, {
+                onSuccess: (page) => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Archivo actualizado',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    this.actualizarArchivos(data.idmilitante);
+                },
+            });
         },
         subirArchivocc: function (data) {
             data.id = this.formcc.id;
@@ -2438,7 +2366,6 @@ export default {
             data._method = 'PUT';
             this.$inertia.post('/militantes/'  + data.id, data, {
                 onSuccess: (page) => {
-                    console.log(page.props.errors);
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -2551,7 +2478,6 @@ export default {
         this.getCorporaciones();
         this.getTiposarchivos();
         this.getEstados();
-        this.getEstadoscc();
         this.getTipohistorial();
     },
     mounted() {

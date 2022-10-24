@@ -29,6 +29,29 @@ const submit = () => {
 };
 </script>
 
+
+<script>
+
+export default {
+
+
+    data() {
+        return {
+            verHistorialobs: null,
+            activetab: '1',
+        }
+    },
+    methods: {
+        finish: function() {
+            this.form.code = document.getElementById('pincode-1').value + document.getElementById('pincode-2').value + document.getElementById('pincode-3').value + document.getElementById('pincode-4').value;
+        },
+        next: function(actual, next) {
+            document.getElementById(next).focus();
+        },
+    },
+}
+</script>
+
 <template>
     <Head title="Log in" />
 
@@ -47,17 +70,19 @@ const submit = () => {
             </div>
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" autocomplete="off">
             <div>
-                <JetLabel for="code" value="Ingrese el código enviado al teléfono " />
-                <JetInput
-                    id="code"
-                    v-model="form.code"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                />
+                <JetLabel for="code" value="Ingrese el código enviado al teléfono o al correo" />
+                <div class="mx-auto items-center justify-center w-full">
+                    <div class="flex items-center justify-center py-2">
+                        <input @keyup="next('pincode-1', 'pincode-2')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-1" name="pincode-1" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next('pincode-2', 'pincode-3')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-2" name="pincode-2" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next('pincode-3', 'pincode-4')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-3" name="pincode-3" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="finish()" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-4" name="pincode-4" maxlength="1" placeholder="·" autocomplete="off">
+                        <input type="text" v-model="form.code" hidden>
+                    </div>
+                </div>
+
             </div>
 
             <div class="flex items-center justify-end mt-4">

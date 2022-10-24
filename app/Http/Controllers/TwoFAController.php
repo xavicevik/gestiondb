@@ -42,10 +42,10 @@ class TwoFAController extends Controller
 
         if (!is_null($find)) {
             Session::put('user_2fa', auth()->user()->id);
-            return redirect()->route('dashboard');
+            return redirect()->route('militantes.index');
         }
 
-        return back()->with('message', 'You entered wrong code.');
+        return back()->with('message', 'El código ingresado es incorrecto');
     }
     /**
      * Write code on Method
