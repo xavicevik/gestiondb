@@ -47,10 +47,6 @@ return [
         'militante' => [
             'driver' => 'session',
             'provider' => 'militantes',
-        ],
-        'vendedor' => [
-            'driver' => 'session',
-            'provider' => 'vendedors',
         ]
     ],
 
@@ -75,11 +71,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
-
-        'vendedors' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Vendedor::class,
         ],
 
         'militantes' => [
@@ -111,12 +102,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'vendedors' => [
-            'provider' => 'vendedors',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

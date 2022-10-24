@@ -91,6 +91,8 @@ class LoginController extends Controller
             $guard = Auth::guard('militante');
             if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
                 $request->session()->regenerate();
+
+                Session::put('user_2fa', $guard->user()->id);
                 return redirect()->intended('examens/1');
             }
         }
@@ -98,7 +100,7 @@ class LoginController extends Controller
         if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
             $request->session()->regenerate();
 
-            if (Auth::user()->rutc) {
+            if (Auth::user()->rut) {
                 //auth()->user()->generateCode();
                 auth()->user()->sendemail();
 
@@ -143,11 +145,8 @@ class LoginController extends Controller
             ->select('id', 'username', 'password', 'idrol', 'changedpassword');
         $rolmilitante = Militante::where('username', $input->username)
             ->select('id', 'username', 'password', DB::raw("(SELECT '3') as idrol"), 'changedpassword');
-        $rolvendedor = Vendedor::where('username', $input->username)
-            ->with('empresa.puntosventa')
-            ->select('id', 'username', 'password', 'idrol', 'changedpassword');
 
-        $user = $roluser->union($rolvendedor)->union($rolmilitante)->first();
+        $user = $roluser->union($rolmilitante)->first();
 
         Validator::make($request->all(), [
             'current_password' => ['required', 'string'],

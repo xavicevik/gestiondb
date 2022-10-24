@@ -17,7 +17,7 @@ defineProps({
 
 const form = useForm({
     username: '',
-    terms: false,
+    terms: true,
     password: '',
     remember: false,
     _token: usePage().props.value._token,
