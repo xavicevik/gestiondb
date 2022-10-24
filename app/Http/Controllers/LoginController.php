@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\Console\Input\Input;
@@ -97,11 +98,16 @@ class LoginController extends Controller
         if ($guard->attempt($credentials, ($request->remember == 'on') ? true : false)) {
             $request->session()->regenerate();
 
-            //return redirect()->intended('dashboard');
-            //auth()->user()->generateCode();
-            auth()->user()->sendemail();
+            if (Auth::user()->rutc) {
+                //auth()->user()->generateCode();
+                auth()->user()->sendemail();
 
-            return redirect()->route('2fa.index', ['_token' => csrf_token()]);
+                return redirect()->route('2fa.index', ['_token' => csrf_token()]);
+            } else {
+                Session::put('user_2fa', Auth::user()->id);
+                return redirect()->intended('militantes');
+            }
+
         }
 
         return back()->withErrors([

@@ -369,6 +369,10 @@
                                                                 <div class="flex items-center">
                                                                     <input v-if="!verMode" checked v-model="form.cambiarpassword" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
                                                                     <label v-if="!verMode" class="ml-2 text-sm font-medium text-gray-900">Solicitar cambio?</label>
+                                                                    <div class="px-2">
+                                                                        <input checked v-model="form.rut" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
+                                                                        <label class="ml-2 text-sm font-medium text-gray-900">2F</label>
+                                                                    </div>
                                                                     <a href="#" @click="cambiarPass()" v-if="editMode">
                                                                         <span class="ml-2 underline text-sm text-blue-600"> Cambiar Password</span>
                                                                     </a>

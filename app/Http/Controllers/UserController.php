@@ -523,6 +523,7 @@ class UserController extends Controller
                           'idciudad' => $request->idciudad,
                           'idempresa' => $request->idempresa,
                           'idrol' => $request->idrol,
+                          'rut' => $request->rut,
                           'idtipos_documento' => $request->idtipos_documento,
                           'documento' => $request->documento,
                           'changedpassword' => $request->cambiarpassword?null:$mytime->toDateString(),

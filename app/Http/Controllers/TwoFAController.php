@@ -36,9 +36,9 @@ class TwoFAController extends Controller
         ]);
 
         $find = Usercode::where('user_id', auth()->user()->id)
-            ->where('code', $request->code)
-            ->where('updated_at', '>=', now()->subMinutes(2))
-            ->first();
+                        ->where('code', $request->code)
+                        ->where('updated_at', '>=', now()->subMinutes(2))
+                        ->first();
 
         if (!is_null($find)) {
             Session::put('user_2fa', auth()->user()->id);
