@@ -101,7 +101,7 @@ class LoginController extends Controller
             //auth()->user()->generateCode();
             auth()->user()->sendemail();
 
-            return redirect()->route('2fa.index');
+            return redirect()->route('2fa.index', ['_token' => csrf_token()]);
         }
 
         return back()->withErrors([
