@@ -17,6 +17,10 @@ defineProps({
 
 const form = useForm({
     code: '',
+    code1: null,
+    code2: null,
+    code3: null,
+    code4: null,
     _token: usePage().props.value._token,
 });
 
@@ -43,10 +47,10 @@ export default {
     },
     methods: {
         finish: function() {
-            this.form.code = document.getElementById('pincode-1').value + document.getElementById('pincode-2').value + document.getElementById('pincode-3').value + document.getElementById('pincode-4').value;
-            console.log(this.form);
+            //this.form.code = document.getElementById('pincode-1').value + document.getElementById('pincode-2').value + document.getElementById('pincode-3').value + document.getElementById('pincode-4').value;
+            this.form.code = this.form.code1 + this.form.code2 + this.form.code3 + this.form.code4;
         },
-        next: function(actual, next) {
+        next: function(next) {
             document.getElementById(next).focus();
         },
     },
@@ -76,10 +80,10 @@ export default {
                 <JetLabel for="code" value="Ingrese el código enviado al teléfono o al correo" />
                 <div class="mx-auto items-center justify-center w-full">
                     <div class="flex items-center justify-center py-2">
-                        <input @keyup="next('pincode-1', 'pincode-2')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-1" name="pincode-1" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="next('pincode-2', 'pincode-3')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-2" name="pincode-2" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="next('pincode-3', 'pincode-4')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-3" name="pincode-3" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="finish()" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" id="pincode-4" name="pincode-4" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next(form.code2)" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" v-model="form.code1" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next(form.code3)" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" v-model="form.code2" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next(form.code4)" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" v-model="form.code3" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="finish()" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" type="tel" v-model="form.code4" maxlength="1" placeholder="·" autocomplete="off">
                         <input type="text" v-model="form.code" hidden>
                     </div>
                 </div>
