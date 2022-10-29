@@ -34,6 +34,9 @@
                             <div class="w-1/6 text-center">
                                 <button v-if="$can('militantes-import')" @click="openModalImport()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
                             </div>
+                            <div class="w-1/6 text-center">
+                                <button v-if="$can('militantes-import')" @click="isImportprogress = true; handleChange()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Progreso</button>
+                            </div>
                         </div>
                     </section>
                     <!-- Fin Encabezado y titulo Busqueda -->
@@ -1571,11 +1574,44 @@
                                 <!-- This element is to trick the browser into centering the modal contents. -->
                                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
                                 <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                                    <button type="button" @click="isOpenCambioestado = !isOpenCambioestado" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                    <button type="button" @click="closeModalCambioestado()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                     </button>
                                     <div class="">
                                         <h2 class="text-xl font-bold text-gray-900 px-4 py-4">Cambiar estado {{ formestado.tipo }}</h2>
+                                    </div>
+                                    <div v-if="formestado.tipo == 'aprobar'" class="lg:px-4 md:px-2 sm:px-0 py-2 pb-6">
+                                        <div class="text-center w-full flex text-sm">
+                                            <div class="px-4">
+                                                Formulario de inscripción
+                                            </div>
+                                            <div v-if="form.archivoformulario" class="text-green-600 px-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </div>
+                                            <div v-else class="text-red-600 px-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center w-full flex text-sm">
+                                            <div class="px-4">
+                                                Certificado del curso
+                                            </div>
+                                            <div v-if="form.archivocertificado" class="text-green-600 px-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </div>
+                                            <div v-else class="text-red-600 px-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
                                     <form @submit.prevent="submit">
                                         <div class="bg-white px-4 pt-2 pb-4 ">
@@ -1588,7 +1624,6 @@
                                                                 <textarea rows="4" v-model="formestado.observaciones" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </section>
                                             </div>
@@ -1601,7 +1636,7 @@
                                             </span>
                                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
 
-                                          <button @click="closeModalPass()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                          <button @click="closeModalCambioestado()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                             Cancelar
                                           </button>
                                         </span>
@@ -1719,7 +1754,7 @@
                     <!-- Fin Ventana modal ver hitorial -->
 
 
-                    <!-- Ventana modal Crear Reserva-->
+                    <!-- Ventana modal Crear Importar-->
                     <section>
                         <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isImport">
                             <div class="flex items-end justify-center h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -1757,7 +1792,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <button onclick="document.getElementById('import').submit()" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
+                                                        <button onclick="document.getElementById('import').submit();" class="bg-orange-500 text-xs  hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ">Importar</button>
 
                                                     </div>
                                                 </div>
@@ -1771,7 +1806,65 @@
                             </div>
                         </div>
                     </section>
-                    <!-- Fin Ventana modal Reserva -->
+                    <!-- Fin Ventana modal Importar -->
+
+                    <!-- Ventana modal Crear Importar-->
+                    <section>
+                        <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isImportprogress">
+                            <div class="flex items-end justify-center h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+                                <div class="fixed inset-0 transition-opacity">
+                                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                </div>
+                                <!-- This element is to trick the browser into centering the modal contents. -->
+                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+
+                                <!-- Contenido modal -->
+                                <div class="inline-block lg:w-6/12 align-bottom bg-white rounded-lg text-left h-fit shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                                    <button type="button" @click="isImportprogress = !isImportprogress; closeimport()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div class="">
+                                        <h2 class="text-xl font-bold text-gray-900 px-4 py-2">Progreso de Importar archivo</h2>
+                                    </div>
+                                    <!-- Inicio Form -->
+                                    <div class="bg-white px-4 pt-2 pb-2 sm:p-6 sm:pb-4">
+                                        <div class="">
+
+                                            <!-- Fin Mensajes Flash -->
+                                            <!-- Formulario -->
+                                            <section>
+                                                <div class="flex py-1 w-full max-h-fit overflow-y-scroll">
+                                                    <div class="mb-4 w-full">
+                                                        <div class="flex">
+                                                            <div class="w-1/2 p-4 mt-1">
+                                                                <label class="block text-sm font-medium text-gray-700">Hora inicio</label>
+                                                                <input type="text" v-model="start_date" class="h-8 w-26 pl-4 pr-4 rounded-lg z-0 focus:shadow focus:outline-none">
+                                                            </div>
+                                                            <div class="w-1/2 p-4 mt-1">
+                                                                <label class="block text-sm font-medium text-gray-700">Hora fin</label>
+                                                                <input type="text" v-model="finish_date" class="h-8 w-26 pl-4 pr-4 rounded-lg z-0 focus:shadow focus:outline-none">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-sm font-medium text-gray-700">Progreso</label>
+                                                            <div class="mt-1">
+                                                                <textarea v-model="progresoimport" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Progreso"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <!-- Fin formulario -->
+                                        </div>
+                                    </div>
+                                    <!-- Fin form -->
+                                </div>
+                                <!-- Fin Contenido modal -->
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Fin Ventana modal Importar -->
 
                 </div>
             </div>
@@ -1819,7 +1912,17 @@ export default {
 
     },
     data() {
+        this.trackProgress = _.debounce(this.trackProgress, 1000);
+
         return {
+            progresoimport: '',
+            current_row: 0,
+            total_rows: 0,
+            progress: 0,
+            start_date: '',
+            finish_date: '',
+            isImportprogress: false,
+
             verHistorialobs: null,
             activetab: '1',
             tituloModal: '',
@@ -1877,6 +1980,8 @@ export default {
                 ccobservaciones: null,
                 cccreated_at: null,
                 ccupdated_at: null,
+                archivoformulario: false,
+                archivocertificado: false,
             },
             formbusqueda: {
                 id: null,
@@ -1939,6 +2044,42 @@ export default {
         }
     },
     methods: {
+        handleChange: function() {
+            this.trackProgress();
+        },
+        async trackProgress() {
+            const { data } = await axios.get('/import-status');
+
+            if (data.finished || (data.current_row == data.total_rows)) {
+                this.current_row = this.total_rows
+                this.progress = 100
+                return;
+            };
+
+            this.total_rows = data.total_rows;
+            this.current_row = data.current_row;
+            this.progress = Math.ceil(data.current_row / data.total_rows * 100) + '%';
+            this.start_date = data.start_date;
+            this.finish_date = data.end_date;
+            this.progresoimport = 'Total registros: '+ this.total_rows+'\nRegistro actual: ' + this.current_row +  '\nProgreso: ' + this.progress;
+            if (this.isImportprogress == true) {
+                this.trackProgress();
+            }
+        },
+        closeimport() {
+            this.isImportprogress = false;
+            if (this.progress > 0 && this.progress < 100) {
+                if (confirm('Do you want to close')) {
+                    this.$emit('close')
+                    window.location.reload()
+                }
+            } else {
+                this.$emit('close')
+                window.location.reload()
+            }
+        },
+
+
         onFileChange(e){
             this.archivoform.file = e.target.files[0];
         },
@@ -2147,6 +2288,12 @@ export default {
             this.isOpenRemplazo = false;
             this.$page.props.errors = [];
         },
+        closeModalCambioestado: function() {
+            //this.closeModal();
+            this.isOpenCambioestado = false;
+            this.getmilitantes('','updated_at');
+            this.formestado = [];
+        },
         closeModalPass: function () {
             this.isOpencambiopass = false
             this.$page.props.errors.updatePassword = null;
@@ -2200,7 +2347,6 @@ export default {
                     idmilitante: data
                 }
             }).then((res) => {
-                console.log(res);
                 this.arrayArchivos = res.data.archivos;
             })
         },
@@ -2260,17 +2406,28 @@ export default {
                     observaciones: data.observaciones,
                 }
             }).then((res) => {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'El proceso se realizó correctamente',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-                this.closeModal();
-                this.isOpenCambioestado = false;
-                this.getmilitantes('','updated_at');
-                this.formestado = [];
+                console.log(res.data);
+                if (res.data.estado == true) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'El proceso se realizó correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    this.closeModalCambioestado();
+                    this.closeModal();
+                } else {
+                    var mensajes = '';
+                    for (let i = 0; i < res.data.mensajeserror.length; i++) {
+                        mensajes = mensajes + '\n' + res.data.mensajeserror[i];
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la aprobación: ' + mensajes,
+                        showConfirmButton: true,
+                    })
+                }
             })
         },
 
@@ -2299,6 +2456,15 @@ export default {
             })
         },
         cambiarEstado: function (id, tipo) {
+            for(let i = 0; i < this.arrayArchivos.length; i++) {
+                if (this.arrayArchivos[i].idtipoarchivo == 1) {
+                    this.form.archivoformulario = true;
+                }
+                if (this.arrayArchivos[i].idtipoarchivo == 8) {
+                    this.form.archivocertificado = true;
+                }
+            }
+
             this.formestado.idmilitante = id;
             this.formestado.tipo = tipo;
             this.isOpenCambioestado = true;
@@ -2317,9 +2483,10 @@ export default {
                     icon: 'success',
                     title: 'El proceso se realizó correctamente',
                     showConfirmButton: false,
-                    timer: 2500
+                    timer: 2000
                 })
                 this.closeModal();
+                this.isOpenregHistorial = false;
                 this.getmilitantes('','updated_at');
                 this.formestado = [];
             })
@@ -2553,9 +2720,14 @@ export default {
         this.getEstados();
         this.getEstadoscc();
         this.getTipohistorial();
+
+        if (this.$page.props.flash.message == 'Archivo importado correctamente') {
+            this.isImportprogress = true;
+            this.handleChange();
+        }
     },
     mounted() {
-        console.log(this.militantes);
+        //console.log(this.militantes);
     },
 }
 </script>

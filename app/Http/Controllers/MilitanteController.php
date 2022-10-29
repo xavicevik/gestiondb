@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ClientesExport;
 use App\Exports\MilitantesExport;
 use App\Exports\UsersExport;
+use App\Imports\MilitantesImport;
 use App\Models\Archivo;
 use App\Models\Audits;
 use App\Models\Cuentasclara;
@@ -471,32 +472,67 @@ class MilitanteController extends Controller
         try{
             DB::beginTransaction();
 
+            $mensajeserror = [];
+
             if ($request->tipo == 'sancionar') {
                 $tipo = self::nuSancion;
                 $estado = 11;
             } elseif ($request->tipo == 'aprobar') {
                 $tipo = self::nuAprobacion;
                 $estado = 1;
+
+                if ($militante->nombre == '' || is_null($militante->nombre)) {
+                    $mensajeserror[] = 'El nombre no puede estar vacio';
+                }
+                if ($militante->apellido == '' || is_null($militante->apellido)) {
+                    $mensajeserror[] = 'El apellido no puede estar vacio';
+                }
+                if ($militante->documento == '' || is_null($militante->documento)) {
+                    $mensajeserror[] = 'El documento no puede estar vacio';
+                }
+                if ($militante->email == '' || is_null($militante->email)) {
+                    $mensajeserror[] = 'El correo no puede estar vacio';
+                }
+                $valFormulario = Archivo::where('idmilitante', $militante->id)
+                                         ->where('idtipoarchivo', 1)
+                                         ->first();
+                if (!$valFormulario) {
+                    $mensajeserror[] = 'Debe incluir el formulario de inscripción';
+                }
+                $valCertificado = Archivo::where('idmilitante', $militante->id)
+                                        ->where('idtipoarchivo', 8)
+                                        ->first();
+                if (!$valCertificado) {
+                    $mensajeserror[] = 'Debe realizar el curso y aprobar la evaluación';
+                }
+
             } elseif ($request->tipo == 'eliminar') {
                 $tipo = self::nuEliminacion;
                 $estado = 10;
             }
 
-            $militante->estado = $estado;
-            $militante->save();
-            $this->setHistorial($militante->id, $tipo, $request->observaciones);
-            DB::commit();
+            if (sizeof($mensajeserror) == 0) {
+                $militante->estado = $estado;
+                $militante->save();
+                $this->setHistorial($militante->id, $tipo, $request->observaciones);
+                DB::commit();
 
-            if($request->tipo == 'aprobar') {
-                $this->getCertificado($militante);
+                if($request->tipo == 'aprobar') {
+                    $this->getCertificado($militante);
+                }
+                $estado = true;
+            } else {
+                DB::rollBack();
+                $estado = false;
             }
 
-            return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
+            return ['estado' => $estado, 'mensajeserror' => $mensajeserror];
+            //return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
 
         } catch (Throwable $e){
             DB::rollBack();
 
-            return redirect()->back()->with('message', 'Erro');
+            return redirect()->back()->with('message', 'Error');
         }
     }
 
@@ -599,11 +635,11 @@ class MilitanteController extends Controller
         $this->setHistorial($renuncia->id, self::nuRenuncia, 'Renunció');
     }
 
-    public static function setHistorial(int $idmilitante, int $idtipohistorial, string $observaciones) {
+    public static function setHistorial(int $idmilitante, int $idtipohistorial, string $observaciones = null, int $userid = null) {
         $historial = new Historial();
         $historial->idmilitante = $idmilitante;
         $historial->idtipohistorial = $idtipohistorial;
-        $historial->idusuario = Auth::user()->id;
+        $historial->idusuario = Auth::user()?Auth::user()->id:$userid;
         $historial->observaciones = $observaciones;
         $historial->save();
     }
@@ -717,6 +753,39 @@ class MilitanteController extends Controller
         $archivo->tamaño = 1;//filesize($archivo->url);
         $archivo->save();
 
+    }
+
+    public static function importar(Request $request) {
+        try {
+            $id = Carbon::now()->unix();
+            session([ 'import' => $id ]);
+
+            Excel::queueImport(new MilitantesImport($id, Auth::user()), $request->file('file')->store('temp'));
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $fallas = $e->failures();
+
+            foreach ($fallas as $falla) {
+                $falla->row(); // fila en la que ocurrió el error
+                $falla->attribute(); // el número de columna o la "llave" de la columna
+                $falla->errors(); // Errores de las validaciones de laravel
+                $falla->values(); // Valores de la fila en la que ocurrió el error.
+            }
+        }
+
+        return redirect()->back()->with('message', 'Archivo importado correctamente');
+    }
+
+    public function status()
+    {
+        $id = session('import');
+
+        return response([
+            'start_date' => (string) cache("start_date_$id"),
+            'end_date' => (string) cache("end_date_$id"),
+            'current_row' => (int) cache("current_row_$id"),
+            'total_rows' => (int) cache("total_rows_$id"),
+
+        ]);
     }
 
 }

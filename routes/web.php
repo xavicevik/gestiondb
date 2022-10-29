@@ -108,22 +108,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
             return redirect()->back()->with('message', 'Archivo importado correctamente');
         })->name('numerosreservados.import');
 
-        Route::post('/militantes/import', function (Request $request) {
-            try {
-                Excel::import(new MilitantesImport($request), $request->file('file'));
-            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-                $fallas = $e->failures();
-
-                foreach ($fallas as $falla) {
-                    $falla->row(); // fila en la que ocurrió el error
-                    $falla->attribute(); // el número de columna o la "llave" de la columna
-                    $falla->errors(); // Errores de las validaciones de laravel
-                    $falla->values(); // Valores de la fila en la que ocurrió el error.
-                }
-            }
-
-            return redirect()->back()->with('message', 'Archivo importado correctamente');
-        })->name('militantes.import');
+        Route::post('/militantes/import', [MilitanteController::class, 'importar'])->name('militantes.import');
+        Route::get('/import-status', [MilitanteController::class, 'status']);
 
         Route::get('/militantes/import', function (Request $request) {
             Excel::import(new MilitantesImport($request), $request->file('file'));
