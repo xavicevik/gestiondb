@@ -2599,7 +2599,7 @@ export default {
             this.openModal('ver', data);
         },
         update: function (data) {
-            data.fechaingreso = this.dateTimeFull(data.fechaingreso);
+            data.fechaingreso = data.fechaingreso?this.dateTimeFull(data.fechaingreso):null;
             data.fechanacimiento = data.fechanacimiento?this.dateTimeFull(data.fechanacimiento):null;
             data.fecharenuncia = data.fecharenuncia?this.dateTimeFull(data.fecharenuncia):null;
             data._method = 'PUT';

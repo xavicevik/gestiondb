@@ -118,19 +118,38 @@ class MilitanteDashboard extends Dashboard
                     return $builder->where('idniveleducativo', '!=', null);
                 }),
 
-            LineChart::create('user-per-country', 'Fecha ingreso')
+            PartitionPie::create('miliantes-corporacion', 'Militantes por Corporación')
                 ->dimensions([
-                    StringDimension::create('fechaingreso', 'Fecha de ingreso')
+                    BelongsToDimension::create('corporacion', 'Corporación')
+                        ->relation('corporacion')
+                        ->otherColumn('nombre')
                 ])
                 ->metrics([
                     CountMetric::create('count', 'Count')
-                        ->color('#cc5555'),
+                        ->color('#ff5500'),
                 ])
-                ->width('1/3'),
+                ->width('1/3')->scope(function($builder) {
+                    return $builder->where('idcorporacion', '>', 0);
+                }),
 
-            Table::create('militantes-ciudad', 'Geolocalización')
+            Table::create('militantes-departamento', 'Militantes por Departamentos')
                 ->dimensions([
-                    BelongsToDimension::create('idciudad', 'Ciudad')
+                    BelongsToDimension::create('departamento', 'Departamentos')
+                        ->relation('departamento')
+                        ->otherColumn('nombre')
+                ])
+                ->metrics([
+                    CountMetric::create('count', 'Cantidad')
+                        ->color('#dc0555'),
+                ])
+                ->orderBy('count', 'desc')
+                ->width('1/3')->scope(function($builder) {
+                    return $builder->where('iddepartamento', '>', 0)->limit(10);
+                }),
+
+            Table::create('militantes-ciudad', 'Militantes por Ciudades')
+                ->dimensions([
+                    BelongsToDimension::create('ciudad', 'Ciudades')
                         ->relation('ciudad')
                         ->otherColumn('nombre')
                 ])
@@ -139,7 +158,9 @@ class MilitanteDashboard extends Dashboard
                         ->color('#dc0555'),
                 ])
                 ->orderBy('count', 'desc')
-                ->width('1/3'),
+                ->width('1/3')->scope(function($builder) {
+                    return $builder->where('idciudad', '>', 0)->limit(10);
+                }),
 
             Table::create('militantes-votos', 'Cantidad Votos')
                 ->dimensions([
@@ -152,7 +173,7 @@ class MilitanteDashboard extends Dashboard
                 ->orderBy('sum', 'desc')
                 ->width('1/3')
                 ->scope(function($builder) {
-                    return $builder->where('votos', '>', 0)->limit(5);
+                    return $builder->where('votos', '>', 0)->limit(10);
                 }),
 
         ];
