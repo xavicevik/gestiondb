@@ -2310,7 +2310,7 @@ export default {
                             timer: 1500
                         })
                         this.actualizarArchivos(data.idmilitante);
-                        this.archivoform.idmilitante = 0;
+                        //this.archivoform.idmilitante = 0;
                         this.archivoform.file = '';
                         this.archivoform.idtipoarchivo = 0;
                     },
