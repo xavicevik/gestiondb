@@ -46,6 +46,7 @@ class MilitanteDashboard extends Dashboard
                 ->relation('ciudad')
                 ->otherColumn('nombre'),
             StringFilter::create('avalado', 'Avalado'),
+            StringFilter::create('electo', 'Electo'),
             StringFilter::create('lider', 'Lider'),
         ];
     }

@@ -26,10 +26,6 @@ const form = useForm({
     _token: usePage().props.value._token,
 });
 
-const cambiarUser = () => {
-    //form.post(route('logout'));
-};
-
 const submit = () => {
     form.transform(data => ({
         ...data,
@@ -121,9 +117,6 @@ export default {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link :href="this.cambiarUser()" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Cambiar de usuario
-                </Link>
                 <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Cambiar
                 </JetButton>

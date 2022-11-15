@@ -161,6 +161,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/examens/getExamen', [ExamenController::class, 'getExamen'])->name('examens.getExamen');
         Route::get('/examens/evaluar', [ExamenController::class, 'evaluar'])->name('examens.evaluar');
         Route::get('/examens/putExamen', [ExamenController::class, 'putExamen'])->name('examens.putExamen');
+
         Route::resource('examens', ExamenController::class);
 
         Route::get('/paises/departamentos', [PaisController::class, 'departamentos']);

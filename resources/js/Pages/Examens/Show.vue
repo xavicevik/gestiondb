@@ -33,10 +33,10 @@
 
                     <section>
                         <div class="px-4">
-                            <form @submit.prevent="getUsers('', '', form)" @keyup.enter="getUsers('', '', form)">
+                            <div>
                                 <div class="grid xl:grid-cols-2 xl:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
-                                        <button @click="openModal('registrar')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Ver curso</button>
+                                        <a :href="route('examens.cursopixie')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Ver curso</a>
                                     </div>
 
                                     <div class="relative z-0 w-full mb-6 group">
@@ -67,7 +67,7 @@
                                     </div>
 
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </section>
 
