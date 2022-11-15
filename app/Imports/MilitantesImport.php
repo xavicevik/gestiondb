@@ -186,6 +186,7 @@ class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, Shoul
             'id_inscripcion' => 'nullable|numeric',
             'id_departamento' => 'nullable|numeric',
             'id_ciudad' => 'nullable|numeric',
+
             //'cedula' => 'nullable|string|numeric',
             //'fecha_de_nacimiento' => 'nullable|date_format:m/d/Y', //'nullable|regex:/([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})/',
             //'nombre_completo' => 'nullable|string',
