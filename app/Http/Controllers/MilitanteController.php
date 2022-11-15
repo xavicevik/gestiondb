@@ -760,7 +760,7 @@ class MilitanteController extends Controller
             $id = Carbon::now()->unix();
             session([ 'import' => $id ]);
 
-            Excel::queueImport(new MilitantesImport($id, Auth::user()), $request->file('file')->store('temp'));
+            Excel::import(new MilitantesImport($id, Auth::user()), $request->file('file')->store('temp'));
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $fallas = $e->failures();
 

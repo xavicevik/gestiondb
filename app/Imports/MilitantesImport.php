@@ -31,7 +31,7 @@ use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 use function PHPUnit\Framework\isNull;
 
-class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, ShouldQueue, SkipsEmptyRows, WithEvents, WithHeadingRow, WithValidation, WithChunkReading
+class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, SkipsEmptyRows, WithEvents, WithHeadingRow, WithValidation, WithChunkReading
 {
     public $id, $importedBy;
 
@@ -198,7 +198,7 @@ class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, Shoul
 
     public function onFailure(Failure ...$failures)
     {
-        //dd($failures);
+        dd($failures);
         return $failures;
     }
 
