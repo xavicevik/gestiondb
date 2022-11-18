@@ -15,6 +15,7 @@ defineProps({
     isOpenCart: false,
     total: null,
 });
+
 import Button from "../Jetstream/Button";
 const showingNavigationDropdown = ref(false);
 const switchToTeam = (team) => {
@@ -55,7 +56,6 @@ export default {
 
 
 <template>
-
     <div x-data="{ sidebarOpen: true }" class="flex overflow-x-hidden h-screen">
         <aside class="h-screen bg-white text-red-900 overflow-auto sticky top-0 flex-shrink-0 w-12 sm:w-52 md:w-64 flex flex-col border-r transition-all duration-300" :class="{ '-ml-64': !sidebarOpen }">
 
@@ -63,7 +63,7 @@ export default {
                 <div class="flex-grow">
                     <ul class="flex flex-col py-2 space-y-1">
                         <span>
-                            <img src="/storage/img/logo_fondo.png" class="mx-auto w-1/2 sm:w-full" alt=""/>
+                            <img :src="'storage/img/' + $page.props.user.idempresa + '_logo_fondo.png'" class="mx-auto w-1/2 sm:w-full" alt=""/>
                         </span>
                         <li class="px-5 md:block">
                             <div class="flex flex-row items-center h-8">

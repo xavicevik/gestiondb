@@ -50,6 +50,12 @@ export default {
             //this.form.code = document.getElementById('pincode-1').value + document.getElementById('pincode-2').value + document.getElementById('pincode-3').value + document.getElementById('pincode-4').value;
             this.form.code = this.form.code1 + this.form.code2 + this.form.code3 + this.form.code4;
             console.log(this.form);
+
+            this.form.transform(data => ({
+                ...data,
+            })).post(route('2fa.post'), {
+                onFinish: () => this.form.reset('code'),
+            });
         },
         next: function(next) {
             document.getElementById(next).focus();
@@ -76,15 +82,15 @@ export default {
             </div>
         </div>
 
-        <form @submit.prevent="submit" autocomplete="off">
+        <form name="f" id="f" @submit.prevent="submit" autocomplete="off">
             <div>
                 <JetLabel for="code" value="Ingrese el código enviado al teléfono o al correo" />
                 <div class="mx-auto items-center justify-center w-full">
                     <div class="flex items-center justify-center py-2">
-                        <input @keyup="next('code2')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" id="code1" type="tel" v-model="form.code1" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="next('code3')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" id="code2" type="tel" v-model="form.code2" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="next('code4')" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" id="code3" type="tel" v-model="form.code3" maxlength="1" placeholder="·" autocomplete="off">
-                        <input @keyup="finish()" class="text-center border-b-2 border-t-0 border-l-0 border-r-0 p-2 w-10" id="code4" type="tel" v-model="form.code4" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next('code2')" class="text-center rounded-md border-4 border-blue-800 p-2 mx-2 w-10" id="code1" type="tel" v-model="form.code1" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next('code3')" class="text-center rounded-md border-4 border-blue-800 p-2 mx-2 w-10" id="code2" type="tel" v-model="form.code2" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="next('code4')" class="text-center rounded-md border-4 border-blue-800 p-2 mx-2 w-10" id="code3" type="tel" v-model="form.code3" maxlength="1" placeholder="·" autocomplete="off">
+                        <input @keyup="finish()" class="text-center rounded-md border-4 border-blue-800 p-2 mx-2 p-2 w-10" id="code4" type="tel" v-model="form.code4" maxlength="1" placeholder="·" autocomplete="off">
                         <input type="text" v-model="form.code" hidden>
                     </div>
                 </div>
@@ -98,10 +104,6 @@ export default {
                 <Link :href="route('2fa.sendemail')" class="underline text-sm text-gray-600 hover:text-gray-900 mx-4">
                     Email
                 </Link>
-
-                <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Ingresar
-                </JetButton>
             </div>
         </form>
     </JetAuthenticationCard>

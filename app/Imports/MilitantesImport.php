@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Http\Controllers\MilitanteController;
 use App\Models\Boleta;
+use App\Models\Importstatus;
 use App\Models\Militante;
 use App\Models\NumeroReservado;
 use App\Models\Rol;
@@ -24,6 +25,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Events\Event;
 use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Events\AfterImport;
@@ -31,33 +33,49 @@ use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\ImportFailed;
 use function PHPUnit\Framework\isNull;
 
-class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, SkipsEmptyRows, WithEvents, WithHeadingRow, WithValidation, WithChunkReading
+class MilitantesImport implements OnEachRow, SkipsOnFailure, ShouldQueue, SkipsOnError, SkipsEmptyRows, WithEvents, WithHeadingRow, WithValidation, WithChunkReading
 {
-    public $id, $importedBy;
+    public $id, $importedBy, $archivo, $finalstate;
 
-    public function __construct(int $id, User $importedBy)
+    public function __construct(int $id, User $importedBy, String $archivo)
     {
         ini_set('max_execution_time', 1200);
         $this->id = $id;
         $this->importedBy = $importedBy;
+        $this->archivo = $archivo;
+        $this->finalstate = 1;
     }
 
     public function registerEvents(): array
     {
         return [
-            //ImportFailed::class => function(ImportFailed $event) {
-            //    $this->importedBy->notify(new ImportHasFailedNotification);
-            //},
-
+            ImportFailed::class => function(ImportFailed $event) {
+                //$this->importedBy->notify(new ImportHasFailedNotification);
+                $status = new Importstatus();
+                $status->estado = 0;
+                $status->archivo = $this->archivo;
+                $status->mensaje = 'Error importando el archivo - '.$event->e->getMessage();
+                $status->documento = $this->id;
+                $status->save();
+                $this->finalstate = 0;
+                cache()->forever("statusfinal_{$this->id}", $status->mensaje);
+                cache(["end_date_{$this->id}" => Carbon::now()->format('d/m/Y H:i:s')], Carbon::now()->addMinute());
+            },
             BeforeImport::class => function (BeforeImport $event) {
                 $totalRows = $event->getReader()->getTotalRows();
-
                 if (filled($totalRows)) {
+                    cache(["statusfinal_{$this->id}" => 'Inicio']);
                     cache()->forever("total_rows_{$this->id}", array_values($totalRows)[0]);
                     cache()->forever("start_date_{$this->id}", Carbon::now()->format('d/m/Y H:i:s'));
                 }
             },
             AfterImport::class => function (AfterImport $event) {
+                if ($this->finalstate == 0) {
+                    // Error importando
+                    cache(["statusfinal_{$this->id}" => 'Error']);
+                } else {
+                    cache(["statusfinal_{$this->id}" => 'Exito']);
+                }
                 cache(["end_date_{$this->id}" => Carbon::now()->format('d/m/Y H:i:s')], Carbon::now()->addMinute());
             },
         ];
@@ -199,12 +217,25 @@ class MilitantesImport implements OnEachRow, SkipsOnFailure, SkipsOnError, Skips
     public function onFailure(Failure ...$failures)
     {
         dd($failures);
-        return $failures;
+        $status = new Importstatus();
+        $status->estado = 0;
+        $status->archivo = $this->archivo;
+        $status->mensaje = 'Failure importando el archivo '.$failures;
+        $status->save();
+        $this->finalstate = 0;
+        //return $failures;
     }
 
     public function onError(\Throwable $e)
     {
-        return $e;
+        dd($e);
+        $status = new Importstatus();
+        $status->estado = 0;
+        $status->archivo = $this->archivo;
+        $status->mensaje = 'Error importando el archivo '.$e;
+        $status->save();
+        $this->finalstate = 0;
+        //return $e;
     }
 
     public function batchSize(): int

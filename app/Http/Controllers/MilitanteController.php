@@ -499,15 +499,17 @@ class MilitanteController extends Controller
                 if (!$valFormulario) {
                     $mensajeserror[] = 'Debe incluir el formulario de inscripción';
                 }
+                /*
                 $valCertificado = Archivo::where('idmilitante', $militante->id)
                                         ->where('idtipoarchivo', 8)
                                         ->first();
                 if (!$valCertificado) {
                     $mensajeserror[] = 'Debe realizar el curso y aprobar la evaluación';
                 }
+                */
 
-            } elseif ($request->tipo == 'eliminar') {
-                $tipo = self::nuEliminacion;
+            } elseif ($request->tipo == 'renunciar') {
+                $tipo = self::nuRenuncia;
                 $estado = 10;
             }
 
@@ -582,18 +584,12 @@ class MilitanteController extends Controller
      */
     public function destroy(Request $request)
     {
-        if ($request->idrol == 2) {
-            $user = Cliente::where('id', $request->id)->first();
-        } elseif ($request->idrol == 5) {
-            $user = Vendedor::where('id', $request->id)->first();
-        } else {
-            $user = User::where('id', $request->id)->first();
-        }
+        $user = Militante::where('id', $request->id)->first();
 
-        $user->estado = !$user->estado;
+        $user->estado = 0;
         $user->save();
 
-        return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
+        return redirect()->back()->with('message', 'El Militante ha renunciado satisfactoriamente');
     }
 
     public function MilitantesExport(Request $request)
@@ -624,7 +620,7 @@ class MilitanteController extends Controller
         $remplazo->save();
         $this->setHistorial($remplazo->id, self::nuRemplazo, 'Remplazo');
 
-        $renuncia->avalado = 0;
+        //$renuncia->avalado = 0;
         $renuncia->idcorporacion = null;
         $renuncia->periodo = null;
         $renuncia->electo = 0;
@@ -760,7 +756,7 @@ class MilitanteController extends Controller
             $id = Carbon::now()->unix();
             session([ 'import' => $id ]);
 
-            Excel::import(new MilitantesImport($id, Auth::user()), $request->file('file')->store('temp'));
+            Excel::queueImport(new MilitantesImport($id, Auth::user(), $request->file('file')->getClientOriginalName()), $request->file('file')->store('temp'));
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $fallas = $e->failures();
 
@@ -784,7 +780,7 @@ class MilitanteController extends Controller
             'end_date' => (string) cache("end_date_$id"),
             'current_row' => (int) cache("current_row_$id"),
             'total_rows' => (int) cache("total_rows_$id"),
-
+            'statusfinal' => (string) cache("statusfinal_$id"),
         ]);
     }
 

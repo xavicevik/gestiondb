@@ -353,16 +353,6 @@
                                                 </svg>
                                             </button>
                                         </Popper>
-                                        <Popper v-if="$can('militantes-delete')" content="Eliminar" hover=true placement="top" arrow=true>
-                                            <button @click="deleteRow(user)" class="hover:bg-red-700 text-white font-bold rounded">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" fill="none"
-                                                     viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path v-if="user.estado" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    <path v-else fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </Popper>
                                     </td>
                                 </tr>
                                 <tr v-else>
@@ -444,7 +434,7 @@
                                                         </svg>Historial
                                                     </a>
                                                 </li>
-                                                <li class="mr-2" v-if="form.electo && $can('cuentasclaras-list')">
+                                                <li class="mr-2" v-if="form.avalado && $can('cuentasclaras-list')">
                                                     <a href="#" v-on:click="activetab='6'; getCuentasClaras(form.id); tituloModalDetalle = 'Cuentas claras'" v-bind:class="[ activetab === '6' ? ' text-blue-600 border-blue-600 active ' : ' text-gray-400 border-transparent hover:text-gray-900 hover:border-gray-900 ' ]" class="inline-flex p-4 rounded-t-lg border-b-2 group">
                                                         <svg v-bind:class="[ activetab === '6' ? 'group-active:text-blue-600 text-blue-600 ' : ' group-active:text-gray-600 text-gray-400 group-hover:text-gray-500 ']" class="mr-2 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
@@ -695,9 +685,9 @@
                                                 </div>
                                             </div>
                                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                                <span v-if="$can('militantes-delete')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                  <button v-show="editMode" @click="cambiarEstado(form.id, 'eliminar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Eliminar
+                                                <span v-if="form.estado != 10 && $can('militantes-delete')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                  <button v-show="editMode" @click="cambiarEstado(form.id, 'renunciar')" wire:click.prevent="cambiarEstado()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                    Renunciar
                                                   </button>
                                                 </span>
                                                 <span v-if="form.estado == 3 && $can('militantes-edit')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -710,7 +700,7 @@
                                                     Guardar
                                                   </button>
                                                 </span>
-                                                <span v-if="$can('militantes-edit')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                                <span v-if="form.estado != 10 && $can('militantes-edit')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                   <button v-show="editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Actualizar
                                                   </button>
@@ -790,10 +780,10 @@
                                               </button>
                                             </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                  <button v-show="editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                <button v-show="form.estado != 10 && editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Actualizar
-                                                  </button>
-                                                </span>
+                                                </button>
+                                            </span>
                                             <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
                                                 <button @click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                                     Cancelar
@@ -880,7 +870,7 @@
                                                   </button>
                                                 </span>
                                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                                                  <button v-show="editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
+                                                  <button v-show="form.estado != 10 && editMode" @click="update(form)" wire:click.prevent="update()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                     Actualizar
                                                   </button>
                                                 </span>
@@ -925,7 +915,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div v-if="$can('militantes-edit') || $can('militantes-create')" class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                            <div v-if="form.estado != 10 && ($can('militantes-edit') || $can('militantes-create'))" class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                                                 <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                                   <button wire:click.prevent="submit()" @click="subirArchivo(archivoform)" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
                                                                     Adicionar
@@ -1044,7 +1034,7 @@
                                         </button>
                                         <div class="flex">
                                             <h2 v-text="tituloModalDetalle" class="text-xl font-bold text-gray-900 px-4 py-4"></h2>
-                                            <Popper content="Nuevo" hover=true placement="top" arrow=true>
+                                            <Popper v-if="form.estado != 10" content="Nuevo" hover=true placement="top" arrow=true>
                                                 <div class="items-center pt-3">
                                                     <a href="#" @click="isOpenregHistorial = !isOpenregHistorial">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
@@ -1225,7 +1215,10 @@
                                                         <div>
                                                             <label :class="{'font-bold' : formcc.estado == 0}" class="block text-center text-sm font-medium text-gray-700">Entregó a tiempo</label>
                                                             <div class="mt-1 text-center">
-                                                                <span v-if="formcc.presentacion" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
+                                                                <span v-if="!formcc.fechapresentacion" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-orange-500 rounded-full">
+                                                                    No presentado
+                                                                </span>
+                                                                <span v-else-if="formcc.presentacion" class="inline-flex px-3 py-2 text-sm font-semibold leading-5 text-white bg-blue-500 rounded-full">
                                                                     Si
                                                                 </span>
                                                                 <span v-else class="inline-flex px-2 py-2 text-sm font-semibold leading-5 text-white bg-red-500 rounded-full">
@@ -1331,7 +1324,7 @@
                                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                             <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                                 <button v-show="formcc.estado == 0" @click="updateCuentasclaras(formcc, 1, form.id)" wire:click.prevent="save()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-yellow-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-yellow-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5" >
-                                                    Entergar informe
+                                                    Entregar informe
                                                 </button>
                                             </span>
                                             <span v-if="$can('cuentasclaras-edit') || $can('cuentasclaras-create')" class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -1597,7 +1590,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="text-center w-full flex text-sm">
+                                        <div v-if="false" class="text-center w-full flex text-sm">
                                             <div class="px-4">
                                                 Certificado del curso
                                             </div>
@@ -1619,7 +1612,7 @@
                                                 <section>
                                                     <div class="mt-2 grid gap-y-6 ">
                                                         <div>
-                                                            <label class="block text-sm font-medium text-gray-700">Observacion</label>
+                                                            <label class="block text-sm font-medium text-gray-700">Observación</label>
                                                             <div class="mt-1">
                                                                 <textarea rows="4" v-model="formestado.observaciones" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"></textarea>
                                                             </div>
@@ -2061,7 +2054,9 @@ export default {
             this.progress = Math.ceil(data.current_row / data.total_rows * 100) + '%';
             this.start_date = data.start_date;
             this.finish_date = data.end_date;
-            this.progresoimport = 'Total registros: '+ this.total_rows+'\nRegistro actual: ' + this.current_row +  '\nProgreso: ' + this.progress;
+            this.statusfinal = data.statusfinal;
+            console.log(this.statusfinal);
+            this.progresoimport = 'Total registros: '+ this.total_rows+'\nRegistro actual: ' + this.current_row +  '\nProgreso: ' + this.progress + '\n' + this.statusfinal;
             if (this.isImportprogress == true) {
                 this.trackProgress();
             }
@@ -2397,38 +2392,73 @@ export default {
             this.isOpenverHistorial = true;
         },
         updateEstado: function (data) {
-            var url= '/militantes/updateEstado/' + data.idmilitante;
-            axios.get(url, {
-                params: {
-                    idmilitante: data.idmilitante,
-                    tipo: data.tipo,
-                    estado: data.estado,
-                    observaciones: data.observaciones,
-                }
-            }).then((res) => {
-                console.log(res.data);
-                if (res.data.estado == true) {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'El proceso se realizó correctamente',
-                        showConfirmButton: false,
-                        timer: 2500
+            if (data.tipo == 'renunciar') {
+                let mensaje = 'Desea renunciar a la militancia?';
+                let title = 'Renunciado!';
+                let html = 'La renuncia se ha realizado con éxito';
+
+                Swal.fire({
+                    title: mensaje,
+                    text: "La acción no se podrá reversar!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, Proceder!'
+                }).then((result) => {
+                    var url= '/militantes/updateEstado/' + data.idmilitante;
+                    axios.get(url, {
+                        params: {
+                            idmilitante: data.idmilitante,
+                            tipo: data.tipo,
+                            estado: data.estado,
+                            observaciones: data.observaciones,
+                        }
+                    }).then((res) => {
+                        this.getmilitantes('','nombre');
+                        Swal.fire(
+                            title,
+                            html,
+                            'success'
+                        )
+                        this.closeModalCambioestado();
+                        this.closeModal();
                     })
-                    this.closeModalCambioestado();
-                    this.closeModal();
-                } else {
-                    var mensajes = '';
-                    for (let i = 0; i < res.data.mensajeserror.length; i++) {
-                        mensajes = mensajes + '\n' + res.data.mensajeserror[i];
+                })
+            } else {
+                var url= '/militantes/updateEstado/' + data.idmilitante;
+                axios.get(url, {
+                    params: {
+                        idmilitante: data.idmilitante,
+                        tipo: data.tipo,
+                        estado: data.estado,
+                        observaciones: data.observaciones,
                     }
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error en la aprobación: ' + mensajes,
-                        showConfirmButton: true,
-                    })
-                }
-            })
+                }).then((res) => {
+                    console.log(res.data);
+                    if (res.data.estado == true) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'El proceso se realizó correctamente',
+                            showConfirmButton: false,
+                            timer: 2500
+                        })
+                        this.closeModalCambioestado();
+                        this.closeModal();
+                    } else {
+                        var mensajes = '';
+                        for (let i = 0; i < res.data.mensajeserror.length; i++) {
+                            mensajes = mensajes + '\n' + res.data.mensajeserror[i];
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la aprobación: ' + mensajes,
+                            showConfirmButton: true,
+                        })
+                    }
+                })
+            }
         },
 
         ccreposicion: function (data) {
@@ -2676,9 +2706,9 @@ export default {
             let title = '';
             let html = '';
             if (data.estado) {
-                mensaje = 'Desea desactivar el usuario?';
-                title = 'Desactivado!';
-                html = 'El usuario ha sido desactivado con éxito';
+                mensaje = 'Desea renunciar a la militancia?';
+                title = 'Renunciado!';
+                html = 'La renuncia se ha realizado con éxito';
             } else {
                 mensaje = 'Desea activar el usuario?';
                 title = 'Activado!';
@@ -2686,7 +2716,7 @@ export default {
             }
             Swal.fire({
                 title: mensaje,
-                text: "Solo un administrador podrá revertir esta acción!",
+                text: "Solo un super usuario podrá revertir esta acción!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
