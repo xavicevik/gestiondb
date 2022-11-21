@@ -8,12 +8,26 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
+/**
+ *
+ * @OA\Server(url="http://swagger.local")
+ *
+ */
 class RegisterController extends BaseController
 {
     /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/militantes",
+     *     summary="Mostrar militantes",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mostrar todos los usuarios."
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="Ha ocurrido un error."
+     *     )
+     * )
      */
     public function register(Request $request)
     {
@@ -38,15 +52,24 @@ class RegisterController extends BaseController
     }
 
     /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Login usuario",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mostrar todos los usuarios."
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="Ha ocurrido un error."
+     *     )
+     * )
      */
     public function login(Request $request)
     {
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['token'] =  $user->createToken('conele')->plainTextToken;
             $success['name'] =  $user->full_name;
 
             return $this->sendResponse($success, 'User login successfully.');

@@ -5,7 +5,7 @@
                 Lista de Tipos de series
             </h2>
         </template>
-        <div class="py-4 lg:px-8 md:px-6 sm:px-2">
+        <div class="py-4 lg:px-4 md:px-4 sm:px-2">
             <div class="mx-auto 2xl:8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- Fin Mensajes Flash -->
@@ -90,7 +90,7 @@
                                             <button  v-else
                                                      class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
                                                      :class="{ 'bg-blue-700 text-white': link.active }"
-                                                     v-on:click="cambiarPage(link.url)"
+                                                     v-on:click="this.cambiarPage(link.url, 'master', null)"
                                                      v-html="link.label" />
                                         </template>
                                     </div>
@@ -180,38 +180,6 @@ export default {
         }
     },
     methods: {
-        cambiarPage: function (url = '') {
-            axios.get(url, {
-                params: {
-                    paginate: true,
-                    ispage: true
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayData = respuesta.data;
-
-                if (this.arrayData.data.length > 0) {
-                    this.existedata = 1;
-                } else {
-                    this.existedata = 0;
-                }
-            })
-        },
-        formatPrice(value) {
-            let val = (value/1).toFixed(0).replace('.', ',')
-            return '$ '+ val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        },
-        dateTime(value) {
-            return moment(value).format('DD/MM/YYYY');
-        },
-        dateTimeFull(value) {
-            return moment(value).format('YYYY-MM-DD HH:MM:SS');
-        },
-        selectRifa: function () {
-            this.isOpenRifa = true;
-            //this.getUsers();
-            this.getRifas('','nombre_tecnico','true');
-        },
         reset: function () {
             this.tituloModal = 'Crear nueva reserva';
             this.form.id = null;
@@ -252,17 +220,9 @@ export default {
         },
     },
     created: function () {
-        //this.getPaises();
         this.arrayData = this.data;
-        if (this.arrayData.data.length > 0) {
-            this.existedata = 1;
-        } else {
-            this.existedata = 0;
-        }
-        //this.openModal('registrar')
     },
     mounted() {
-        //console.log('Component mounted.');
     },
 }
 </script>

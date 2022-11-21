@@ -185,14 +185,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/master/rolesupdate ', [MasterController::class, 'rolesupdate'])->name('master.rolesupdate');
         Route::get('/master/paises', [MasterController::class, 'paisesIndex'])->name('master.paises');
         Route::get('/master/empresas', [MasterController::class, 'empresasIndex'])->name('master.empresas');
-        Route::get('/master/series', [MasterController::class, 'seriesIndex'])->name('master.series');
-        Route::get('/master/terminos', [MasterController::class, 'terminosIndex'])->name('master.terminos');
+        Route::get('/master/corporaciones', [MasterController::class, 'corporacionesIndex'])->name('master.corporaciones');
+        Route::get('/master/etnias', [MasterController::class, 'etniasIndex'])->name('master.etnias');
         Route::get('/master/tiposdoc', [MasterController::class, 'tipodocIndex'])->name('master.tiposdoc');
-        Route::get('/master/puntoventas', [PuntoventaController::class, 'index'])->name('master.puntosventa');
-        Route::get('/master/tiposdoc', [MasterController::class, 'tipodocIndex'])->name('master.tiposdoc');
+        Route::get('/master/parametros', [MasterController::class, 'parametrosIndex'])->name('master.parametros');
+        Route::get('/master/generos', [MasterController::class, 'generosIndex'])->name('master.generos');
+        Route::get('/master/import', [MasterController::class, 'importIndex'])->name('master.import');
+        Route::get('/master/niveleducativo', [MasterController::class, 'niveleducativoIndex'])->name('master.niveleducativo');
+        Route::get('/master/tiposhistorial', [MasterController::class, 'tipohistorialIndex'])->name('master.tiposhistorial');
+        Route::get('/master/tiposarchivos', [MasterController::class, 'tipoarchivosIndex'])->name('master.tiposarchivos');
         Route::get('/master/tiposdocsearch', [MasterController::class, 'tipodocSearch'])->name('master.tiposdocsearch');
-        Route::get('/master/getTipohistorial', [MasterController::class, 'getTipohistorial'])->name('master.getTipohistorial');
-        //Route::get('/master/getExamen', [MasterController::class, 'getExamen'])->name('master.getExamen');
 
         Route::get('/enviar', [EmailController::class, 'send'])->name('enviar');
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');

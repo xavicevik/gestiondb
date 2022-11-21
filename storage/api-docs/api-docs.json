@@ -1,0 +1,57 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Registro",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://swagger.local"
+        },
+        {
+            "url": "http://swagger.local"
+        }
+    ],
+    "paths": {
+        "/api/militantes": {
+            "get": {
+                "summary": "Mostrar militantes",
+                "operationId": "065706cb3256c2536cae4a44e95f456e",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar todos los usuarios."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                }
+            },
+            "post": {
+                "summary": "Mostrar militantes",
+                "operationId": "faee9c7b6fdd412618221919d0a0c888",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar todos los usuarios."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "summary": "Login usuario",
+                "operationId": "82029854b7191d64582592c46e594dfd",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar todos los usuarios."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                }
+            }
+        }
+    }
+}

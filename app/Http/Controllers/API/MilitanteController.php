@@ -11,12 +11,26 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Product;
 use Validator;
 
+/**
+ * @OA\Info(title="API Registro", version="1.0")
+ * 
+ * @OA\Server(url="http://swagger.local")
+ */
 class MilitanteController extends BaseController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/api/militantes",
+     *     summary="Mostrar militantes",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Mostrar todos los usuarios."
+     *     ),
+     *     @OA\Response(
+     *         response="default",
+     *         description="Ha ocurrido un error."
+     *     )
+     * )
      */
     public function index()
     {

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boleta;
+use App\Models\Configuración;
 use App\Models\Corporacion;
 use App\Models\Empresa;
 use App\Models\Estado;
 use App\Models\Estadocc;
 use App\Models\Genero;
 use App\Models\Grupoetnico;
+use App\Models\Importstatus;
 use App\Models\Loteria;
 use App\Models\Niveleducativo;
 use App\Models\Pais;
@@ -167,9 +169,8 @@ class MasterController extends Controller
         }
     }
 
-    public function seriesIndex(Request $request)
+    public function corporacionesIndex(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
         $buscar = $request->buscar;
         if ($request->has('sortBy') && $request->sortBy <> ''){
             $sortBy = $request->sortBy;
@@ -184,18 +185,18 @@ class MasterController extends Controller
         }
 
         if ($buscar == ''){
-            $series = Serie::orderBy($sortBy, $sortOrder)
+            $corporaciones = Corporacion::orderBy($sortBy, $sortOrder)
                 ->paginate(self::canPorPagina);
         } else {
-            $series = Serie::orderBy($sortBy, $sortOrder)
+            $corporaciones = Corporacion::orderBy($sortBy, $sortOrder)
                 ->where('nombre', 'like', '%'. $buscar . '%')
                 ->paginate(self::canPorPagina);
         }
 
         if ($request->has('ispage') && $request->ispage){
-            return ['data' => $series];
+            return ['data' => $corporaciones];
         } else {
-            return Inertia::render('Masters/SeriesIndex', ['data' => $series]);
+            return Inertia::render('Masters/CorporacionesIndex', ['data' => $corporaciones]);
         }
     }
 
@@ -220,14 +221,6 @@ class MasterController extends Controller
                 ->with('tipodocumento')
                 ->with('ciudad')
                 ->with('tipoempresa')
-                ->with('mayoristas')
-                ->with('distribuidores')
-                ->with('vendedores')
-                ->with('padre')
-                ->with('hijos.tipoempresa')
-                ->with('hijos.ciudad')
-                ->with('hijos.hijos.tipoempresa')
-                ->with('hijos.hijos.ciudad')
                 ->paginate(self::canPorPagina);
         } else {
             $empresas = Empresa::orderBy($sortBy, $sortOrder)
@@ -235,14 +228,6 @@ class MasterController extends Controller
                 ->with('tipodocumento')
                 ->with('ciudad')
                 ->with('tipoempresa')
-                ->with('mayoristas')
-                ->with('distribuidores')
-                ->with('vendedores')
-                ->with('padre')
-                ->with('hijos.tipoempresa')
-                ->with('hijos.ciudad')
-                ->with('hijos.hijos.tipoempresa')
-                ->with('hijos.hijos.ciudad')
                 ->paginate(self::canPorPagina);
         }
 
@@ -285,7 +270,7 @@ class MasterController extends Controller
         }
     }
 
-    public function terminosIndex(Request $request)
+    public function parametrosIndex(Request $request)
     {
         $buscar = $request->buscar;
         if ($request->has('sortBy') && $request->sortBy <> ''){
@@ -301,18 +286,204 @@ class MasterController extends Controller
         }
 
         if ($buscar == ''){
-            $terminos = Terminosycondiciones::orderBy($sortBy, $sortOrder)
+            $data = Configuración::orderBy($sortBy, $sortOrder)
                 ->paginate(self::canPorPagina);
         } else {
-            $terminos = Terminosycondiciones::orderBy($sortBy, $sortOrder)
+            $data = Configuración::orderBy($sortBy, $sortOrder)
                 ->where('nombre', 'like', '%'. $buscar . '%')
                 ->paginate(self::canPorPagina);
         }
 
         if ($request->has('ispage') && $request->ispage){
-            return ['data' => $terminos];
+            return ['data' => $data];
         } else {
-            return Inertia::render('Masters/TerminosIndex', ['data' => $terminos]);
+            return Inertia::render('Masters/ParametrosIndex', ['data' => $data]);
+        }
+    }
+
+    public function generosIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Genero::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Genero::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/GenerosIndex', ['data' => $data]);
+        }
+    }
+
+    public function etniasIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Grupoetnico::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Grupoetnico::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/EtniasIndex', ['data' => $data]);
+        }
+    }
+
+    public function importIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Importstatus::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Importstatus::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/ImportIndex', ['data' => $data]);
+        }
+    }
+
+    public function niveleducativoIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Niveleducativo::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Niveleducativo::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/NiveleducativoIndex', ['data' => $data]);
+        }
+    }
+
+    public function tipohistorialIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Tipohistorial::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Tipohistorial::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/TipohistorialIndex', ['data' => $data]);
+        }
+    }
+
+    public function tipoarchivosIndex(Request $request)
+    {
+        $buscar = $request->buscar;
+        if ($request->has('sortBy') && $request->sortBy <> ''){
+            $sortBy = $request->sortBy;
+        } else {
+            $sortBy = 'id';
+        }
+
+        if ($request->has('sortOrder') && $request->sortOrder <> ''){
+            $sortOrder = $request->sortOrder;
+        } else {
+            $sortOrder = 'desc';
+        }
+
+        if ($buscar == ''){
+            $data = Tiposarchivo::orderBy($sortBy, $sortOrder)
+                ->paginate(self::canPorPagina);
+        } else {
+            $data = Tiposarchivo::orderBy($sortBy, $sortOrder)
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->paginate(self::canPorPagina);
+        }
+
+        if ($request->has('ispage') && $request->ispage){
+            return ['data' => $data];
+        } else {
+            return Inertia::render('Masters/TipoarchivosIndex', ['data' => $data]);
         }
     }
 
@@ -334,15 +505,14 @@ class MasterController extends Controller
 
         if ($buscar == ''){
             $tipos = TiposDocumento::orderBy($sortBy, $sortOrder)
-                                    ->get();
+                ->get();
         } else {
             $tipos = TiposDocumento::orderBy($sortBy, $sortOrder)
-                                    ->where('nombre', 'like', '%'. $buscar . '%')
-                                    ->get();
+                ->where('nombre', 'like', '%'. $buscar . '%')
+                ->get();
         }
 
         return ['data' => $tipos];
-
     }
 
     public function getRoles(Request $request)

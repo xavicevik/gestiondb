@@ -54,11 +54,9 @@ export default {
 }
 </script>
 
-
 <template>
     <div x-data="{ sidebarOpen: true }" class="flex overflow-x-hidden h-screen">
         <aside class="h-screen bg-white text-red-900 overflow-auto sticky top-0 flex-shrink-0 w-12 sm:w-52 md:w-64 flex flex-col border-r transition-all duration-300" :class="{ '-ml-64': !sidebarOpen }">
-
             <div class="h-screen">
                 <div class="flex-grow">
                     <ul class="flex flex-col py-2 space-y-1">
@@ -244,7 +242,9 @@ export default {
                 </button>
                 <!-- Header -->
                 <div class="flex items-center w-1/3 justify-start md:justify-center pl-3 h-10 border-none">
-                    <img class="w-5 h-5 md:w-7 md:h-7 mr-2 rounded-md overflow-hidden" src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
+                    <img v-if="$page.props.user.profile_photo_path" class="w-5 md:w-8 mr-2 rounded-md overflow-hidden" :src="'../storage/' + $page.props.user.profile_photo_path" />
+                    <img v-else class="w-5 h-5 md:w-7 md:h-7 mr-2 rounded-md overflow-hidden" src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg" />
+
                     <span class="hidden md:block">
                         <span class="font-bold"> {{ $page.props.auth.user.roles[0].name }}</span> -
                         {{ $page.props.user.full_name }}
@@ -252,13 +252,19 @@ export default {
                 </div>
                 <div class="flex w-1/3 justify-end pr-2 items-right h-10 header-right">
                     <ul class="flex">
-                        <li>
-                            <div class="block w-px h-7 mx-3 px-3 text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                        </li>
+                        <Popper content="Profile" hover=true placement="top" arrow=true>
+                            <a href="/user/profile">
+                                <button class="flex mr-4 hover:text-blue-100">
+                                    <li>
+                                        <div class="block w-px h-7 mx-3 px-3 text-blue-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
+                                    </li>
+                                </button>
+                            </a>
+                        </Popper>
                         <li>
                             <div class="block w-px h-7 mx-3 px-3 text-yellow-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
