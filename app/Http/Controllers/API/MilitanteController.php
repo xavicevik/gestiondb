@@ -31,7 +31,7 @@ class MilitanteController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $observaciones = 'Se ha creado el militante';
+        $observaciones = 'Se ha creado el militante por API';
         $validator = Validator::make($input, [
             'nombre' => ['required', 'string', 'max:255'],
             'apellido' => ['required', 'string', 'max:255'],
@@ -141,7 +141,6 @@ class MilitanteController extends BaseController
         if (is_null($militante)) {
             return $this->sendError('Militante no encontrado');
         }
-
         return $this->sendResponse(new MilitanteResource($militante), 'Militante encontrado satisfactoriamente');
     }
 
@@ -152,7 +151,6 @@ class MilitanteController extends BaseController
         if (is_null($archivos)) {
             return $this->sendError('Product not found.');
         }
-
         return $this->sendResponse(ArchivoResource::collection($archivos), 'Products retrieved successfully.');
     }
 
@@ -166,7 +164,7 @@ class MilitanteController extends BaseController
     public function update(Request $request, Militante $militante)
     {
         $input = $request->all();
-        $observaciones = 'El militante ha sido actualizado';
+        $observaciones = 'El militante ha sido actualizado por API';
         $validator = Validator::make($input, [
             'nombre' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
