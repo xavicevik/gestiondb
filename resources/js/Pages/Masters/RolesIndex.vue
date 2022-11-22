@@ -5,7 +5,7 @@
                 Lista de Roles
             </h2>
         </template>
-        <div class="py-4 lg:px-8 md:px-6 sm:px-2">
+        <div class="py-4 lg:px-4 md:px-4 sm:px-2">
             <div class="mx-auto 2xl:8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- Mensajes Flash -->
@@ -111,7 +111,7 @@
                                             <button  v-else
                                                      class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
                                                      :class="{ 'bg-blue-700 text-white': link.active }"
-                                                     v-on:click="cambiarPage(link.url)"
+                                                     v-on:click="this.cambiarPage(link.url, 'master', null)"
                                                      v-html="link.label" />
                                         </template>
                                     </div>

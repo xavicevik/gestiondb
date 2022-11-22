@@ -29,6 +29,8 @@ Route::controller(RegisterController::class)->group(function(){
 Route::middleware('auth:sanctum')->group( function () {
     Route::controller(MilitanteController::class)->group(function(){
         Route::get('getMilitantebyDoc', 'getMilitantebyDoc');
+        Route::get('getMilitantebyId', 'getMilitantebyId');
+        Route::get('getMilitantebyName', 'getMilitantebyName');
         Route::get('getFilesbyMilitante', 'getFilesbyMilitante');
 
     });

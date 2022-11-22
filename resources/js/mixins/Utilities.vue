@@ -97,6 +97,8 @@ export default {
                     this.arrayDetalles = respuesta.data;
                 } else if (entidad == 'users') {
                     this.arrayData = respuesta.users;
+                } else if (entidad == 'master') {
+                    this.arrayData = respuesta.data;
                 } else {
                     this.arrayData = respuesta.datos;
                 }

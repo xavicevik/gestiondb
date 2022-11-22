@@ -187,6 +187,8 @@ return [
 
         'Intervention\Image\ImageServiceProvider',
 
+        L5Swagger\L5SwaggerServiceProvider::class,
+
     ],
 
     /*

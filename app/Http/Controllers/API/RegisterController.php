@@ -10,11 +10,6 @@ use Validator;
 
 class RegisterController extends BaseController
 {
-    /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,16 +32,11 @@ class RegisterController extends BaseController
         return $this->sendResponse($success, 'User register successfully.');
     }
 
-    /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function login(Request $request)
     {
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken;
+            $success['token'] =  $user->createToken('conele')->plainTextToken;
             $success['name'] =  $user->full_name;
 
             return $this->sendResponse($success, 'User login successfully.');

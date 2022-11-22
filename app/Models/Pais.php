@@ -19,14 +19,4 @@ class Pais extends Model
     {
         return $this->hasMany(Departamento::class, 'idpais');
     }
-
-    public function puntoventa()
-    {
-        return $this->hasMany(Puntoventa::class, 'idpais', 'id');
-    }
-
-    public function rifas()
-    {
-        return $this->hasMany(Rifa::class, 'idpais', 'id');
-    }
 }

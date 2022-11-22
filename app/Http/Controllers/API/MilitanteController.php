@@ -6,18 +6,16 @@ use App\Http\Resources\MilitanteResource;
 use App\Http\Resources\ArchivoResource;
 use App\Models\Archivo;
 use App\Models\Militante;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Product;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 
 class MilitanteController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $militantes = Militante::all();
@@ -33,19 +31,53 @@ class MilitanteController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-
+        $observaciones = 'Se ha creado el militante por API';
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
-        ]);
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'movil' => ['required', 'string', 'max:255'],
+            'documento' => ['required', 'unique:militantes', 'string', 'max:255'],
+            'idtipos_documento' => 'required|numeric|gt:0',
+            'iddepartamento' => 'required|numeric|gt:0',
+            'idciudad' => 'required|numeric|gt:0',
+            'idinscripcion' => 'required|numeric|gt:0',
+            'idgenero' => 'required|numeric',
+            'idniveleducativo' => 'required|numeric',
+            'idgrupoetnico' => 'required|numeric',
+        ],
+            [
+                'nombre.required' => 'Ingrese el nombre',
+                'apellido.required' => 'Ingrese el apellido',
+                'email.required' => 'Ingrese el email',
+                'movil.required' => 'Ingrese el teléfono celular',
+                'documento.required' => 'Ingrese el número de identificacion',
+                'documento.unique' => 'El documento ya existe',
+                'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
+                'iddepartamento.numeric' => 'Seleccione un Departamento',
+                'idciudad.numeric' => 'Seleccione una ciudad',
+                'idinscripcion.numeric' => 'Seleccione la inscripción',
+                'idgenero.numeric' => 'Seleccione un género',
+                'idniveleducativo.numeric' => 'Seleccione el nivel educativo',
+                'idgrupoetnico.numeric' => 'Seleccione un grupo étnico',
+            ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $militantes = Militante::create($input);
+        $militante = Militante::create($input);
+        $militante->password = Hash::make($militante->documento);
+        $militante->estado = 3;
+        $militante->changedpassword = null;
+        $militante->username = $militante->documento;
+        $militante->saveOrFail();
+        $rol = Rol::where('id', 3)->first();
+        $militante->assignRole($rol->nombre);
 
-        return $this->sendResponse(new MilitanteResource($militantes), 'Product created successfully.');
+        \App\Http\Controllers\MilitanteController::setHistorial($militante->id, 1, $observaciones);
+
+        return $this->sendResponse(new MilitanteResource($militante), 'Militante creado satisfactoriamente');
     }
 
     /**
@@ -67,13 +99,49 @@ class MilitanteController extends BaseController
 
     public function getMilitantebyDoc(Request $request)
     {
-        $militante = Militante::where('documento', $request->documento)->first();
+        $militante = Militante::where('documento', $request->documento)
+                                ->with('genero')
+                                ->with('niveleducativo')
+                                ->with('grupoEtnico')
+                                ->with('estados')
+                                ->with('tipoinscripcion')
+                                ->with('corporacion')
+                                ->with('remplazo')
+                                ->with('tipodocumento')
+                                ->with('inscripcion')
+                                ->with('pais')
+                                ->with('departamento')
+                                ->with('ciudad')
+                                ->first();
 
         if (is_null($militante)) {
-            return $this->sendError('Product not found.');
+            return $this->sendError('Militante no encontrado');
         }
 
-        return $this->sendResponse(new MilitanteResource($militante), 'Militante retrieved successfully.');
+        return $this->sendResponse(new MilitanteResource($militante), 'Militante encontrado satisfactoriamente');
+    }
+
+    public function getMilitantebyId(Request $request)
+    {
+        $militante = Militante::where('id', $request->id)
+            ->with('genero')
+            ->with('niveleducativo')
+            ->with('grupoEtnico')
+            ->with('estados')
+            ->with('tipoinscripcion')
+            ->with('corporacion')
+            ->with('remplazo')
+            ->with('tipodocumento')
+            ->with('inscripcion')
+            ->with('pais')
+            ->with('departamento')
+            ->with('ciudad')
+            ->first();
+
+        if (is_null($militante)) {
+            return $this->sendError('Militante no encontrado');
+        }
+        return $this->sendResponse(new MilitanteResource($militante), 'Militante encontrado satisfactoriamente');
     }
 
     public function getFilesbyMilitante(Request $request)
@@ -83,7 +151,6 @@ class MilitanteController extends BaseController
         if (is_null($archivos)) {
             return $this->sendError('Product not found.');
         }
-
         return $this->sendResponse(ArchivoResource::collection($archivos), 'Products retrieved successfully.');
     }
 
@@ -94,24 +161,29 @@ class MilitanteController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Militante $militantes)
+    public function update(Request $request, Militante $militante)
     {
         $input = $request->all();
-
+        $observaciones = 'El militante ha sido actualizado por API';
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
-        ]);
+            'nombre' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'documento' => ['required', 'string', 'max:255'],
+        ],
+            [
+                'nombre.required' => 'Ingrese el nombre',
+                'email.required' => 'Ingrese el email',
+                'documento.required' => 'Ingrese el número de identificacion',
+            ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $militantes->name = $input['name'];
-        $militantes->detail = $input['detail'];
-        $militantes->save();
+        $militante->update($request->all());
+        \App\Http\Controllers\MilitanteController::setHistorial($militante->id, 2, $observaciones);
 
-        return $this->sendResponse(new MilitanteResource($militantes), 'Product updated successfully.');
+        return $this->sendResponse(new MilitanteResource($militante), 'Militante actualizado satisfactoriamente');
     }
 
     /**

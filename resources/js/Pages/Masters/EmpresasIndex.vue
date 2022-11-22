@@ -5,7 +5,7 @@
                 Lista de Empresas
             </h2>
         </template>
-        <div class="py-4 lg:px-8 md:px-6 sm:px-2">
+        <div class="py-4 lg:px-4 md:px-4 sm:px-2">
             <div class="mx-auto 2xl:8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- Fin Mensajes Flash -->
@@ -100,7 +100,7 @@
                                             <button  v-else
                                                      class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
                                                      :class="{ 'bg-blue-700 text-white': link.active }"
-                                                     v-on:click="cambiarPage(link.url)"
+                                                     v-on:click="this.cambiarPage(link.url, 'master', null)"
                                                      v-html="link.label" />
                                         </template>
                                     </div>
@@ -116,11 +116,8 @@
                     <!-- Distribuidores -->
                     <section>
                         <div class="w-1/2 p-4">
-                            <h1 v-if="datos.idtipoempresa == 1" class="font-bold text-xl text-black-800 leading-tight">
-                                Distribuidor
-                            </h1>
-                            <h1 v-else class="font-bold text-xl text-black-800 leading-tight">
-                                Vendedor
+                            <h1 class="font-bold text-xl text-black-800 leading-tight">
+                                Usuarios
                             </h1>
                         </div>
                         <div class="lg:px-4 md:px-2 sm:px-0 py-2 pb-6 overflow-y-auto h-40">
@@ -710,33 +707,7 @@ export default {
         selectDetalleHijo: function (data) {
             this.datos1 = data;
         },
-        cambiarPage: function (url = '') {
-            axios.get(url, {
-                params: {
-                    paginate: true,
-                    ispage: true
-                }
-            }).then((res) => {
-                var respuesta = res.data;
-                this.arrayData = respuesta.data;
 
-                if (this.arrayData.data.length > 0) {
-                    this.existedata = 1;
-                } else {
-                    this.existedata = 0;
-                }
-            })
-        },
-        formatPrice(value) {
-            let val = (value/1).toFixed(0).replace('.', ',')
-            return '$ '+ val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        },
-        dateTime(value) {
-            return moment(value).format('DD/MM/YYYY');
-        },
-        dateTimeFull(value) {
-            return moment(value).format('YYYY-MM-DD HH:MM:SS');
-        },
         openModal: function (data) {
             this.isOpen = true;
             this.terminos = data;

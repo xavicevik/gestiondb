@@ -9,6 +9,7 @@
         "ahmedsaoud31/laravel-permission-to-vuejs": "dev-master",
         "barryvdh/laravel-dompdf": "^1.0",
         "beyondcode/laravel-websockets": "^1.13",
+        "darkaonline/l5-swagger": "^8.4",
         "darryldecode/cart": "^4.2",
         "doctrine/dbal": "^3.3",
         "dompdf/dompdf": "^1.2",
