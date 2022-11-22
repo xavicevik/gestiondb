@@ -8,27 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
-/**
- *
- * @OA\Server(url="http://swagger.local")
- *
- */
 class RegisterController extends BaseController
 {
-    /**
-     * @OA\Post(
-     *     path="/api/militantes",
-     *     summary="Mostrar militantes",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Mostrar todos los usuarios."
-     *     ),
-     *     @OA\Response(
-     *         response="default",
-     *         description="Ha ocurrido un error."
-     *     )
-     * )
-     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -51,20 +32,6 @@ class RegisterController extends BaseController
         return $this->sendResponse($success, 'User register successfully.');
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/login",
-     *     summary="Login usuario",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Mostrar todos los usuarios."
-     *     ),
-     *     @OA\Response(
-     *         response="default",
-     *         description="Ha ocurrido un error."
-     *     )
-     * )
-     */
     public function login(Request $request)
     {
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){

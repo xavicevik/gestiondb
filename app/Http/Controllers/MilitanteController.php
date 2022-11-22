@@ -341,7 +341,7 @@ class MilitanteController extends Controller
             'apellido' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'movil' => ['required', 'string', 'max:255'],
-            'documento' => ['required', 'string', 'max:255'],
+            'documento' => ['required', 'unique:militantes', 'string', 'max:255'],
             'idtipos_documento' => 'required|numeric|gt:0',
             'iddepartamento' => 'required|numeric|gt:0',
             'idciudad' => 'required|numeric|gt:0',
@@ -356,6 +356,7 @@ class MilitanteController extends Controller
                 'email.required' => 'Ingrese el email',
                 'movil.required' => 'Ingrese el teléfono celular',
                 'documento.required' => 'Ingrese el número de identificacion',
+                'documento.unique' => 'El documento ya existe',
                 'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
                 'iddepartamento.numeric' => 'Seleccione un Departamento',
                 'idciudad.numeric' => 'Seleccione una ciudad',
@@ -366,7 +367,7 @@ class MilitanteController extends Controller
             ])->validate();
 
         $militante = Militante::create($request->all());
-        $militante->password = Hash::make($militante->password);
+        $militante->password = Hash::make($militante->documento);
         $militante->estado = 3;
         $militante->changedpassword = null;
         $militante->username = $militante->documento;

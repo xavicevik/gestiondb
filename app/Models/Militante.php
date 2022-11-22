@@ -42,7 +42,7 @@ class Militante extends Authenticatable implements Auditable
         'telefono', 'movil', 'changedpassword', 'telefono', 'fechaingreso', 'idinscripcion',
         'fechanacimiento', 'idgenero', 'idniveleducativo', 'discapacitado', 'victimaconflicto',
         'idgrupoetnico', 'lider', 'avalado', 'idcorporacion', 'periodo', 'electo', 'votos',
-        'coalicion', 'nombrecoalicion','renuncio', 'fecharenuncia', 'aval', 'idremplazo',
+        'coalicion', 'nombrecoalicion','renuncio', 'fecharenuncia', 'idremplazo',
         'aportes', 'facebook', 'instagram', 'twitter', 'ccestado','ccreposicion', 'ccobservaciones',
         'cccreated_at', 'ccupdated_at'
     ];

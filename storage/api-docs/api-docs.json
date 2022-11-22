@@ -1,8 +1,19 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Registro",
-        "version": "1.0"
+        "title": "L5 OpenApi",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "julio.yanez@codigoxules.org"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0",
+        "x-logo": {
+            "url": "https://via.placeholder.com/190x90.png?text=L5-Swagger"
+        }
     },
     "servers": [
         {
@@ -39,6 +50,73 @@
                 }
             }
         },
+        "/api/getMilitantebyDoc": {
+            "get": {
+                "summary": "Mostra militante por Documento",
+                "operationId": "b517d459545ec5e38f7b483cc63de561",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar el Militante por documento de identificación."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                }
+            }
+        },
+        "/api/getMilitantebyId": {
+            "get": {
+                "tags": [
+                    "militantes, buscar"
+                ],
+                "summary": "Mostra militante por ID",
+                "description": "Store vehicle",
+                "operationId": "751070d48db3e384dcc580fc4e0be9a1",
+                "parameters": [
+                    {
+                        "name": "enterprise",
+                        "in": "path",
+                        "description": "Parámetro necesario para la consulta de datos de una empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "int": {
+                                "summary": "Introduce un número de id de empresa.",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "request": "militante",
+                    "description": "Optional Request Parameters for Querying",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mostrar el Militante por identificación."
+                    },
+                    "404": {
+                        "description": "No se ha encontrado la empresa."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "summary": "Login usuario",
@@ -50,6 +128,27 @@
                     "default": {
                         "description": "Ha ocurrido un error."
                     }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Militante": {
+                "title": "Militante",
+                "description": "Project Militante",
+                "properties": {
+                    "fillable": {
+                        "title": "$fillable",
+                        "description": "$fillable",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Militante"
                 }
             }
         }
