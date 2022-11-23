@@ -11,12 +11,12 @@
 /*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 
 /*!
- * VueQuill @vueup/vue-quill v1.0.0-beta.8
+ * VueQuill @vueup/vue-quill v1.0.0
  * https://vueup.github.io/vue-quill/
  * 
  * Includes quill v1.3.7
@@ -24,12 +24,14 @@
  * 
  * Copyright (c) 2022 Ahmad Luthfi Masruri
  * Released under the MIT license
- * Date: 2022-02-17T08:01:57.735Z
+ * Date: 2022-10-21T15:47:50.853Z
  */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
-/*! vue-countdown v2.0.0 | (c) 2018-present Chen Fengyuan | MIT */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
+/*! vue-countdown v2.1.0 | (c) 2018-present Chen Fengyuan | MIT */
 
 /*! vue-qrcode v2.0.0 | (c) 2018-present Chen Fengyuan | MIT */
 

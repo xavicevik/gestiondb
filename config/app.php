@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Conel'),
+    'name' => env('APP_NAME', 'Conele'),
 
     'regxpage' => env('MAX_CANT_REG_PAGE', 3),
 
@@ -186,9 +186,6 @@ return [
         App\Providers\JetstreamServiceProvider::class,
 
         'Intervention\Image\ImageServiceProvider',
-
-        L5Swagger\L5SwaggerServiceProvider::class,
-
     ],
 
     /*
