@@ -195,6 +195,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/master/tiposhistorial', [MasterController::class, 'tipohistorialIndex'])->name('master.tiposhistorial');
         Route::get('/master/tiposarchivos', [MasterController::class, 'tipoarchivosIndex'])->name('master.tiposarchivos');
         Route::get('/master/tiposdocsearch', [MasterController::class, 'tipodocSearch'])->name('master.tiposdocsearch');
+        Route::get('/master/getTipohistorial', [MasterController::class, 'getTipohistorial'])->name('master.getTipohistorial');
 
         Route::get('/enviar', [EmailController::class, 'send'])->name('enviar');
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');
