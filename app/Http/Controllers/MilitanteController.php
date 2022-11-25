@@ -384,6 +384,7 @@ class MilitanteController extends Controller
         $militante = Militante::create($request->all());
         $militante->password = Hash::make($militante->documento);
         $militante->estado = 3;
+        $militante->idempresa = 2;
         $militante->changedpassword = null;
         $militante->username = $militante->documento;
         $militante->saveOrFail();
