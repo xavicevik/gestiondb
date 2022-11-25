@@ -27,22 +27,10 @@ use Maatwebsite\Excel\Facades\Excel;
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-*/
 
 Route::get('/offline', function(){
     return view('vendor.laravelpwa.offline');
 });
-//Route::get('/', [LoginController::class, 'index'])->name('login.index');
-//Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
 Route::group(['middleware'=>['guest']],function(){
 
@@ -52,28 +40,9 @@ Route::group(['middleware'=>['guest']],function(){
     Route::get('/changepass', [LoginController::class, 'changePassword'])->name('changepass.index');
     Route::post('/changepass', [LoginController::class, 'updatePassword'])->name('changepass.update');
 
-
-    /*
-    Route::get('/', function () {
-        return Inertia::render('Auth/Login', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-        ]);
-    });
-
-    Route::post('/', function () {
-        return Inertia::render('Auth/Login', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register')
-        ]);
-    });
-*/
-
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',])->group(function () {
-    //Route::get('/', [Militante::class, 'index'])->name('militantes.index');
-    //Route::post('/', [LoginController::class, 'authenticate'])->name('login.authenticate');
     Route::get('2fa', [TwoFAController::class, 'index'])->name('2fa.index');
     Route::post('2fa', [TwoFAController::class, 'store'])->name('2fa.post');
     Route::get('2fa/reset', [TwoFAController::class, 'resend'])->name('2fa.resend');
@@ -90,23 +59,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/users/export', [UserController::class, 'UsersExport'])->name('users.export');
         Route::get('/clientes/export', [UserController::class, 'ClientesExport'])->name('clientes.export');
 
-        Route::get('/boletas/export', function (Request $request) {
-            return Excel::download(new BoletasExport($request), 'boletas.xlsx');
-        })->name('boletas.export');
 
         Route::get('/militantes/export', function (Request $request) {
             return Excel::download(new MilitantesExport($request), 'militantes.xlsx');
         })->name('militantes.export');
 
-        Route::get('/reservas/export', function (Request $request) {
-            return Excel::download(new VentasExport($request), 'reservas.xlsx');
-        })->name('reservas.export');
-
-        Route::post('/numerosreservados/import', function (Request $request) {
-            Excel::import(new NumeroreservadoImport($request), $request->file('file'));
-
-            return redirect()->back()->with('message', 'Archivo importado correctamente');
-        })->name('numerosreservados.import');
 
         Route::post('/militantes/import', [MilitanteController::class, 'importar'])->name('militantes.import');
         Route::get('/import-status', [MilitanteController::class, 'status']);
@@ -143,11 +100,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
         Route::resource('users', UserController::class);
 
-
         Route::get('/cc', [CuentasclarasController::class, 'index'])->name('cc.index');
         Route::get('/cc/validaEntrega', [CuentasclarasController::class, 'validaEntrega'])->name('cc.validaEntrega');
         Route::get('/cc/updateCuentasclaras', [CuentasclarasController::class, 'updateCuentasclaras'])->name('cc.updateCuentasclaras');
-
 
         Route::get('/militantes/getCuentasClaras', [MilitanteController::class, 'getCuentasClaras'])->name('militantes.getCuentasClaras');
         Route::get('/militantes/indexAuditoria', [MilitanteController::class, 'indexAuditoria'])->name('militantes.indexAuditoria');
@@ -159,6 +114,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::resource('militantes', MilitanteController::class);
 
         Route::get('/examens/getExamen', [ExamenController::class, 'getExamen'])->name('examens.getExamen');
+
         Route::get('/examens/evaluar', [ExamenController::class, 'evaluar'])->name('examens.evaluar');
         Route::get('/examens/putExamen', [ExamenController::class, 'putExamen'])->name('examens.putExamen');
 
@@ -169,12 +125,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
 
         Route::resource('paises', PaisController::class);
         Route::resource('roles', RoleController::class);
-
-        Route::get('/ventas/reportpdf', [VentaController::class, 'reportpdf'])->name('reportpdf');
-        Route::resource('ventas', VentaController::class);
-
-        Route::get('/cart/validarId', [CartController::class, 'validarId'])->name('validarId');
-        Route::resource('/cart', CartController::class);
 
         Route::get('/master/getDashboard', [MasterController::class, 'getDashboard'])->name('master.getDashboard');
         Route::get('/master/getEmpresas', [MasterController::class, 'getEmpresas'])->name('master.getEmpresas');
@@ -201,9 +151,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'),'verified',]
         Route::get('/detalleventa', [EmailController::class, 'send'])->name('detalleventa');
     });
 
-
-
-    //});
 });
 
 

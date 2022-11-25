@@ -41,6 +41,11 @@ class ExamenController extends Controller
 {
     const canPorPagina = 15;
 
+    function __construct()
+    {
+        $this->middleware('permission:cursos-list', ['only' => ['show', 'evaluar', 'getExamen', 'putExamen']]);
+    }
+
     public function index(Request $request)
     {
         $buscar = $request->buscar;
@@ -140,49 +145,7 @@ class ExamenController extends Controller
         );
     }
 
-    /*
-    public function store(Request $request)
-    {
-        $observaciones = 'Se ha creado el militante';
-        Validator::make($request->all(), [
-            'nombre' => ['required', 'string', 'max:255'],
-            'apellido' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'movil' => ['required', 'string', 'max:255'],
-            'documento' => ['required', 'string', 'max:255'],
-            'idtipos_documento' => 'required|numeric|gt:0',
-            'iddepartamento' => 'required|numeric|gt:0',
-            'idciudad' => 'required|numeric|gt:0',
-            'idinscripcion' => 'required|numeric|gt:0',
-            'idgenero' => 'required|numeric',
-            'idniveleducativo' => 'required|numeric',
-            'idgrupoetnico' => 'required|numeric',
-        ],
-            [
-                'nombre.required' => 'Ingrese el nombre',
-                'apellido.required' => 'Ingrese el apellido',
-                'email.required' => 'Ingrese el email',
-                'movil.required' => 'Ingrese el teléfono celular',
-                'documento.required' => 'Ingrese el número de identificacion',
-                'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
-                'iddepartamento.numeric' => 'Seleccione un Departamento',
-                'idciudad.numeric' => 'Seleccione una ciudad',
-                'idinscripcion.numeric' => 'Seleccione la inscripción',
-                'idgenero.numeric' => 'Seleccione un género',
-                'idniveleducativo.numeric' => 'Seleccione el nivel educativo',
-                'idgrupoetnico.numeric' => 'Seleccione un grupo étnico',
-            ])->validate();
 
-        $militante = Militante::create($request->all());
-        $militante->password = Hash::make($militante->password);
-        $militante->estado = 3;
-        $militante->saveOrFail();
-
-        $this->setHistorial($militante->id, self::nuCreacion, $observaciones);
-
-        return redirect()->back()->with('message', 'Militante creado satisfactoriamente');
-    }
-    */
     public function show(Examen $examen)
     {
         $user =  Auth::user();
@@ -210,58 +173,7 @@ class ExamenController extends Controller
         //
     }
 
-    /*
-    public function update(Request $request, Militante $militante)
-    {
-        $estadorenuncia = $militante->renuncio;
-        try{
-            DB::beginTransaction();
-            $observaciones = 'El militante ha sido actualizado';
-            Validator::make($request->all(), [
-                'nombre' => ['required', 'string', 'max:255'],
-                'apellido' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'movil' => ['required', 'string', 'max:255'],
-                'documento' => ['required', 'string', 'max:255'],
-                'idtipos_documento' => 'required|numeric|gt:0',
-                'iddepartamento' => 'required|numeric|gt:0',
-                'idciudad' => 'required|numeric|gt:0',
-                'idinscripcion' => 'required|numeric|gt:0',
-                'idgenero' => 'required|numeric',
-                'idniveleducativo' => 'required|numeric',
-                'idgrupoetnico' => 'required|numeric',
-            ],
-                [
-                    'nombre.required' => 'Ingrese el nombre',
-                    'apellido.required' => 'Ingrese el apellido',
-                    'email.required' => 'Ingrese el email',
-                    'movil.required' => 'Ingrese el teléfono celular',
-                    'documento.required' => 'Ingrese el número de identificacion',
-                    'idtipos_documento.numeric' => 'Seleccione un tipo de documento',
-                    'iddepartamento.numeric' => 'Seleccione un Departamento',
-                    'idciudad.numeric' => 'Seleccione una ciudad',
-                    'idinscripcion.numeric' => 'Seleccione la inscripción',
-                    'idgenero.numeric' => 'Seleccione un género',
-                    'idniveleducativo.numeric' => 'Seleccione el nivel educativo',
-                    'idgrupoetnico.numeric' => 'Seleccione un grupo étnico',
-                ])->validate();
 
-            $militante->update($request->all());
-            $this->setHistorial($militante->id, self::nuModificacion, $observaciones);
-            if ($militante->renuncio == 1 && $estadorenuncia == 0) {
-                $this->setRenuncia($militante);
-            }
-            DB::commit();
-
-            return redirect()->back()->with('message', 'Usuario modificado satisfactoriamente');
-
-        } catch (Throwable $e){
-            DB::rollBack();
-
-            return redirect()->back()->with('message', 'Error');
-        }
-    }
-    */
     public function evaluar(Request $request) {
         $examen = Examen::where('id', $request->id)->first();
         $preguntas = Pregunta::where('idexamen', $examen->id)
