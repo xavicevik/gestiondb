@@ -49,6 +49,21 @@ class MilitanteController extends Controller
     const nuAprobacion = 7;
     const nuSolicitudcc = 9;
     const nuReposicioncc = 10;
+
+    function __construct()
+    {
+        $this->middleware('permission:militantes-list|militantes-create|militantes-edit|militantes-delete');
+
+        //$this->middleware('permission:cursos-list|ventas-create|ventas-edit|ventas-delete', ['only' => ['index','show']]);
+        //$this->middleware('permission:ventas-create', ['only' => ['create','store']]);
+        //$this->middleware('permission:ventas-edit', ['only' => ['edit','update']]);
+        //$this->middleware('permission:ventas-delete', ['only' => ['destroy']]);
+
+        //$this->middleware(['role:Administrador','permission:ventas-list']);
+        //$this->middleware('permission:ventas-list|ventas-create|ventas-edit|ventas-delete', ['only' => ['index','show']]);
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -643,69 +658,6 @@ class MilitanteController extends Controller
 
     public static function getCertificado(Militante $militante) {
         $url = url('storage/img/plantilla.jpg');
-
-        /*
-        $image = imagecreatefromjpeg($url);
-        $color = imagecolorallocate($image, 49, 39, 131);
-        //$font_path = __DIR__.'/arial.ttf';
-        $font_path = 'arial';
-
-        $texto = 'Hola mundo';
-        imagettftext($image, 20, 0, 410, 250, $color, $font_path, $texto);
-
-        $nombreimagen = 'prueba.png';
-
-        imagepng($image,'/storage/archivos/'.$nombreimagen);
-        imagedestroy($image);
-        dd('ready');
-
-        $nombre = 'Certificado_'.$militante->id.$militante->documento.'.jpg';
-        $destinationPath = public_path('storage/archivo/'.$nombre);
-        $imgFile = \Intervention\Image\Facades\Image::make($url);
-        $nombre = 'Pepito Perez';
-        $cedula = '125553434';
-        $dia = 5;
-        $mes = 'agosto';
-        $anio = 2022;
-
-        $text  = "El señor $nombre, identificaddo con la cedula de ciudadanía ";
-        $text2 = "No. $cedula, se encuentra registrado como militante del partido ";
-        $text3 = "Colombia Renaciente, desde el $dia, de $mes, de $anio.";
-
-        $imgFile->text($text, 160, 770, function($font) {
-            $font->file('storage/fonts/arial.ttf');
-            $font->size(32);
-            $font->color('#000000');
-            $font->align('left');
-            $font->valign('top');
-        })->text($text2, 160, 820, function($font) {
-            $font->file('storage/fonts/arial.ttf');
-            $font->size(32);
-            $font->color('#000000');
-            $font->align('left');
-            $font->valign('top');
-        })->text($text3, 160, 870, function($font) {
-            $font->file('storage/fonts/arial.ttf');
-            $font->size(32);
-            $font->color('#000000');
-            $font->align('left');
-            $font->valign('top');
-        })->save($destinationPath);
-
-        $archivo = new Archivo();
-        $archivo->idtipoarchivo = $request->idtipoarchivo;
-        $archivo->idmilitante = $request->idmilitante;
-        $archivo->nombre = $filename;
-
-        $archivo->extension = $extension;
-        $filename = time(). '_' . $filename;
-        $path = $file->storeAs('archivos', $filename);
-
-        $archivo->url = Storage::url($path);
-
-        $archivo->tamaño = $file->getSize();
-        $archivo->save();
-        */
 
         $nombre = $militante->full_name;
         $cedula = $militante->documento;

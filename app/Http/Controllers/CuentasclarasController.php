@@ -49,6 +49,11 @@ class CuentasclarasController extends Controller
     const nuAprobacion = 7;
     const nuSolicitudcc = 9;
     const nuReposicioncc = 10;
+
+    function __construct()
+    {
+        $this->middleware('permission:cuentasclaras-list|cuentasclaras-create|cuentasclaras-edit|cuentasclaras-delete');
+    }
     /**
      * Display a listing of the resource.
      *

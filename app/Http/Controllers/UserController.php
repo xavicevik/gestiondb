@@ -26,6 +26,11 @@ use Illuminate\Support\Facades\Http;
 class UserController extends Controller
 {
     const canPorPagina = 15;
+
+    function __construct()
+    {
+        $this->middleware('permission:users-list|users-create|users-edit|users-delete');
+    }
     /**
      * Display a listing of the resource.
      *

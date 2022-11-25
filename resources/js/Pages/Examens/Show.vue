@@ -36,7 +36,7 @@
                             <div>
                                 <div class="grid xl:grid-cols-2 xl:gap-6">
                                     <div class="relative z-0 w-full mb-6 group">
-                                        <a :href="route('examens.cursopixie')" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Ver curso</a>
+                                        <a href="http://cursoconele.afrotic.com.co/" target="_blank" class="bg-blue-500 text-xs  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Ver curso</a>
                                     </div>
 
                                     <div class="relative z-0 w-full mb-6 group">
@@ -249,7 +249,7 @@ export default {
     },
     data() {
         return {
-            time: 2 * 60 * 1000,
+            time: 30 * 60 * 1000,
             tituloModal: '',
             formpasswd: {
                 _token: usePage().props.value._token,
