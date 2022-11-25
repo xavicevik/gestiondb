@@ -286,7 +286,7 @@ class MilitanteController extends Controller
         try{
             DB::beginTransaction();
 
-            $allowedfileExtension = ['pdf','jpg','png','docx', 'doc', 'xls', 'xlsx'];
+            $allowedfileExtension = ['pdf','jpg','png','docx','ppt', 'ppt', 'pptx','txt','csv' , 'doc', 'xls', 'xlsx'];
             $codigo = 1;
 
             if(isset($request->file)){
